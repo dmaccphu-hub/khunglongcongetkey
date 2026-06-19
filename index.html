@@ -6,7 +6,7 @@
     <title>Khủng Long Mod | Premium System</title>
     <style>
         /* =========================================================
-           GIAO DIỆN GLASSMORPHISM SIÊU CẤP (TỐI ƯU SIÊU NHẸ)
+           GIAO DIỆN GLASSMORPHISM SIÊU CẤP
            ========================================================= */
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
         
@@ -25,11 +25,9 @@
 
         .container { width: 100%; max-width: 500px; z-index: 1; }
 
-        /* HEADER */
         .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
         .logo { font-size: 28px; font-weight: 900; background: linear-gradient(90deg, #ff0055, #ffaa00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
 
-        /* KHUNG KÍNH */
         .card {
             background: rgba(255, 255, 255, 0.04);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -42,7 +40,6 @@
             transition: 0.3s;
         }
 
-        /* KHU VỰC TÀI KHOẢN */
         .user-panel { display: flex; justify-content: space-between; align-items: center; }
         .user-info { display: flex; align-items: center; gap: 12px; }
         .avatar { width: 45px; height: 45px; background: #27272a; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; }
@@ -61,7 +58,6 @@
         .btn-sm:hover { background: #0284c7; }
         .btn-sm-out { background: transparent; border: 1px solid #f43f5e; color: #f43f5e; display: none; }
 
-        /* NÚT CHÍNH */
         .btn-main {
             width: 100%; padding: 16px; font-size: 16px; font-weight: 900; border-radius: 14px; cursor: pointer; border: none; text-transform: uppercase;
             background: linear-gradient(90deg, #10b981, #06b6d4); color: #000; box-shadow: 0 5px 20px rgba(16,185,129,0.3); transition: 0.2s; margin-top: 10px;
@@ -71,11 +67,9 @@
 
         .btn-admin { background: linear-gradient(90deg, #f43f5e, #f97316); color: white; box-shadow: 0 5px 20px rgba(244,63,94,0.4); display: none; margin-top: 12px; }
 
-        /* HIỂN THỊ LINK */
         .result-box { display: none; margin-top: 20px; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px; border-left: 4px solid #10b981; text-align: center; }
         .result-link { display: block; margin-top: 10px; color: #10b981; font-weight: 900; font-size: 16px; word-break: break-all; text-decoration: none; padding: 12px; border: 1px dashed rgba(16,185,129,0.4); border-radius: 8px; }
 
-        /* MÀN HÌNH KEY & THỜI GIAN */
         #view-key { display: none; text-align: center; }
         .key-box { background: rgba(0,0,0,0.8); border: 2px dashed #10b981; padding: 25px; border-radius: 16px; margin: 15px 0; font-size: 26px; font-weight: 900; color: #10b981; letter-spacing: 2px; word-break: break-all; }
         .time-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; font-size: 13px; color: #d4d4d8; margin-bottom: 20px; font-family: monospace; border: 1px solid rgba(255,255,255,0.1); }
@@ -88,7 +82,7 @@
         .v-name { font-size: 13px; color: #e4e4e7; font-weight: 600; }
         .v-price { font-size: 14px; font-weight: 900; color: #fbbf24; }
 
-        /* MODAL THÔNG BÁO TÙY CHỈNH */
+        /* MODAL THÔNG BÁO */
         #custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 999; backdrop-filter: blur(5px); }
         .alert-box { background: #18181b; border: 1px solid #3f3f46; border-radius: 20px; padding: 25px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
         .alert-msg { font-size: 15px; color: #e4e4e7; margin-bottom: 20px; font-weight: 600; line-height: 1.5; }
@@ -107,7 +101,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">KL MOD VIP</div>
-            <a href="https://t.me/Khunglongmodgame" target="_blank" style="color: #a1a1aa; font-size: 13px; font-weight: 700; text-decoration: none;">💬 Hỗ Trợ 24/7</a>
+            <a href="https://t.me/Khunglongmodgame" target="_blank" style="color: #a1a1aa; font-size: 13px; font-weight: 700; text-decoration: none;">💬 Liên Hệ Admin</a>
         </div>
 
         <div class="card" id="user-section">
@@ -133,8 +127,8 @@
         <div id="view-home">
             <div class="card">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <h2 style="font-size: 20px; font-weight: 900; color: #fff;">🎁 NHẬN KEY LIÊN QUÂN (ADR)</h2>
-                    <p style="font-size: 13px; color: #10b981; margin-top: 5px; font-weight: 800;">Hệ thống Rút Gọn Mạng Ổn Định</p>
+                    <h2 style="font-size: 20px; font-weight: 900; color: #fff;">🎁 NHẬN KEY LIÊN QUÂN (VIP)</h2>
+                    <p style="font-size: 13px; color: #10b981; margin-top: 5px; font-weight: 800;">Hệ thống Vượt 2 Lớp X2 Doanh Thu</p>
                 </div>
                 
                 <div style="background: rgba(0,0,0,0.5); border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center;">
@@ -142,63 +136,32 @@
                     <strong id="limit-display" style="color: #10b981; font-size: 16px; font-weight: 900;">0/0 Lượt</strong>
                 </div>
 
+                <!-- Nút hiển thị chính -->
                 <button id="btn-action" class="btn-main" onclick="generateLinkFast()">🚀 TẠO LINK VƯỢT</button>
                 
                 <button id="btn-admin-bypass" class="btn-main btn-admin" onclick="adminGetDirectKey()">⚡ NHẬN KEY NGAY (QUYỀN ADMIN)</button>
 
                 <div id="result-box" class="result-box">
-                    <p style="font-size: 13px; color: #d4d4d8; font-weight: 700;">Link vượt 1 lớp của bạn đã sẵn sàng:</p>
+                    <p style="font-size: 13px; color: #d4d4d8; font-weight: 700;">Link vượt 2 lớp của bạn đã sẵn sàng:</p>
                     <a id="short-link" class="result-link" href="#" target="_blank">Đang kết nối...</a>
-                    <p style="font-size: 12px; color: #fbbf24; margin-top: 15px; font-weight: 800;">⚠️ Vượt link thành công để nhận mã Key công khai!</p>
+                    <p style="font-size: 12px; color: #fbbf24; margin-top: 15px; font-weight: 800;">⚠️ Vượt qua 2 bước Link để nhận mã Key công khai!</p>
                 </div>
             </div>
 
+            <!-- BẢNG GIÁ DỊCH VỤ -->
             <div class="card">
                 <div class="vip-title">🔥 BẢNG GIÁ DỊCH VỤ VIP 🔥</div>
-
                 <div class="vip-cat">⚔️ 1. HACK LIÊN QUÂN MOBILE (ADR)</div>
                 <div class="vip-row"><span class="v-name">Gói Hack Liên Quân - 1 Ngày</span><span class="v-price">10.000đ</span></div>
                 <div class="vip-row"><span class="v-name">Gói Hack Liên Quân - 7 Ngày</span><span class="v-price">45.000đ</span></div>
                 <div class="vip-row"><span class="v-name">Gói Hack Liên Quân - 30 Ngày</span><span class="v-price">110.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Gói Hack Liên Quân - 60 Ngày</span><span class="v-price">170.000đ</span></div>
-
-                <div class="vip-cat">🎣 2. HACK PLAY TOGETHER</div>
-                <div class="vip-row"><span class="v-name">Gói Auto Play Together - 1 Ngày</span><span class="v-price">15.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Gói Auto Play Together - 7 Ngày</span><span class="v-price">65.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Gói Auto Play Together - 14 Ngày</span><span class="v-price">100.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Gói Auto Play Together - 30 Ngày</span><span class="v-price">180.000đ</span></div>
-
-                <div class="vip-cat">☁️ 3. CLOUD PHONE GENPLAY</div>
-                <div class="vip-row"><span class="v-name">Treo Game Genplay - 1 Ngày</span><span class="v-price">30.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Treo Game Genplay - 7 Ngày</span><span class="v-price">70.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Treo Game Genplay - 15 Ngày</span><span class="v-price">120.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Treo Game Genplay - 30 Ngày (Giá Sỉ)</span><span class="v-price">180.000đ</span></div>
-
-                <div class="vip-cat">📱 4. REDFINGER [BẢN VIP]</div>
-                <div class="vip-row"><span class="v-name">Redfinger VIP - 7 Ngày</span><span class="v-price">40.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Redfinger VIP - 30 Ngày</span><span class="v-price">115.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Redfinger VIP - 90 Ngày</span><span class="v-price">310.000đ</span></div>
-
-                <div class="vip-cat">👑 5. REDFINGER [BẢN XVIP]</div>
-                <div class="vip-row"><span class="v-name">Redfinger XVIP - 7 Ngày</span><span class="v-price">75.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Redfinger XVIP - 30 Ngày</span><span class="v-price">200.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Redfinger XVIP - 90 Ngày</span><span class="v-price">535.000đ</span></div>
-
-                <div class="vip-cat">🔥 6. REDFINGER [BẢN SVIP]</div>
-                <div class="vip-row"><span class="v-name">Redfinger SVIP - 7 Ngày</span><span class="v-price">100.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Redfinger SVIP - 30 Ngày</span><span class="v-price">250.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Redfinger SVIP - 90 Ngày</span><span class="v-price">670.000đ</span></div>
-
-                <div class="vip-cat">🚀 7. REDFINGER [BẢN XVIP MAX]</div>
-                <div class="vip-row"><span class="v-name">Redfinger Max - 7 Ngày</span><span class="v-price">200.000đ</span></div>
-                <div class="vip-row"><span class="v-name">Redfinger Max - 30 Ngày</span><span class="v-price">550.000đ</span></div>
-
                 <a href="https://t.me/Khunglongmodgame" target="_blank" style="display: block; text-align: center; background: rgba(244,63,94,0.1); border: 1px solid #f43f5e; color: #fff; padding: 16px; border-radius: 12px; font-weight: 800; text-decoration: none; margin-top: 25px;">
                     📩 INBOX ADMIN ĐỂ CHỐT ĐƠN VIP
                 </a>
             </div>
         </div>
 
+        <!-- MÀN HÌNH NHẬN KEY TRẢ VỀ -->
         <div id="view-key" class="card">
             <div style="font-size: 60px; margin-bottom: 10px;">🚀</div>
             <h2 style="color: #10b981; font-size: 24px; font-weight: 900;">XÁC THỰC THÀNH CÔNG</h2>
@@ -206,8 +169,8 @@
             <div class="key-box" id="key-text-value">Đang tải...</div>
             
             <div class="time-box">
-                <div>Ngày nhận: <span id="time-date">--/--/----</span></div>
-                <div style="margin-top: 5px;">Thời gian: <span id="time-clock">--:--:--</span></div>
+                <div style="margin-bottom: 5px;">HSD Key: <span id="time-validity" style="color: #0ea5e9;">--/--/---- -> --/--/----</span></div>
+                <div>Lấy lúc: <span id="time-clock">--:--:--</span></div>
             </div>
 
             <button id="btn-copy" class="btn-main" style="background: #fff; color: #000; margin-top: 0;" onclick="copyKey()">📋 COPY MÃ KEY</button>
@@ -215,20 +178,75 @@
     </div>
 
     <script>
-        // ================= CẤU HÌNH API =================
-        const TARGET_KEY = "khunglong7day@ihehd";
+        // =====================================================================
+        // [HƯỚNG DẪN TỰ SỬA 1]: KHO CHỨA KEY DỰ PHÒNG CỦA BẠN
+        // =====================================================================
+        // Mỗi ngày web sẽ lấy 1 dòng từ trên xuống dưới.
+        // Hết dòng cuối cùng hệ thống tự khóa và báo khách liên hệ Admin.
+        
+        const KHO_KEY_DU_PHONG = [
+            "KEY-CHINH-NGAY-19", // Ô Số 0: Dùng cho Ngày đầu tiên (19/06/2026)
+            "KEY-PHU-NGAY-20",   // Ô Số 1: Dùng cho 20/06
+            "KEY-PHU-NGAY-21",   // Ô Số 2: Dùng cho 21/06
+            "KEY-PHU-NGAY-22",   // Ô Số 3: Dùng cho 22/06
+            "KEY-PHU-NGAY-23",   // Ô Số 4: Dùng cho 23/06
+            "KEY-PHU-NGAY-24",   // Ô Số 5: Dùng cho 24/06 (5 Ngày sau)
+            "KEY-DU-PHONG-06",   // Thay mã vào đây...
+            "KEY-DU-PHONG-07",
+            "KEY-DU-PHONG-08",
+            "KEY-DU-PHONG-09",
+            "KEY-DU-PHONG-10",
+            "KEY-DU-PHONG-11",
+            "KEY-DU-PHONG-12",
+            "KEY-DU-PHONG-13",
+            "KEY-DU-PHONG-14",
+            "KEY-DU-PHONG-15",
+            "KEY-DU-PHONG-16",
+            "KEY-DU-PHONG-17",
+            "KEY-DU-PHONG-18",
+            "KEY-DU-PHONG-19"    // Tổng cộng 20 ô (thoải mái xài)
+        ];
+
+        // =====================================================================
+        // [HƯỚNG DẪN TỰ SỬA 2]: CẤU HÌNH THỜI GIAN & RÚT GỌN LINK
+        // =====================================================================
+        // Ngày bắt đầu: Mặc định là 00:00 ngày 19/06/2026 (Năm-Tháng-Ngày)
+        const NGAY_BAT_DAU = new Date("2026-06-19T00:00:00+07:00"); 
+
         const ADMIN_SECRET = "(adminkhunglongmoddeptraivipro)";
-        const LINK4M_TOKEN = "688d0212c6e84d0e055ba168";
         
-        const dateStr = new Date().toISOString().slice(0, 10);
+        // Token Link4m (Ông có thể dùng 2 Token khác nhau cho 2 vòng nếu muốn)
+        const LINK4M_TOKEN_VONG_1 = "688d0212c6e84d0e055ba168";
+        const LINK4M_TOKEN_VONG_2 = "688d0212c6e84d0e055ba168"; // Hiện tại để chung 1 token
+
+        // =====================================================================
+        // HỆ THỐNG XỬ LÝ NGÀY TỰ ĐỘNG (KHÔNG CẦN SỬA)
+        // =====================================================================
+        const NOW = new Date();
+        const soGiay1Ngay = 86400000;
         
-        // ================= HÀM THÔNG BÁO MƯỢT =================
+        // Tính xem từ ngày 19/06 đến nay đã qua mấy ngày?
+        let soNgayDaQua = Math.floor((NOW.getTime() - NGAY_BAT_DAU.getTime()) / soGiay1Ngay);
+        if (soNgayDaQua < 0) soNgayDaQua = 0;
+
+        let TARGET_KEY = null;
+        let thongBaoHetKey = false;
+
+        // Nếu số ngày đã qua vẫn nằm trong giới hạn của kho Key (20 ô)
+        if (soNgayDaQua < KHO_KEY_DU_PHONG.length) {
+            TARGET_KEY = KHO_KEY_DU_PHONG[soNgayDaQua];
+        } else {
+            // Trường hợp chạy hết 20 ô -> Báo hết Key
+            thongBaoHetKey = true;
+        }
+
+        // ================= Các hàm bảo mật cơ bản =================
+        const dateStr = NOW.toISOString().slice(0, 10);
         function showAlert(msg) {
             document.getElementById('alert-text').innerText = msg;
             document.getElementById('custom-alert').style.display = 'flex';
         }
 
-        // ================= NHẬN DIỆN THIẾT BỊ VÀ IP =================
         function getDeviceId() {
             let id = localStorage.getItem('klmod_device_id');
             if (!id) { id = 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase(); localStorage.setItem('klmod_device_id', id); }
@@ -245,13 +263,9 @@
 
         fetch('https://api.ipify.org?format=json')
             .then(r => r.json())
-            .then(d => {
-                userIP = d.ip;
-                document.getElementById('user-ip').innerText = userIP;
-                updateUI();
-            }).catch(() => { updateUI(); });
+            .then(d => { userIP = d.ip; document.getElementById('user-ip').innerText = userIP; updateUI(); })
+            .catch(() => { updateUI(); });
 
-        // ================= GIAO DIỆN 3 MỐC TÀI KHOẢN =================
         function updateUI() {
             const btnLog = document.getElementById('btn-login');
             const btnOut = document.getElementById('btn-logout');
@@ -285,119 +299,127 @@
             checkLimits();
         }
 
-        // ================= ĐĂNG NHẬP THEO QUY TẮC MỚI =================
         function loginSystem() {
-            let teleID = prompt("Nhập Tên Telegram của bạn:\n(Ghi tên là xong để nhận 5 lượt/ngày)\n\nHoặc nhập Cú pháp Admin để mở khóa toàn bộ:");
+            let teleID = prompt("Nhập Tên Telegram của bạn:\n(Hoặc nhập Cú pháp Admin để mở khóa toàn bộ):");
             if (!teleID || teleID.trim() === "") return;
 
-            // KIỂM TRA MÃ ADMIN
             if (teleID.includes(ADMIN_SECRET)) {
                 let realName = teleID.replace(ADMIN_SECRET, "").trim();
-                if (realName === "") realName = "Admin System";
-                
                 localStorage.removeItem(`klmod_devlock_${deviceId}_${dateStr}`);
-                
                 localStorage.setItem('klmod_is_admin', 'true');
-                localStorage.setItem('klmod_user', realName);
-                isAdmin = true;
-                currentUser = realName;
-                maxLimit = 99999999;
-                showAlert(`👑 Kích hoạt quyền Quản Trị Thành Công! Chào mừng ${realName}. Bạn có thể Lấy Key Ngay không cần vượt link.`);
-                updateUI();
-                return;
+                localStorage.setItem('klmod_user', realName || "Admin System");
+                isAdmin = true; maxLimit = 99999999;
+                showAlert("👑 Kích hoạt quyền Quản Trị Thành Công!");
+                location.reload(); return;
             }
 
-            // KIỂM TRA BẢO MẬT THIẾT BỊ
             let devLockKey = `klmod_devlock_${deviceId}_${dateStr}`;
             let regDev = localStorage.getItem(devLockKey);
 
             if (regDev && regDev !== teleID) {
-                showAlert(`⚠️ LỖI BẢO MẬT: Thiết bị này đã đăng nhập bằng tài khoản [${regDev}] trong hôm nay. Bạn không thể sử dụng nhiều tài khoản trên 1 máy!`);
-                return;
+                showAlert(`⚠️ LỖI BẢO MẬT: Thiết bị này đã đăng nhập bằng tài khoản [${regDev}].`); return;
             }
 
             localStorage.setItem(devLockKey, teleID);
             localStorage.setItem('klmod_user', teleID);
-            currentUser = teleID;
-            maxLimit = 5;
             showAlert("✅ Đăng nhập thành công! Hệ thống đã kích hoạt 5 lượt lấy link cho bạn.");
-            updateUI();
+            location.reload();
         }
 
         function logoutSystem() {
             localStorage.removeItem('klmod_user');
             localStorage.removeItem('klmod_is_admin');
-            currentUser = null;
-            isAdmin = false;
-            maxLimit = 1;
-            updateUI();
+            location.reload();
         }
 
         function checkLimits() {
+            const btnAction = document.getElementById('btn-action');
+            
+            // Xử lý báo hết Key ưu tiên số 1
+            if (thongBaoHetKey) {
+                btnAction.innerText = "❌ HỆ THỐNG ĐÃ HẾT KEY, VUI LÒNG INBOX ADMIN";
+                btnAction.style.background = "#E50914"; // Chuyển nút màu đỏ
+                btnAction.style.color = "#fff";
+                btnAction.disabled = true;
+                return;
+            }
+
             let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`;
             let used = parseInt(localStorage.getItem(limitKey)) || 0;
             let left = maxLimit - used;
             
             document.getElementById('limit-display').innerText = `${left}/${maxLimit} Lượt`;
-            const btnAction = document.getElementById('btn-action');
             
             if (left <= 0 && !isAdmin) {
                 btnAction.innerText = "❌ BẠN ĐÃ HẾT LƯỢT HÔM NAY";
                 btnAction.disabled = true;
             } else {
-                btnAction.innerText = "🚀 TẠO LINK VƯỢT";
+                btnAction.innerText = "🚀 BẮT ĐẦU VƯỢT LINK";
                 btnAction.disabled = false;
             }
         }
 
         function adminGetDirectKey() {
+            if(!TARGET_KEY) { showAlert("Kho đã hết Key! Bạn cần vào source code thêm key vào biến KHO_KEY_DU_PHONG."); return; }
             window.location.href = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY;
         }
 
-        // ========================================================
-        // TẠO LINK SIÊU NHANH: SỬ DỤNG LINK TRỰC TIẾP (BỎ FETCH ĐỂ TRÁNH CORS)
-        // ========================================================
+        // =====================================================================
+        // [HƯỚNG DẪN TỰ SỬA 3]: HỆ THỐNG VƯỢT 2 LỚP LINK LỒNG NHAU
+        // =====================================================================
         function generateLinkFast() {
+            if (thongBaoHetKey || !TARGET_KEY) {
+                showAlert("Đã dùng hết tất cả Key dự phòng! Vui lòng liên hệ Admin để thêm Key vào hệ thống.");
+                return;
+            }
+
             const btn = document.getElementById('btn-action');
-            btn.innerText = "⏳ ĐANG KHỞI TẠO...";
+            btn.innerText = "⏳ ĐANG TẠO VÒNG LẶP...";
             btn.disabled = true;
 
-            const destinationWeb = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY;
+            // Đích đến cuối cùng chứa KEY sau khi vượt xong 2 vòng
+            const finalDest = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY;
             
-            // Xây dựng link chuyển hướng chuẩn của Link4m (Tránh lỗi CORS/Cloudflare)
-            const finalShortUrl = `https://link4m.co/st?api=${LINK4M_TOKEN}&url=${encodeURIComponent(destinationWeb)}`;
+            // VÒNG 2: Mã hóa đường link đích nhét vào Link4m vòng 2
+            const linkVong2 = `https://link4m.co/st?api=${LINK4M_TOKEN_VONG_2}&url=${encodeURIComponent(finalDest)}`;
+            
+            // VÒNG 1: Mã hóa cái "Vòng 2" nhét vào Link4m vòng 1
+            const linkVong1 = `https://link4m.co/st?api=${LINK4M_TOKEN_VONG_1}&url=${encodeURIComponent(linkVong2)}`;
 
-            // Hiển thị khung kết quả và gán link vào
+            // Đẩy ra ngoài giao diện
             document.getElementById('result-box').style.display = "block";
             const linkObj = document.getElementById('short-link');
-            linkObj.href = finalShortUrl;
-            linkObj.innerText = "NHẤN VÀO ĐÂY ĐỂ ĐẾN TRANG VƯỢT LINK";
+            linkObj.href = linkVong1;
+            linkObj.innerText = "👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT 2 LỚP LINK 👈";
 
-            btn.innerText = "✅ TẠO LINK THÀNH CÔNG";
+            btn.innerText = "✅ TẠO LINK X2 THÀNH CÔNG";
 
-            // Trừ lượt sử dụng
             let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`;
             let used = parseInt(localStorage.getItem(limitKey)) || 0;
             localStorage.setItem(limitKey, used + 1);
             checkLimits();
         }
 
-        // ================= MÀN HÌNH NHẬN KEY VÀ THỜI GIAN =================
+        // =====================================================================
+        // IN KẾT QUẢ KHI QUAY TRỞ LẠI
+        // =====================================================================
         const uParams = new URLSearchParams(window.location.search);
         if (uParams.get('key')) {
             document.getElementById('view-home').style.display = 'none';
             document.getElementById('user-section').style.display = 'none';
             document.getElementById('view-key').style.display = 'block';
             
-            // Hiện Key
             document.getElementById('key-text-value').innerText = uParams.get('key');
             
-            // Xử lý Ngày và Giờ
-            const now = new Date();
-            const dateDisplay = String(now.getDate()).padStart(2, '0') + '/' + String(now.getMonth() + 1).padStart(2, '0') + '/' + now.getFullYear();
-            const timeDisplay = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0') + ':' + String(now.getSeconds()).padStart(2, '0');
+            // Xử lý in thời gian
+            const tgBatDauStr = NGAY_BAT_DAU.toLocaleDateString('vi-VN');
+            const dateSau5Ngay = new Date(NGAY_BAT_DAU);
+            dateSau5Ngay.setDate(dateSau5Ngay.getDate() + 5);
+            const tgHetHanStr = dateSau5Ngay.toLocaleDateString('vi-VN');
             
-            document.getElementById('time-date').innerText = dateDisplay;
+            document.getElementById('time-validity').innerText = `${tgBatDauStr} -> ${tgHetHanStr}`;
+            
+            const timeDisplay = String(NOW.getHours()).padStart(2, '0') + ':' + String(NOW.getMinutes()).padStart(2, '0') + ':' + String(NOW.getSeconds()).padStart(2, '0');
             document.getElementById('time-clock').innerText = timeDisplay;
         }
 
@@ -405,12 +427,10 @@
             navigator.clipboard.writeText(uParams.get('key')).then(() => {
                 const btnC = document.getElementById('btn-copy');
                 btnC.innerText = "✅ ĐÃ LƯU MÃ KEY CHUẨN XÁC!";
-                btnC.style.background = "#10b981";
-                btnC.style.color = "#fff";
+                btnC.style.background = "#10b981"; btnC.style.color = "#fff";
                 setTimeout(() => {
                     btnC.innerText = "📋 COPY MÃ KEY";
-                    btnC.style.background = "#fff";
-                    btnC.style.color = "#000";
+                    btnC.style.background = "#fff"; btnC.style.color = "#000";
                 }, 2000);
             });
         }
