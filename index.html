@@ -5,35 +5,474 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Khủng Long Mod | Premium System</title>
     <style>
-        /* =========================================================
-           GIAO DIỆN TỐI ƯU GỌN GÀNG - DPI THẤP VẪN RÕ NÉT
-           ========================================================= */
         @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
         
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Nunito', sans-serif; }
         
+        /* HIỆU ỨNG NỀN ĐỘNG (NETFLIX VIBE) */
+        @keyframes gradient-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         body {
-            background: #09090b;
-            background: radial-gradient(circle at top, #1f0d1a 0%, #09090b 70%);
+            background: linear-gradient(-45deg, #09090b, #1a0b1c, #0a1128, #180a0a);
+            background-size: 400% 400%;
+            animation: gradient-pan 15s ease infinite;
             color: #f4f4f5;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 15px 10px;
+            overflow-x: hidden;
         }
 
         .container { width: 100%; max-width: 450px; z-index: 1; }
 
-        .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 15px; }
-        .logo { font-size: clamp(20px, 6vw, 26px); font-weight: 900; background: linear-gradient(90deg, #ff0055, #ffaa00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
-        .admin-contact { color: #a1a1aa; font-size: 12px; font-weight: 700; text-decoration: none; background: rgba(255,255,255,0.05); padding: 5px 10px; border-radius: 8px; }
+        /* HEADER DISNEY+ STYLE */
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo { font-size: clamp(22px, 7vw, 28px); font-weight: 900; background: linear-gradient(to right, #ff0055, #ffaa00, #00d2ff, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; text-transform: uppercase; }
+        .admin-contact { color: #fff; font-size: 11px; font-weight: 800; text-decoration: none; background: rgba(255,255,255,0.1); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
 
-        .card {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 15px;
+        /* GLASS CARD (THẺ KÍNH) */
+        .card { background: rgba(15, 15, 20, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 18px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); margin-bottom: 18px; box-shadow: 0 15px 35px rgba(0,0,0,0.6); position: relative; overflow: hidden; }
+        
+        /* HIỆU ỨNG GLOW CHO CARD */
+        .card::before { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%); opacity: 0; transition: 0.5s; pointer-events: none; }
+        .card:hover::before { opacity: 1; }
+
+        /* KHU VỰC TÀI KHOẢN */
+        .user-panel { display: flex; justify-content: space-between; align-items: center; }
+        .user-info { display: flex; align-items: center; gap: 12px; }
+        .avatar { width: 45px; height: 45px; background: #27272a; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; border: 2px solid #3f3f46; }
+        .admin-avatar { background: #000; border: 2px solid #ff0055; box-shadow: 0 0 20px rgba(255,0,85,0.6); }
+        .vip-avatar { background: #000; border: 2px solid #00d2ff; box-shadow: 0 0 20px rgba(0,210,255,0.6); }
+
+        .u-name { font-size: 15px; font-weight: 900; letter-spacing: 0.5px; }
+        .u-role { font-size: 10px; padding: 4px 10px; border-radius: 12px; font-weight: 800; margin-top: 5px; display: inline-block; text-transform: uppercase; }
+        .role-guest { background: rgba(255,255,255,0.1); color: #d4d4d8; }
+        .role-vip { background: rgba(0, 210, 255, 0.15); color: #00d2ff; border: 1px solid rgba(0,210,255,0.5); }
+        .role-admin { background: rgba(255, 0, 85, 0.15); color: #ff0055; border: 1px solid rgba(255,0,85,0.5); }
+
+        .dev-info { font-size: 10px; color: #a1a1aa; margin-top: 8px; font-family: monospace; background: rgba(0,0,0,0.5); padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
+        .fix-btn { margin-top: 4px; color: #f43f5e; cursor: pointer; display: flex; align-items: center; gap: 4px; font-weight: bold; }
+
+        .btn-group { display: flex; flex-direction: column; gap: 8px; }
+        .btn-sm { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 800; cursor: pointer; font-size: 11px; box-shadow: 0 4px 10px rgba(14,165,233,0.3); }
+        .btn-sm-out { background: transparent; border: 1px solid #f43f5e; color: #f43f5e; display: none; box-shadow: none; }
+
+        /* HERO SECTION (NÚT PLAY CHÍNH) */
+        .title-box { text-align: center; margin-bottom: 20px; }
+        .title-box h2 { font-size: 20px; font-weight: 900; color: #fff; text-shadow: 0 2px 10px rgba(255,255,255,0.2); }
+        .title-box p { font-size: 13px; color: #10b981; margin-top: 5px; font-weight: 800; letter-spacing: 1px; }
+
+        .limit-box { background: rgba(0,0,0,0.6); border-radius: 12px; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #f59e0b; margin-bottom: 15px; }
+        .limit-box span { color: #e4e4e7; font-weight: 700; font-size: 13px; }
+        .limit-box strong { color: #f59e0b; font-size: 16px; font-weight: 900; text-shadow: 0 0 10px rgba(245,158,11,0.5); }
+
+        @keyframes pulse-neon {
+            0% { box-shadow: 0 0 10px rgba(16,185,129,0.5), 0 0 20px rgba(16,185,129,0.3); }
+            50% { box-shadow: 0 0 20px rgba(16,185,129,0.8), 0 0 40px rgba(16,185,129,0.5); }
+            100% { box-shadow: 0 0 10px rgba(16,185,129,0.5), 0 0 20px rgba(16,185,129,0.3); }
+        }
+        .btn-main { width: 100%; padding: 16px; font-size: 16px; font-weight: 900; border-radius: 14px; cursor: pointer; border: none; text-transform: uppercase; background: linear-gradient(90deg, #10b981, #059669); color: #fff; animation: pulse-neon 2s infinite; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .btn-main:active { transform: scale(0.95); }
+        .btn-main:disabled { background: #3f3f46; color: #a1a1aa; box-shadow: none; animation: none; cursor: not-allowed; }
+        .btn-admin { background: linear-gradient(90deg, #e11d48, #be123c); animation: none; box-shadow: 0 5px 15px rgba(225,29,72,0.4); display: none; margin-top: 12px; }
+
+        /* BẢNG ĐIỀU KHIỂN ADMIN */
+        #admin-panel { display: none; border: 1px solid #f43f5e; background: linear-gradient(135deg, rgba(244,63,94,0.1), rgba(0,0,0,0.5)); }
+        .admin-title { font-size: 15px; font-weight: 900; color: #f43f5e; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 1px dashed rgba(244,63,94,0.3); padding-bottom: 10px; }
+        .stat-grid { display: flex; gap: 10px; margin-bottom: 15px; }
+        .stat-box { flex: 1; background: rgba(0,0,0,0.6); padding: 12px; border-radius: 10px; text-align: center; border: 1px solid rgba(244,63,94,0.2); }
+        .stat-box div { font-size: 10px; color: #fbbf24; font-weight: bold; }
+        .stat-box span { font-size: 22px; font-weight: 900; color: #fff; display: block; margin-top: 5px; }
+        .admin-history-list { max-height: 150px; overflow-y: auto; padding-right: 5px; }
+        .admin-h-item { background: rgba(0,0,0,0.4); padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; font-size: 11px; color: #d4d4d8; border-left: 3px solid #f97316; }
+        .admin-h-item span { color: #10b981; font-weight: bold; }
+
+        /* KHO CODE & LỊCH SỬ */
+        .section-title { font-size: 15px; font-weight: 900; color: #fff; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
+        .event-box { display: flex; gap: 10px; }
+        .event-input { flex: 1; padding: 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.5); color: #fbbf24; font-weight: 900; text-transform: uppercase; outline: none; transition: 0.3s; }
+        .event-input:focus { border-color: #fbbf24; box-shadow: 0 0 15px rgba(251,191,36,0.3); }
+        .event-btn { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; border: none; padding: 0 25px; border-radius: 12px; font-weight: 900; cursor: pointer; box-shadow: 0 5px 15px rgba(245,158,11,0.3); }
+
+        .history-list { max-height: 180px; overflow-y: auto; padding-right: 5px; }
+        .history-item { background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid #38bdf8; font-size: 12px; color: #e4e4e7; transition: 0.2s; }
+        .history-item:hover { background: rgba(255,255,255,0.05); transform: translateX(5px); }
+        .history-item strong { color: #38bdf8; font-size: 13px; }
+        .h-method { color: #f43f5e; font-size: 10px; margin-top: 5px; font-weight: 800; background: rgba(244,63,94,0.1); display: inline-block; padding: 2px 6px; border-radius: 4px; }
+
+        /* ================= CUỘN NGANG: BẢNG GIÁ VIP (NETFLIX CAROUSEL) ================= */
+        .vip-scroll-container { display: flex; overflow-x: auto; gap: 15px; padding-bottom: 15px; scroll-snap-type: x mandatory; }
+        .vip-scroll-container::-webkit-scrollbar { height: 6px; }
+        .vip-scroll-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        
+        .movie-card { min-width: 260px; background: rgba(0,0,0,0.7); border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); padding: 15px; scroll-snap-align: start; flex-shrink: 0; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .mc-header { text-align: center; font-weight: 900; font-size: 14px; padding-bottom: 10px; border-bottom: 2px solid; margin-bottom: 10px; text-transform: uppercase; }
+        
+        /* Màu cho từng game */
+        .mc-lq { color: #38bdf8; border-color: #38bdf8; }
+        .mc-pt { color: #10b981; border-color: #10b981; }
+        .mc-gp { color: #f472b6; border-color: #f472b6; }
+        .mc-rf { color: #fbbf24; border-color: #fbbf24; }
+
+        .mc-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); }
+        .mc-row:last-child { border: none; }
+        .mc-name { font-size: 12px; color: #d4d4d8; font-weight: 700; }
+        .mc-price { font-size: 14px; font-weight: 900; color: #fff; }
+        .price-highlight { color: #f43f5e; text-shadow: 0 0 5px rgba(244,63,94,0.5); }
+
+        .contact-link { display: block; text-align: center; background: linear-gradient(90deg, #e11d48, #9f1239); color: #fff; padding: 16px; border-radius: 12px; font-weight: 900; text-decoration: none; margin-top: 10px; font-size: 13px; box-shadow: 0 8px 20px rgba(225,29,72,0.4); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* VIEW KEY (TRẢ KẾT QUẢ) */
+        #view-key { display: none; text-align: center; padding: 30px 15px; }
+        .success-title { color: #10b981; font-size: 24px; font-weight: 900; margin-bottom: 20px; text-shadow: 0 0 15px rgba(16,185,129,0.5); text-transform: uppercase; }
+        .key-box { background: rgba(0,0,0,0.8); border: 2px solid #10b981; box-shadow: 0 0 30px rgba(16,185,129,0.3) inset; padding: 20px; border-radius: 16px; margin: 20px 0; font-size: clamp(18px, 6vw, 24px); font-weight: 900; color: #10b981; letter-spacing: 2px; word-break: break-all; }
+        .time-box { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; font-size: 13px; color: #d4d4d8; margin-bottom: 20px; border: 1px solid rgba(255,255,255,0.1); }
+        .time-hsd { margin-bottom: 8px; color: #38bdf8; font-weight: 800; font-size: 14px; }
+        .back-btn { background: rgba(255,255,255,0.1); color: #fff; margin-top: 15px; font-size: 13px; box-shadow: none; animation: none; border: 1px solid rgba(255,255,255,0.2); }
+
+        /* MODAL ALERT */
+        #custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 999; backdrop-filter: blur(10px); }
+        .alert-box { background: #18181b; border: 1px solid #3f3f46; border-radius: 20px; padding: 25px; width: 85%; max-width: 350px; text-align: center; box-shadow: 0 15px 50px rgba(0,0,0,0.8); }
+        .alert-msg { font-size: 15px; color: #fff; margin-bottom: 20px; font-weight: 700; line-height: 1.5; }
+        .alert-btn { background: linear-gradient(90deg, #0ea5e9, #2563eb); color: #fff; border: none; padding: 10px 30px; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 14px; width: 100%; }
+        
+        .result-box { display: none; margin-top: 15px; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px; border-left: 4px solid #10b981; text-align: center; }
+        .result-link { display: block; margin-top: 10px; color: #10b981; font-weight: 900; font-size: 15px; word-break: break-all; text-decoration: none; padding: 12px; border: 1px dashed rgba(16,185,129,0.4); border-radius: 10px; background: rgba(16,185,129,0.05); }
+    </style>
+</head>
+<body>
+
+    <div id="custom-alert">
+        <div class="alert-box">
+            <div id="alert-text" class="alert-msg">Thông báo</div>
+            <button class="alert-btn" onclick="document.getElementById('custom-alert').style.display='none'">ĐÃ HIỂU</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">KHỦNG LONG MOD VIP</div>
+            <a href="https://t.me/Khunglongmodgame" target="_blank" class="admin-contact">💬 LH ADMIN</a>
+        </div>
+
+        <div class="card" id="user-section">
+            <div class="user-panel">
+                <div class="user-info">
+                    <div class="avatar" id="avatar-icon">👤</div>
+                    <div>
+                        <div class="u-name" id="user-name">Khách vãng lai</div>
+                        <div id="user-role" class="u-role role-guest">1 Lượt / Ngày</div>
+                        <div class="dev-info">
+                            <div>Thiết bị: <strong id="device-name" style="color: #fbbf24;">Đang quét...</strong></div>
+                            <div>IP: <span id="user-ip" style="color: #38bdf8;">Đang quét...</span></div>
+                            <div class="fix-btn" onclick="resetLoiWeb()">🛠️ Bấm Lấy Dữ Liệu Mới Nhất</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button id="btn-login" class="btn-sm" onclick="loginSystem()">Đăng Nhập</button>
+                    <button id="btn-logout" class="btn-sm btn-sm-out" onclick="logoutSystem()">Đăng Xuất</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="view-home">
+            
+            <div class="card" id="admin-panel">
+                <div class="admin-title">
+                    <span>👑 BẢNG ĐIỀU KHIỂN (HÔM NAY)</span>
+                    <button class="btn-sm" style="font-size: 9px; padding: 4px 10px; background: #3f3f46; box-shadow: none;" onclick="clearAdminHistory()">Xóa Trống</button>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-box">
+                        <div>LINK ĐÃ TẠO</div>
+                        <span id="ad-stat-gen">0</span>
+                    </div>
+                    <div class="stat-box">
+                        <div>VƯỢT THÀNH CÔNG</div>
+                        <span id="ad-stat-suc" style="color: #10b981;">0</span>
+                    </div>
+                </div>
+                <div class="admin-history-list" id="ad-history-list"></div>
+            </div>
+
+            <div class="card" style="border: 1px solid rgba(16,185,129,0.3); box-shadow: 0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(16,185,129,0.1) inset;">
+                <div class="title-box">
+                    <h2>🎬 NHẬN KEY LIÊN QUÂN (VIP)</h2>
+                    <p>Hệ Thống Vượt 2 Lần Lấy Key Free</p>
+                </div>
+                <div class="limit-box">
+                    <span>Giới hạn lấy Key:</span><strong id="limit-display">0/0 Lượt</strong>
+                </div>
+                <button id="btn-action" class="btn-main" onclick="generateLinkFast()">▶ BẮT ĐẦU VƯỢT LINK</button>
+                <button id="btn-admin-bypass" class="btn-main btn-admin" onclick="adminGetDirectKey()">⚡ NHẬN NGAY (QUYỀN ADMIN)</button>
+
+                <div id="result-box" class="result-box">
+                    <p>Link vượt 2 lớp của bạn đã mở:</p>
+                    <a id="short-link" class="result-link" href="#" target="_blank">Đang kết nối...</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">🎁 NHẬP CODE SỰ KIỆN</div>
+                <div class="event-box">
+                    <input type="text" id="nhap-code" class="event-input" placeholder="Nhập mã code...">
+                    <button class="event-btn" onclick="doiCodeSuKien()">ĐỔI</button>
+                </div>
+            </div>
+
+            <div class="card" style="padding: 20px 10px;">
+                <div class="vip-title" style="margin-bottom: 20px;">🔥 BẢNG GIÁ DỊCH VỤ VIP 🔥</div>
+                
+                <div class="vip-scroll-container">
+                    <div class="movie-card">
+                        <div class="mc-header mc-lq">⚔️ 1. HACK LIÊN QUÂN (ADR)</div>
+                        <div class="mc-row"><span class="mc-name">Gói 1 ngày</span><span class="mc-price">10.000đ</span></div>
+                        <div class="mc-row"><span class="mc-name">Gói 7 ngày</span><span class="mc-price">45.000đ</span></div>
+                        <div class="mc-row"><span class="mc-name">Gói 30 ngày</span><span class="mc-price">110.000đ</span></div>
+                        <div class="mc-row"><span class="mc-name">Gói 60 ngày</span><span class="mc-price">170.000đ</span></div>
+                    </div>
+
+                    <div class="movie-card">
+                        <div class="mc-header mc-pt">🎣 2. HACK PLAY TOGETHER</div>
+                        <div class="mc-row"><span class="mc-name">Gói 1 ngày</span><span class="mc-price">15.000đ</span></div>
+                        <div class="mc-row"><span class="mc-name">Gói 7 ngày</span><span class="mc-price">65.000đ</span></div>
+                        <div class="mc-row"><span class="mc-name">Gói 14 ngày</span><span class="mc-price">100.000đ</span></div>
+                        <div class="mc-row"><span class="mc-name">Gói 30 ngày</span><span class="mc-price">180.000đ</span></div>
+                    </div>
+
+                    <div class="movie-card">
+                        <div class="mc-header mc-gp">☁️ 3. CLOUD PHONE GENPLAY</div>
+                        <div class="mc-row"><span class="mc-name">Gói 1 ngày</span><span class="mc-price">30.000đ</span></div>
+                        <div class="mc-row"><span class="mc-name">Gói 7 ngày</span><span class="mc-price">70.000đ</span></div>
+                        <div class="mc-row"><span class="mc-name">Gói 15 ngày</span><span class="mc-price">120.000đ</span></div>
+                        <div class="mc-row"><span class="mc-name" style="color:#f43f5e;">Gói 30 ngày (Hết rẻ: 220k)</span><span class="mc-price">180.000đ</span></div>
+                    </div>
+
+                    <div class="movie-card">
+                        <div class="mc-header mc-rf">📱 4. REDFINGER (ĐA BẢN)</div>
+                        <div style="font-size: 11px; color: #38bdf8; font-weight: bold; margin-bottom: 5px;">💎 BẢN VIP</div>
+                        <div class="mc-row"><span class="mc-name">7 ngày: 40k | 30 ngày: 115k</span></div>
+                        <div style="font-size: 11px; color: #f59e0b; font-weight: bold; margin: 10px 0 5px;">👑 BẢN XVIP</div>
+                        <div class="mc-row"><span class="mc-name">7 ngày: 75k | 30 ngày: 200k</span></div>
+                        <div style="font-size: 11px; color: #f43f5e; font-weight: bold; margin: 10px 0 5px;">🔥 BẢN SVIP</div>
+                        <div class="mc-row"><span class="mc-name">7 ngày: 100k | 30 ngày: 250k</span></div>
+                    </div>
+                </div>
+
+                <a href="https://t.me/Khunglongmodgame" target="_blank" class="contact-link" style="margin: 15px 15px 0;">
+                    📩 INBOX CHỐT ĐƠN & LẤY KEY NHANH
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="history-header">
+                    <div class="section-title" style="margin:0;">📜 LỊCH SỬ CỦA BẠN</div>
+                    <button class="btn-sm btn-sm-out" style="display: block; padding: 5px 10px; font-size: 9px;" onclick="xoaLichSuKhach()">XÓA TẤT CẢ</button>
+                </div>
+                <div class="history-list" id="box-lich-su"></div>
+            </div>
+
+        </div>
+
+        <div id="view-key" class="card" style="border: 1px solid #10b981;">
+            <div style="text-align: center;">
+                <img src="https://cdn-icons-png.flaticon.com/512/1008/1008015.png" width="80" style="margin-bottom: 15px; filter: drop-shadow(0 0 10px #10b981);">
+            </div>
+            <h2 class="success-title">MỞ KHÓA THÀNH CÔNG</h2>
+            <div class="key-box" id="key-text-value">Đang tải...</div>
+            <div class="time-box">
+                <div class="time-hsd">⏳ HSD: <span id="time-validity">--/--/---- -> --/--/----</span></div>
+                <div style="color: #a1a1aa; font-weight: bold;">Lấy lúc: <span id="time-clock" style="color: #e4e4e7;">--:--:--</span></div>
+            </div>
+            <button class="btn-main" style="background: #fff; color: #000; margin-top: 0; animation: none;" onclick="copyKey(this)">📋 COPY MÃ KEY</button>
+            <button class="btn-main back-btn" onclick="window.location.href = window.location.pathname;">🔙 QUAY LẠI TRANG CHỦ</button>
+        </div>
+    </div>
+
+    <script>
+        const KHO_KEY_DU_PHONG = [
+            "Khunglongmod_etw", "Khunglongmod_wak", "Khunglongmod_3er", "Khunglongmod_34r", "Khunglongmod_tef",
+            "KEY-DU-PHONG-05", "KEY-DU-PHONG-06", "KEY-DU-PHONG-07", "KEY-DU-PHONG-08", "KEY-DU-PHONG-09",
+            "KEY-DU-PHONG-10", "KEY-DU-PHONG-11", "KEY-DU-PHONG-12", "KEY-DU-PHONG-13", "KEY-DU-PHONG-14",
+            "KEY-DU-PHONG-15", "KEY-DU-PHONG-16", "KEY-DU-PHONG-17", "KEY-DU-PHONG-18", "KEY-DU-PHONG-19"
+        ];
+        const KHO_CODE_SU_KIEN = [
+            { code: "KHUNGLONGVIP", luot: 1, phanthuong: "Tài khoản VIP Liên Quân 1 Ngày" },
+            { code: "CLOUD2026", luot: 1, phanthuong: "Cloud Phone Genplay 1 Ngày" }
+        ];
+
+        const NGAY_BAT_DAU = new Date("2026-06-20T00:00:00+07:00"); 
+        const ADMIN_SECRET = "(adminkhunglongmoddeptraivipro)";
+        const LINK4M_TOKEN_VONG_1 = "688d0212c6e84d0e055ba168";
+        const LINK4M_TOKEN_VONG_2 = "688d0212c6e84d0e055ba168"; 
+
+        const NOW = new Date();
+        const dateStr = NOW.toISOString().slice(0, 10);
+        let soNgayDaQua = Math.floor((NOW.getTime() - NGAY_BAT_DAU.getTime()) / 86400000);
+        if (soNgayDaQua < 0) soNgayDaQua = 0;
+
+        let TARGET_KEY = null; let thongBaoHetKey = false;
+        if (soNgayDaQua < KHO_KEY_DU_PHONG.length) TARGET_KEY = KHO_KEY_DU_PHONG[soNgayDaQua];
+        else thongBaoHetKey = true;
+
+        function showAlert(msg) { document.getElementById('alert-text').innerText = msg; document.getElementById('custom-alert').style.display = 'flex'; }
+        
+        function resetLoiWeb() {
+            localStorage.clear(); sessionStorage.clear(); window.location.href = window.location.pathname;
+        }
+
+        function detectDevice() {
+            const ua = navigator.userAgent;
+            if (/iPhone/i.test(ua)) return "Apple iPhone";
+            if (/iPad/i.test(ua)) return "Apple iPad";
+            if (/Samsung/i.test(ua) || /SM-/i.test(ua)) return "Điện thoại Samsung";
+            if (/Android/i.test(ua)) return "Điện thoại Android";
+            if (/Windows NT/i.test(ua)) return "Máy tính (Windows PC)";
+            if (/Mac OS/i.test(ua)) return "MacBook / iMac";
+            return "Thiết bị không xác định";
+        }
+        document.getElementById('device-name').innerText = detectDevice();
+
+        let deviceId = localStorage.getItem('klmod_device_id');
+        if (!deviceId) { deviceId = 'ID-' + Math.random().toString(36).substr(2, 6).toUpperCase(); localStorage.setItem('klmod_device_id', deviceId); }
+
+        fetch('https://get.geojs.io/v1/ip/geo.json').then(r => r.json()).then(d => { document.getElementById('user-ip').innerText = `${d.ip} (${d.country})`; }).catch(() => { document.getElementById('user-ip').innerText = "Không thể xác định"; });
+
+        let currentUser = localStorage.getItem('klmod_user') || null;
+        let isAdmin = localStorage.getItem('klmod_is_admin') === 'true';
+        let maxLimit = isAdmin ? 99999999 : (currentUser ? 5 : 1);
+
+        function updateUI() {
+            const bLog = document.getElementById('btn-login'), bOut = document.getElementById('btn-logout'), bAd = document.getElementById('btn-admin-bypass');
+            const nEl = document.getElementById('user-name'), rEl = document.getElementById('user-role'), aEl = document.getElementById('avatar-icon');
+            if (isAdmin) {
+                nEl.innerText = currentUser || "Admin Khủng Long"; rEl.innerText = "Tối Cao (99999999 Lượt)"; rEl.className = "u-role role-admin"; aEl.className = "avatar admin-avatar"; aEl.innerText = "👑";
+                bLog.style.display = "none"; bOut.style.display = "block"; bAd.style.display = "flex";
+                hienThiBangAdmin();
+            } else if (currentUser) {
+                nEl.innerText = currentUser; rEl.innerText = "Thành viên (5 Lượt)"; rEl.className = "u-role role-vip"; aEl.className = "avatar vip-avatar"; aEl.innerText = "🦖";
+                bLog.style.display = "none"; bOut.style.display = "block"; bAd.style.display = "none";
+            } else {
+                nEl.innerText = "Khách"; rEl.innerText = "1 Lượt / Ngày"; rEl.className = "u-role role-guest"; aEl.className = "avatar"; aEl.innerText = "👤";
+                bLog.style.display = "block"; bOut.style.display = "none"; bAd.style.display = "none";
+            }
+            checkLimits(); inLichSuKhach();
+        }
+
+        function loginSystem() {
+            let teleID = prompt("Nhập ID Telegram để đăng nhập:");
+            if (!teleID || teleID.trim() === "") return;
+            if (teleID.includes(ADMIN_SECRET)) {
+                localStorage.setItem('klmod_is_admin', 'true'); localStorage.setItem('klmod_user', teleID.replace(ADMIN_SECRET, "").trim() || "Admin System");
+                showAlert("👑 Mở Khóa Quyền Quản Trị Hệ Thống!"); setTimeout(() => location.reload(), 1500); return;
+            }
+            let devLockKey = `klmod_devlock_${deviceId}_${dateStr}`;
+            let regDev = localStorage.getItem(devLockKey);
+            if (regDev && regDev !== teleID) { showAlert(`⚠️ Thiết bị này đang dính ID [${regDev}]. Bấm "Lấy Dữ Liệu Mới" để đổi!`); return; }
+            localStorage.setItem(devLockKey, teleID); localStorage.setItem('klmod_user', teleID);
+            showAlert("✅ Đăng nhập 5 Lượt/Ngày thành công!"); setTimeout(() => location.reload(), 1500);
+        }
+
+        function logoutSystem() { localStorage.removeItem('klmod_user'); localStorage.removeItem('klmod_is_admin'); location.reload(); }
+
+        function checkLimits() {
+            const btn = document.getElementById('btn-action');
+            if (thongBaoHetKey) { btn.innerText = "❌ HẾT KEY, INBOX ADMIN"; btn.style.background = "#E50914"; btn.style.color = "#fff"; btn.style.animation = "none"; btn.disabled = true; return; }
+            let used = parseInt(localStorage.getItem(isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`)) || 0;
+            let left = maxLimit - used;
+            document.getElementById('limit-display').innerText = `${left}/${maxLimit} Lượt`;
+            if (left <= 0 && !isAdmin) { btn.innerText = "❌ ĐÃ HẾT LƯỢT HÔM NAY"; btn.disabled = true; btn.style.animation = "none"; } 
+            else { btn.innerHTML = "▶ BẮT ĐẦU VƯỢT LINK"; btn.disabled = false; }
+        }
+
+        function checkResetAdmin() {
+            let savedDate = localStorage.getItem('klmod_ad_date');
+            if(savedDate !== dateStr) { localStorage.setItem('klmod_ad_date', dateStr); localStorage.setItem('klmod_ad_gen', 0); localStorage.setItem('klmod_ad_suc', 0); localStorage.setItem('klmod_ad_his', JSON.stringify([])); }
+        }
+        function luuThongKeAdmin(typeStr, info = "") {
+            if(!isAdmin) return; checkResetAdmin();
+            let his = JSON.parse(localStorage.getItem('klmod_ad_his'));
+            his.unshift({t: new Date().toLocaleTimeString('vi-VN'), msg: typeStr, inf: info});
+            if(his.length > 50) his.pop(); localStorage.setItem('klmod_ad_his', JSON.stringify(his));
+        }
+        function congSoLieuAdmin(type) { checkResetAdmin(); localStorage.setItem(type, (parseInt(localStorage.getItem(type)) || 0) + 1); }
+        function hienThiBangAdmin() {
+            document.getElementById('admin-panel').style.display = 'block'; checkResetAdmin();
+            document.getElementById('ad-stat-gen').innerText = localStorage.getItem('klmod_ad_gen') || 0;
+            document.getElementById('ad-stat-suc').innerText = localStorage.getItem('klmod_ad_suc') || 0;
+            let his = JSON.parse(localStorage.getItem('klmod_ad_his')) || [];
+            let box = document.getElementById('ad-history-list');
+            if(his.length === 0) { box.innerHTML = '<div style="font-size: 11px; color: #a1a1aa; text-align: center; padding: 10px;">Chưa có hoạt động.</div>'; return; }
+            box.innerHTML = his.map(h => `<div class="admin-h-item">[${h.t}] ${h.msg} <span>${h.inf}</span></div>`).join('');
+        }
+        function clearAdminHistory() { localStorage.setItem('klmod_ad_his', '[]'); hienThiBangAdmin(); }
+
+        function generateLinkFast() {
+            if (thongBaoHetKey || !TARGET_KEY) { showAlert("Kho lưu trữ đã cạn Key!"); return; }
+            const btn = document.getElementById('btn-action'); btn.innerText = "⏳ ĐANG XỬ LÝ..."; btn.disabled = true; btn.style.animation = "none";
+            const finalDest = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY + "&m=link";
+            const linkVong1 = `https://link4m.co/st?api=${LINK4M_TOKEN_VONG_1}&url=${encodeURIComponent(`https://link4m.co/st?api=${LINK4M_TOKEN_VONG_2}&url=${encodeURIComponent(finalDest)}`)}`;
+            document.getElementById('result-box').style.display = "block";
+            document.getElementById('short-link').href = linkVong1; document.getElementById('short-link').innerText = "👉 BẤM VÀO ĐÂY ĐỂ VƯỢT LINK 👈";
+            btn.innerText = "✅ TẠO LINK THÀNH CÔNG";
+            let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`; localStorage.setItem(limitKey, (parseInt(localStorage.getItem(limitKey)) || 0) + 1);
+            if(isAdmin) { congSoLieuAdmin('klmod_ad_gen'); luuThongKeAdmin("Khách Tạo Link"); hienThiBangAdmin(); }
+            checkLimits();
+        }
+        function adminGetDirectKey() {
+            if(!TARGET_KEY) { showAlert("Hết Key rồi sếp!"); return; }
+            window.location.href = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY + "&m=admin";
+        }
+
+        function formatFullTime(d) { return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} - ${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
+        function inLichSuKhach() {
+            let his = JSON.parse(localStorage.getItem('klmod_his_user')) || [];
+            let box = document.getElementById('box-lich-su');
+            if(his.length === 0) { box.innerHTML = '<div style="text-align: center; color: #a1a1aa; font-size: 11px; margin-top: 10px;">Chưa có lịch sử.</div>'; return; }
+            box.innerHTML = his.map(item => `<div class="history-item"><div>🕒 ${item.t}</div><div style="margin-top: 5px;">🔑 <strong style="font-size:14px;">${item.k}</strong></div><div class="h-method">Nguồn: ${item.m}</div></div>`).join('');
+        }
+        function xoaLichSuKhach() { if(confirm("Xóa lịch sử cá nhân?")) { localStorage.removeItem('klmod_his_user'); inLichSuKhach(); } }
+        function luuLichSuCaNhan(key, method) {
+            let his = JSON.parse(localStorage.getItem('klmod_his_user')) || []; let nowStr = formatFullTime(new Date());
+            if(his.length > 0 && his[0].k === key && his[0].t === nowStr) return;
+            his.unshift({ t: nowStr, k: key, m: method }); if(his.length > 15) his.pop(); localStorage.setItem('klmod_his_user', JSON.stringify(his));
+        }
+
+        const uParams = new URLSearchParams(window.location.search);
+        if (uParams.get('key')) {
+            let keyNhan = uParams.get('key'); let txtMethod = (uParams.get('m') === 'admin') ? "Dùng Quyền Admin" : "Vượt Link 2 Lớp";
+            if(!sessionStorage.getItem(`save_${keyNhan}`)) { luuLichSuCaNhan(keyNhan, txtMethod); if(isAdmin) { congSoLieuAdmin('klmod_ad_suc'); luuThongKeAdmin(txtMethod, keyNhan); } sessionStorage.setItem(`save_${keyNhan}`, "true"); }
+            document.getElementById('view-home').style.display = 'none'; document.getElementById('user-section').style.display = 'none'; document.getElementById('view-key').style.display = 'block';
+            document.getElementById('key-text-value').innerText = keyNhan;
+            const tDate = new Date(NGAY_BAT_DAU); tDate.setDate(tDate.getDate() + soNgayDaQua); const nDate = new Date(tDate); nDate.setDate(nDate.getDate() + 1);
+            let fD = (d) => String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
+            document.getElementById('time-validity').innerText = `00:00 ${fD(tDate)} -> 00:00 ${fD(nDate)}`;
+            document.getElementById('time-clock').innerText = formatFullTime(NOW);
+        }
+
+        function doiCodeSuKien() {
+            let val = document.getElementById('nhap-code').value.trim().toUpperCase();
+            if(val === "") { showAlert("Vui lòng nhập mã Code!"); return; }
+            let timThay = KHO_CODE_SU_KIEN.find(k => k.code === val);
+            if(!timThay) { showAlert("❌ MÃ KHÔNG HỢP LỆ HOẶC ĐÃ HẾT HẠN"); return; }
+            let luotDung = parseInt(localStorage.getItem(`klmod_cd_${val}`)) || 0;
+            if(luotDung >= timThay.luot) { showAlert("❌ MÃ KHÔNG HỢP LỆ HOẶC ĐÃ HẾT HẠN"); return; }
+            localStorage.setItem(`klmod_cd_${val}`, luotDung + 1); luuLichSuCaNhan(timThay.phanthuong, "Nhập Code Đổi Quà"); inLichSuKhach();
+            document.getElementById('nhap-code').value = ""; showAlert(`🎉 CHÚC MỪNG!\nĐã kết nối thành công: [${timThay.phanthuong}]`);
+        }
+
+        function copyKey(btn) { navigator.clipboard.writeText(uParams.get('key')).then(() => { btn.innerText = "✅ ĐÃ LƯU MÃ CHUẨN XÁC!"; btn.style.background = "#10b981"; btn.style.color = "#fff"; setTimeout(() => { btn.innerText = "📋 COPY MÃ KEY"; btn.style.background = "#fff"; btn.style.color = "#000"; }, 2000); }); }
+
+        updateUI(); 
+    </script>
+</body>
+</html>
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             margin-bottom: 15px;
