@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khủng Long ModGame - Nhận Key VIP</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #121212; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
+        .header { text-align: center; margin-bottom: 40px; margin-top: 20px; }
+        .header h1 { color: #00ff88; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
+        
+        .card { background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 30px; width: 100%; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card h2 { color: #ffcc00; margin-bottom: 15px; }
+        .status { margin-bottom: 20px; font-size: 14px; color: #aaa; }
+        .status span { color: #00ff88; font-weight: bold; }
+        
+        .btn-get { background: transparent; border: 2px solid #00ff88; color: #00ff88; font-size: 18px; font-weight: bold; padding: 15px 30px; border-radius: 8px; cursor: pointer; transition: 0.3s; width: 100%; text-transform: uppercase; }
+        .btn-get:hover { background: #00ff88; color: #121212; box-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
+        .btn-get:disabled { border-color: #555; color: #555; cursor: not-allowed; box-shadow: none; background: transparent; }
+        
+        #result-box { display: none; margin-top: 20px; padding: 15px; background: #2a2a2a; border-radius: 8px; border-left: 4px solid #00ff88; }
+        #result-box a { color: #00ff88; text-decoration: none; font-weight: bold; word-break: break-all; }
+        
+        .vip-board { margin-top: 40px; width: 100%; max-width: 500px; background: #1a1a1a; border: 1px solid #444; border-radius: 12px; padding: 20px; }
+        .vip-board h3 { text-align: center; color: #ff4d4d; margin-bottom: 15px; }
+        .vip-board ul { list-style: none; color: #ccc; line-height: 1.8; font-size: 14px; }
+        .vip-board li::before { content: '👑'; margin-right: 8px; }
+        
+        .footer { margin-top: auto; padding-top: 30px; font-size: 13px; color: #666; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🦖 KHỦNG LONG MODGAME</h1>
+        <p>Hệ Thống Phân Phối Dịch Vụ Game & Cloud Phone</p>
+    </div>
+
+    <div class="card">
+        <h2>🎁 NHẬN KEY LIÊN QUÂN (ADR)</h2>
+        <div class="status">
+            <p>Trạng thái: <span>🟢 Đang hoạt động</span></p>
+            <p>Hôm nay bạn còn: <span>1/5 lượt</span></p>
+        </div>
+        
+        <button id="btn-generate" class="btn-get" onclick="generateLink()">🚀 Bấm Để Lấy Link Key</button>
+
+        <div id="result-box">
+            <p style="font-size: 13px; color: #aaa; margin-bottom: 5px;">Link vượt lấy key của bạn đây:</p>
+            <a id="short-link" href="#" target="_blank">Đang tạo link...</a>
+            <p style="font-size: 12px; color: #ffcc00; margin-top: 10px;">⚠️ Hoàn thành nhiệm vụ web để thấy Key!</p>
+        </div>
+    </div>
+
+    <div class="vip-board">
+        <h3>BẢNG GIÁ DỊCH VỤ VIP</h3>
+        <ul>
+            <li>Hack Play Together: Từ 15.000đ/ngày</li>
+            <li>Cloud Phone Genplay: Từ 30.000đ/ngày</li>
+            <li>Redfinger [VIP/XVIP/SVIP]: Từ 40.000đ/7 ngày</li>
+        </ul>
+        <p style="text-align: center; margin-top: 15px; color: #fff; font-weight: bold;">
+            Mua VIP inbox Admin Telegram: <span style="color: #00ff88;">@khunglongmodgame</span>
+        </p>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 Khủng Long ModGame. All rights reserved.</p>
+        <p>Thanh toán: Thẻ cào & Chuyển khoản Ngân hàng (Liên hệ Admin)</p>
+    </div>
+
+    <script>
+        // Cấu hình API của bạn ở đây
+        const API_TOKEN = "688d0212c6e84d0e055ba168"; // Token Link4m của bạn
+        
+        // Link gốc chứa KEY thực sự (Có thể là link file txt chứa key, hoặc link nhóm Telegram của bạn)
+        const DESTINATION_URL = "https://t.me/khunglongmodgame"; 
+
+        function generateLink() {
+            const btn = document.getElementById('btn-generate');
+            const resultBox = document.getElementById('result-box');
+            const linkElement = document.getElementById('short-link');
+
+            // Đổi trạng thái nút bấm
+            btn.innerText = "⏳ Đang kết nối máy chủ...";
+            btn.disabled = true;
+
+            // Link gọi API của Link4m
+            const apiCall = `https://link4m.com/api-shorten/v2?api=${API_TOKEN}&url=${encodeURIComponent(DESTINATION_URL)}`;
+
+            // Gửi yêu cầu lên server Link4m
+            fetch(apiCall)
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === "success" || data.shortenedUrl) {
+                        // Hiện kết quả
+                        resultBox.style.display = "block";
+                        linkElement.href = data.shortenedUrl;
+                        linkElement.innerText = data.shortenedUrl;
+                        btn.innerText = "✅ Đã tạo link thành công!";
+                    } else {
+                        alert("Lỗi tạo link, vui lòng thử lại!");
+                        btn.innerText = "🚀 Bấm Để Lấy Link Key";
+                        btn.disabled = false;
+                    }
+                })
+                .catch(error => {
+                    console.error("Lỗi:", error);
+                    alert("Không thể kết nối đến Link4m. Có thể do lỗi CORS bảo mật trình duyệt, cần đưa lên Hosting để chạy.");
+                    btn.innerText = "🚀 Bấm Để Lấy Link Key";
+                    btn.disabled = false;
+                });
+        }
+    </script>
+</body>
+</html>
