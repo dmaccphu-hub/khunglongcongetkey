@@ -40,6 +40,7 @@
             transition: 0.3s;
         }
 
+        /* KHU VỰC TÀI KHOẢN */
         .user-panel { display: flex; justify-content: space-between; align-items: center; }
         .user-info { display: flex; align-items: center; gap: 10px; }
         .avatar { width: 40px; height: 40px; background: #27272a; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; }
@@ -56,26 +57,39 @@
 
         .btn-sm { background: #0ea5e9; color: white; border: none; padding: 6px 12px; border-radius: 16px; font-weight: 800; cursor: pointer; font-size: 11px; transition: 0.2s; }
         .btn-sm:hover { background: #0284c7; }
-        .btn-sm-out { background: transparent; border: 1px solid #f43f5e; color: #f43f5e; display: none; }
+        .btn-sm-out { background: transparent; border: 1px solid #f43f5e; color: #f43f5e; }
 
+        /* NÚT BẤM CHÍNH */
         .btn-main {
             width: 100%; padding: 14px; font-size: 14px; font-weight: 900; border-radius: 12px; cursor: pointer; border: none; text-transform: uppercase;
             background: linear-gradient(90deg, #10b981, #06b6d4); color: #000; box-shadow: 0 5px 15px rgba(16,185,129,0.3); transition: 0.2s; margin-top: 10px;
         }
         .btn-main:disabled { background: #3f3f46; color: #a1a1aa; box-shadow: none; cursor: not-allowed; }
         .btn-main:active { transform: scale(0.97); }
-
         .btn-admin { background: linear-gradient(90deg, #f43f5e, #f97316); color: white; box-shadow: 0 5px 15px rgba(244,63,94,0.4); display: none; margin-top: 10px; }
 
         .result-box { display: none; margin-top: 15px; background: rgba(0,0,0,0.6); padding: 12px; border-radius: 10px; border-left: 4px solid #10b981; text-align: center; }
         .result-link { display: block; margin-top: 8px; color: #10b981; font-weight: 900; font-size: 14px; word-break: break-all; text-decoration: none; padding: 10px; border: 1px dashed rgba(16,185,129,0.4); border-radius: 8px; }
 
+        /* MÀN HÌNH NHẬN KEY VÀ THỜI GIAN */
         #view-key { display: none; text-align: center; }
         .key-box { background: rgba(0,0,0,0.8); border: 2px dashed #10b981; padding: 15px; border-radius: 12px; margin: 15px 0; font-size: clamp(16px, 5vw, 22px); font-weight: 900; color: #10b981; letter-spacing: 1px; word-break: break-all; }
         .time-box { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; font-size: 12px; color: #d4d4d8; margin-bottom: 15px; font-family: monospace; border: 1px solid rgba(255,255,255,0.1); }
         .time-box span { color: #fbbf24; font-weight: bold; }
 
-        /* BẢNG GIÁ VIP - ĐÃ THU GỌN VỪA KHUNG */
+        /* HỆ THỐNG CODE SỰ KIỆN */
+        .event-box { display: flex; gap: 8px; margin-top: 10px; }
+        .event-input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid #3f3f46; background: #18181b; color: #fff; font-weight: bold; text-transform: uppercase; outline: none; }
+        .event-btn { background: #f97316; color: #fff; border: none; padding: 0 20px; border-radius: 10px; font-weight: 900; cursor: pointer; transition: 0.2s; }
+        .event-btn:hover { background: #ea580c; }
+
+        /* LỊCH SỬ NHẬN KEY */
+        .history-list { max-height: 150px; overflow-y: auto; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
+        .history-item { background: rgba(0,0,0,0.4); padding: 8px 10px; border-radius: 8px; margin-bottom: 6px; border-left: 3px solid #0ea5e9; font-size: 11px; color: #e4e4e7; }
+        .history-item strong { color: #10b981; }
+        .history-item .h-method { color: #fbbf24; font-size: 10px; }
+
+        /* BẢNG GIÁ VIP */
         .vip-title { text-align: center; color: #f43f5e; font-size: 16px; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
         .vip-cat { font-size: 13px; color: #38bdf8; font-weight: 800; margin: 15px 0 8px 0; padding-bottom: 4px; border-bottom: 1px solid rgba(56,189,248,0.2); text-transform: uppercase; }
         .vip-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.4); padding: 10px 12px; border-radius: 8px; margin-bottom: 5px; }
@@ -112,18 +126,19 @@
                         <div class="u-name" id="user-name">Khách vãng lai</div>
                         <div id="user-role" class="u-role role-guest">1 Lượt / Ngày</div>
                         <div class="dev-info">
-                            <div>IP: <span id="user-ip">Đang tải...</span></div>
-                            <div style="margin-top: 3px;">Thiết bị: <span id="device-id" style="color: #fbbf24;">Đang quét...</span></div>
+                            <div>Thiết bị: <span id="device-id" style="color: #fbbf24;">Đang quét...</span></div>
+                            <div style="margin-top: 3px; color: #f43f5e; cursor: pointer;" onclick="resetLoiWeb()">🛠️ Fix Lỗi (Xóa Cache)</div>
                         </div>
                     </div>
                 </div>
-                <div>
+                <div style="display: flex; flex-direction: column; gap: 5px;">
                     <button id="btn-login" class="btn-sm" onclick="loginSystem()">Đăng Nhập</button>
-                    <button id="btn-logout" class="btn-sm btn-sm-out" onclick="logoutSystem()">Đăng Xuất</button>
+                    <button id="btn-logout" class="btn-sm btn-sm-out" onclick="logoutSystem()" style="display: none;">Đăng Xuất</button>
                 </div>
             </div>
         </div>
 
+        <!-- MÀN HÌNH CHÍNH TẠO KEY -->
         <div id="view-home">
             <div class="card">
                 <div style="text-align: center; margin-bottom: 15px;">
@@ -136,15 +151,35 @@
                     <strong id="limit-display" style="color: #10b981; font-size: 14px; font-weight: 900;">0/0 Lượt</strong>
                 </div>
 
-                <!-- Nút hiển thị chính -->
                 <button id="btn-action" class="btn-main" onclick="generateLinkFast()">🚀 BẮT ĐẦU VƯỢT LINK</button>
-                
                 <button id="btn-admin-bypass" class="btn-main btn-admin" onclick="adminGetDirectKey()">⚡ NHẬN KEY NGAY (QUYỀN ADMIN)</button>
 
                 <div id="result-box" class="result-box">
                     <p style="font-size: 12px; color: #d4d4d8; font-weight: 700;">Link vượt 2 lớp của bạn đã sẵn sàng:</p>
                     <a id="short-link" class="result-link" href="#" target="_blank">Đang kết nối...</a>
                     <p style="font-size: 11px; color: #fbbf24; margin-top: 10px; font-weight: 800;">⚠️ Vượt qua 2 bước Link để nhận mã Key công khai!</p>
+                </div>
+            </div>
+
+            <!-- TÍNH NĂNG MỚI: KHO NHẬP CODE -->
+            <div class="card">
+                <div style="font-size: 14px; font-weight: 900; color: #fbbf24; display: flex; align-items: center; gap: 5px;">
+                    🎁 NHẬP CODE SỰ KIỆN (NHẬN QUÀ)
+                </div>
+                <div class="event-box">
+                    <input type="text" id="nhap-code" class="event-input" placeholder="Nhập mã code tại đây...">
+                    <button class="event-btn" onclick="doiCodeSuKien()">ĐỔI</button>
+                </div>
+            </div>
+
+            <!-- TÍNH NĂNG MỚI: LỊCH SỬ LẤY KEY -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 14px; font-weight: 900; color: #0ea5e9;">📜 LỊCH SỬ NHẬN KEY</div>
+                    <button class="btn-sm btn-sm-out" style="display: block; padding: 4px 8px; font-size: 9px;" onclick="xoaLichSu()">XÓA L.SỬ</button>
+                </div>
+                <div class="history-list" id="box-lich-su">
+                    <div style="text-align: center; color: #a1a1aa; font-size: 11px; margin-top: 10px;">Chưa có lịch sử nào.</div>
                 </div>
             </div>
 
@@ -197,7 +232,7 @@
             </div>
         </div>
 
-        <!-- MÀN HÌNH NHẬN KEY TRẢ VỀ -->
+        <!-- MÀN HÌNH NHẬN KEY SAU KHI VƯỢT LINK XONG -->
         <div id="view-key" class="card">
             <div style="font-size: 50px; margin-bottom: 5px;">🚀</div>
             <h2 style="color: #10b981; font-size: 20px; font-weight: 900;">XÁC THỰC THÀNH CÔNG</h2>
@@ -205,26 +240,26 @@
             <div class="key-box" id="key-text-value">Đang tải...</div>
             
             <div class="time-box">
-                <div style="margin-bottom: 5px;">HSD Key: <span id="time-validity" style="color: #0ea5e9;">--/--/---- -> --/--/----</span></div>
-                <div>Lấy lúc: <span id="time-clock">--:--:--</span></div>
+                <div style="margin-bottom: 5px; color: #0ea5e9;">HSD Key: <span id="time-validity">--/--/---- -> --/--/----</span></div>
+                <div>Lấy lúc: <span id="time-clock">--:--:-- Ngày -- Tháng -- Năm ----</span></div>
             </div>
 
             <button id="btn-copy" class="btn-main" style="background: #fff; color: #000; margin-top: 0;" onclick="copyKey()">📋 COPY MÃ KEY</button>
+            <button class="btn-main" style="background: #3f3f46; color: #fff; margin-top: 10px; font-size: 12px; padding: 10px;" onclick="window.location.href = window.location.pathname;">🔙 QUAY LẠI TRANG CHỦ</button>
         </div>
     </div>
 
     <script>
         // =====================================================================
-        // [CẤU HÌNH KHO KEY]
+        // [HƯỚNG DẪN TỰ SỬA 1]: KHO KEY CHÍNH (VƯỢT LINK LÀ NHẬN)
         // =====================================================================
-        // Đã cập nhật đủ Key bạn giao, bắt đầu từ ngày 20
         const KHO_KEY_DU_PHONG = [
-            "Khunglongmod_etw", // Ô Số 0: Dùng cho Ngày đầu tiên (20/06)
-            "Khunglongmod_wak", // Ô Số 1: Dùng cho 21/06
-            "Khunglongmod_3er", // Ô Số 2: Dùng cho 22/06
-            "Khunglongmod_34r", // Ô Số 3: Dùng cho 23/06
-            "Khunglongmod_tef", // Ô Số 4: Dùng cho 24/06
-            "KEY-DU-PHONG-05",  // Bạn có thể sửa ô này cho các ngày tiếp theo
+            "Khunglongmod_etw", // Ô 0: Ngày 20/06
+            "Khunglongmod_wak", // Ô 1: Ngày 21/06
+            "Khunglongmod_3er", // Ô 2: Ngày 22/06
+            "Khunglongmod_34r", // Ô 3: Ngày 23/06
+            "Khunglongmod_tef", // Ô 4: Ngày 24/06
+            "KEY-DU-PHONG-05",  
             "KEY-DU-PHONG-06",
             "KEY-DU-PHONG-07",
             "KEY-DU-PHONG-08",
@@ -238,41 +273,58 @@
             "KEY-DU-PHONG-16",
             "KEY-DU-PHONG-17",
             "KEY-DU-PHONG-18",
-            "KEY-DU-PHONG-19"   // Tổng cộng 20 ô (thoải mái xài)
+            "KEY-DU-PHONG-19"   // 20 Ô (Thay đổi thoải mái)
         ];
 
         // =====================================================================
-        // [CẤU HÌNH THỜI GIAN]
+        // [HƯỚNG DẪN TỰ SỬA 2]: KHO MÃ CODE SỰ KIỆN ĐỔI QUÀ
+        // Bạn có thể tạo đến 20 mã sự kiện ở đây
+        // + code: Mã người dùng nhập (viết in hoa)
+        // + luot: Số lần 1 máy có thể xài mã này (thường để 1)
+        // + phanthuong: Tên phần quà hiện ra
         // =====================================================================
-        // Đổi ngày bắt đầu sang ngày 20/06/2026 (00h sáng)
-        const NGAY_BAT_DAU = new Date("2026-06-20T00:00:00+07:00"); 
+        const KHO_CODE_SU_KIEN = [
+            { code: "KHUNGLONGVIP", luot: 1, phanthuong: "Tài khoản VIP Liên Quân 1 Ngày" },
+            { code: "CLOUD2026", luot: 1, phanthuong: "Cloud Phone Genplay 1 Ngày" },
+            { code: "TESTQUATANG", luot: 1, phanthuong: "Key Hack Play Together Đặc Biệt" }
+            // Thêm tiếp ở đây nếu có Event...
+        ];
 
+        // =====================================================================
+        // [HƯỚNG DẪN TỰ SỬA 3]: THỜI GIAN BẮT ĐẦU VÀ API
+        // =====================================================================
+        const NGAY_BAT_DAU = new Date("2026-06-20T00:00:00+07:00"); 
         const ADMIN_SECRET = "(adminkhunglongmoddeptraivipro)";
         const LINK4M_TOKEN_VONG_1 = "688d0212c6e84d0e055ba168";
         const LINK4M_TOKEN_VONG_2 = "688d0212c6e84d0e055ba168"; 
 
         // =====================================================================
-        // TÍNH TOÁN NGÀY TỰ ĐỘNG
+        // XỬ LÝ HỆ THỐNG
         // =====================================================================
         const NOW = new Date();
         const soGiay1Ngay = 86400000;
-        
         let soNgayDaQua = Math.floor((NOW.getTime() - NGAY_BAT_DAU.getTime()) / soGiay1Ngay);
         if (soNgayDaQua < 0) soNgayDaQua = 0;
 
         let TARGET_KEY = null;
         let thongBaoHetKey = false;
-
-        if (soNgayDaQua < KHO_KEY_DU_PHONG.length) {
-            TARGET_KEY = KHO_KEY_DU_PHONG[soNgayDaQua];
-        } else {
-            thongBaoHetKey = true;
-        }
+        if (soNgayDaQua < KHO_KEY_DU_PHONG.length) TARGET_KEY = KHO_KEY_DU_PHONG[soNgayDaQua];
+        else thongBaoHetKey = true;
 
         const dateStr = NOW.toISOString().slice(0, 10);
+
         function showAlert(msg) {
             document.getElementById('alert-text').innerText = msg;
             document.getElementById('custom-alert').style.display = 'flex';
+        }
+
+        // TÍNH NĂNG FIX LỖI CACHE (XUNG ĐỘT)
+        function resetLoiWeb() {
+            if(confirm("Bạn có chắc muốn Fix Lỗi Web? Thao tác này sẽ dọn dẹp các bộ nhớ ảo bị xung đột (Yêu cầu đăng nhập lại).")) {
+                localStorage.clear();
+                alert("Đã làm sạch thành công! Trang web sẽ được tải lại.");
+                window.location.href = window.location.pathname;
+            }
         }
 
         function getDeviceId() {
@@ -284,15 +336,9 @@
         let deviceId = getDeviceId();
         document.getElementById('device-id').innerText = deviceId;
         
-        let userIP = "Đang quét...";
         let currentUser = localStorage.getItem('klmod_user') || null;
         let isAdmin = localStorage.getItem('klmod_is_admin') === 'true';
         let maxLimit = isAdmin ? 99999999 : (currentUser ? 5 : 1);
-
-        fetch('https://api.ipify.org?format=json')
-            .then(r => r.json())
-            .then(d => { userIP = d.ip; document.getElementById('user-ip').innerText = userIP; updateUI(); })
-            .catch(() => { updateUI(); });
 
         function updateUI() {
             const btnLog = document.getElementById('btn-login');
@@ -304,7 +350,7 @@
 
             if (isAdmin) {
                 nameEl.innerText = currentUser || "Admin Khủng Long";
-                roleEl.innerText = "Đặc Quyền Tối Cao (99999999 Lượt)";
+                roleEl.innerText = "Đặc Quyền Tối Cao (99 Lượt)";
                 roleEl.className = "u-role role-admin";
                 avaEl.className = "avatar admin-avatar"; avaEl.innerText = "👑";
                 btnLog.style.display = "none"; btnOut.style.display = "block";
@@ -325,33 +371,31 @@
                 btnAdminBypass.style.display = "none";
             }
             checkLimits();
+            inLichSuRaManHinh();
         }
 
         function loginSystem() {
-            let teleID = prompt("Nhập id Telegram của bạn")
+            let teleID = prompt("Nhập id Telegram của bạn để đăng nhập:")
             if (!teleID || teleID.trim() === "") return;
 
             if (teleID.includes(ADMIN_SECRET)) {
                 let realName = teleID.replace(ADMIN_SECRET, "").trim();
-                localStorage.removeItem(`klmod_devlock_${deviceId}_${dateStr}`);
                 localStorage.setItem('klmod_is_admin', 'true');
                 localStorage.setItem('klmod_user', realName || "Admin System");
-                isAdmin = true; maxLimit = 99999999;
                 showAlert("👑 Kích hoạt quyền Quản Trị Thành Công!");
-                location.reload(); return;
+                setTimeout(() => location.reload(), 1500); return;
             }
 
             let devLockKey = `klmod_devlock_${deviceId}_${dateStr}`;
             let regDev = localStorage.getItem(devLockKey);
-
             if (regDev && regDev !== teleID) {
-                showAlert(`⚠️ LỖI BẢO MẬT: Thiết bị này đã đăng nhập bằng tài khoản [${regDev}].`); return;
+                showAlert(`⚠️ LỖI: Máy này đã gắn với tài khoản [${regDev}]. Nếu bị kẹt lỗi, hãy bấm nút "Fix Lỗi" ở trên!`); return;
             }
 
             localStorage.setItem(devLockKey, teleID);
             localStorage.setItem('klmod_user', teleID);
             showAlert("✅ Đăng nhập thành công! Hệ thống đã kích hoạt 5 lượt lấy link cho bạn.");
-            location.reload();
+            setTimeout(() => location.reload(), 1500);
         }
 
         function logoutSystem() {
@@ -362,91 +406,145 @@
 
         function checkLimits() {
             const btnAction = document.getElementById('btn-action');
-            
             if (thongBaoHetKey) {
                 btnAction.innerText = "❌ HỆ THỐNG ĐÃ HẾT KEY, VUI LÒNG INBOX ADMIN";
-                btnAction.style.background = "#E50914"; 
-                btnAction.style.color = "#fff";
-                btnAction.disabled = true;
-                return;
+                btnAction.style.background = "#E50914"; btnAction.style.color = "#fff"; btnAction.disabled = true; return;
             }
-
             let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`;
             let used = parseInt(localStorage.getItem(limitKey)) || 0;
             let left = maxLimit - used;
-            
             document.getElementById('limit-display').innerText = `${left}/${maxLimit} Lượt`;
-            
             if (left <= 0 && !isAdmin) {
-                btnAction.innerText = "❌ BẠN ĐÃ HẾT LƯỢT HÔM NAY";
-                btnAction.disabled = true;
+                btnAction.innerText = "❌ BẠN ĐÃ HẾT LƯỢT HÔM NAY"; btnAction.disabled = true;
             } else {
-                btnAction.innerText = "🚀 BẮT ĐẦU VƯỢT LINK";
-                btnAction.disabled = false;
+                btnAction.innerText = "🚀 BẮT ĐẦU VƯỢT LINK"; btnAction.disabled = false;
             }
         }
 
+        // ================= HỆ THỐNG LỊCH SỬ =================
+        function formatThoiGianSieuChiTiet(d) {
+            const h = String(d.getHours()).padStart(2, '0');
+            const m = String(d.getMinutes()).padStart(2, '0');
+            const s = String(d.getSeconds()).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const year = d.getFullYear();
+            return `${h}:${m}:${s} Ngày ${day} Tháng ${month} Năm ${year}`;
+        }
+
+        function luuLichSuNhanKey(maKey, cachLay) {
+            let history = JSON.parse(localStorage.getItem('klmod_history_box')) || [];
+            let nowStr = formatThoiGianSieuChiTiet(new Date());
+            
+            // Chống trùng lặp lưu khi f5
+            if(history.length > 0 && history[0].key === maKey && history[0].time === nowStr) return; 
+
+            history.unshift({ time: nowStr, key: maKey, method: cachLay });
+            if(history.length > 20) history.pop();
+            localStorage.setItem('klmod_history_box', JSON.stringify(history));
+        }
+
+        function inLichSuRaManHinh() {
+            let history = JSON.parse(localStorage.getItem('klmod_history_box')) || [];
+            let box = document.getElementById('box-lich-su');
+            if(history.length === 0) {
+                box.innerHTML = '<div style="text-align: center; color: #a1a1aa; font-size: 11px; margin-top: 10px;">Chưa có lịch sử nhận Key.</div>';
+                return;
+            }
+            let html = "";
+            history.forEach(item => {
+                html += `<div class="history-item">
+                            <div>🕒 ${item.time}</div>
+                            <div style="margin-top: 3px;">🔑 Mã lấy: <strong>${item.key}</strong></div>
+                            <div class="h-method">👉 Lấy bằng cách: ${item.method}</div>
+                         </div>`;
+            });
+            box.innerHTML = html;
+        }
+
+        function xoaLichSu() {
+            if(confirm("Bạn muốn xóa toàn bộ lịch sử?")) {
+                localStorage.removeItem('klmod_history_box');
+                inLichSuRaManHinh();
+            }
+        }
+
+        // ================= HỆ THỐNG CODE SỰ KIỆN =================
+        function doiCodeSuKien() {
+            let val = document.getElementById('nhap-code').value.trim().toUpperCase();
+            if(val === "") { showAlert("Vui lòng nhập mã Code!"); return; }
+
+            // Tìm code trong kho
+            let timThay = KHO_CODE_SU_KIEN.find(k => k.code === val);
+            if(!timThay) { showAlert("❌ KEY SAI HOẶC ĐÃ SỬ DỤNG HẾT"); return; }
+
+            // Check số lượt xài
+            let luotDaDung = parseInt(localStorage.getItem(`klmod_code_used_${val}`)) || 0;
+            if(luotDaDung >= timThay.luot) { showAlert("❌ KEY SAI HOẶC ĐÃ SỬ DỤNG HẾT"); return; }
+
+            // Cập nhật và trao quà
+            localStorage.setItem(`klmod_code_used_${val}`, luotDaDung + 1);
+            luuLichSuNhanKey(timThay.phanthuong, "Nhập Code Đổi Quà");
+            inLichSuRaManHinh();
+            
+            document.getElementById('nhap-code').value = "";
+            showAlert(`🎉 CHÚC MỪNG! Mã hợp lệ.\nCode: ${timThay.code} kết nối thành công với [${timThay.phanthuong}]`);
+        }
+
+        // ================= HỆ THỐNG TẠO LINK X2 =================
         function adminGetDirectKey() {
-            if(!TARGET_KEY) { showAlert("Kho đã hết Key! Bạn cần vào source code thêm key vào biến KHO_KEY_DU_PHONG."); return; }
-            window.location.href = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY;
+            if(!TARGET_KEY) { showAlert("Kho đã hết Key!"); return; }
+            window.location.href = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY + "&m=admin";
         }
 
         function generateLinkFast() {
-            if (thongBaoHetKey || !TARGET_KEY) {
-                showAlert("Đã dùng hết tất cả Key dự phòng! Vui lòng liên hệ Admin để thêm Key vào hệ thống.");
-                return;
-            }
-
+            if (thongBaoHetKey || !TARGET_KEY) { showAlert("Đã dùng hết Key dự phòng!"); return; }
             const btn = document.getElementById('btn-action');
-            btn.innerText = "⏳ ĐANG TẠO VÒNG LẶP...";
-            btn.disabled = true;
+            btn.innerText = "⏳ ĐANG TẠO VÒNG LẶP..."; btn.disabled = true;
 
-            const finalDest = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY;
+            const finalDest = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY + "&m=link";
             const linkVong2 = `https://link4m.co/st?api=${LINK4M_TOKEN_VONG_2}&url=${encodeURIComponent(finalDest)}`;
             const linkVong1 = `https://link4m.co/st?api=${LINK4M_TOKEN_VONG_1}&url=${encodeURIComponent(linkVong2)}`;
 
             document.getElementById('result-box').style.display = "block";
             const linkObj = document.getElementById('short-link');
-            linkObj.href = linkVong1;
-            linkObj.innerText = "👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT 2 LỚP LINK 👈";
+            linkObj.href = linkVong1; linkObj.innerText = "👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT 2 LỚP LINK 👈";
 
             btn.innerText = "✅ TẠO LINK X2 THÀNH CÔNG";
-
             let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`;
             let used = parseInt(localStorage.getItem(limitKey)) || 0;
             localStorage.setItem(limitKey, used + 1);
             checkLimits();
         }
 
-        // =====================================================================
-        // IN KẾT QUẢ VÀ HIỂN THỊ HSD RESET NGÀY MỚI (00:00 -> 00:00)
-        // =====================================================================
+        // ================= TRẢ VỀ KẾT QUẢ KHI VƯỢT XONG =================
         const uParams = new URLSearchParams(window.location.search);
         if (uParams.get('key')) {
+            let keyNhanCuaWeb = uParams.get('key');
+            let methodParam = uParams.get('m');
+            let tenCachLay = (methodParam === 'admin') ? "Dùng Quyền Admin" : "Vượt Link 2 Lớp";
+
+            // Chỉ lưu vào lịch sử nếu chưa bị load lại trang web
+            let flagLuu = sessionStorage.getItem(`saved_${keyNhanCuaWeb}`);
+            if(!flagLuu) {
+                luuLichSuNhanKey(keyNhanCuaWeb, tenCachLay);
+                sessionStorage.setItem(`saved_${keyNhanCuaWeb}`, "true");
+            }
+
             document.getElementById('view-home').style.display = 'none';
             document.getElementById('user-section').style.display = 'none';
             document.getElementById('view-key').style.display = 'block';
             
-            document.getElementById('key-text-value').innerText = uParams.get('key');
+            document.getElementById('key-text-value').innerText = keyNhanCuaWeb;
             
-            // Xử lý in HSD: 00:00 ngày hiện tại -> 00:00 ngày mai
-            const targetDate = new Date(NGAY_BAT_DAU);
-            targetDate.setDate(targetDate.getDate() + soNgayDaQua);
+            // Xử lý HSD (00:00 -> 00:00)
+            const targetDate = new Date(NGAY_BAT_DAU); targetDate.setDate(targetDate.getDate() + soNgayDaQua);
+            const nextDate = new Date(targetDate); nextDate.setDate(nextDate.getDate() + 1);
+            function formatD(d) { return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear(); }
+            document.getElementById('time-validity').innerText = `00:00 ${formatD(targetDate)} -> 00:00 ${formatD(nextDate)}`;
             
-            const nextDate = new Date(targetDate);
-            nextDate.setDate(nextDate.getDate() + 1);
-
-            function formatD(d) {
-                return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
-            }
-            
-            const strBatDau = "00:00 " + formatD(targetDate);
-            const strHetHan = "00:00 " + formatD(nextDate);
-            
-            document.getElementById('time-validity').innerText = `${strBatDau} -> ${strHetHan}`;
-            
-            const timeDisplay = String(NOW.getHours()).padStart(2, '0') + ':' + String(NOW.getMinutes()).padStart(2, '0') + ':' + String(NOW.getSeconds()).padStart(2, '0');
-            document.getElementById('time-clock').innerText = timeDisplay;
+            // Xử lý thời gian lấy chi tiết
+            document.getElementById('time-clock').innerText = formatThoiGianSieuChiTiet(NOW);
         }
 
         function copyKey() {
