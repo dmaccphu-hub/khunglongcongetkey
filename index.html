@@ -100,7 +100,7 @@
 
     <div class="container">
         <div class="header">
-            <div class="logo">KL MOD VIP</div>
+            <div class="logo">KHỦNG LONG MOD VIP</div>
             <a href="https://t.me/Khunglongmodgame" target="_blank" style="color: #a1a1aa; font-size: 13px; font-weight: 700; text-decoration: none;">💬 Liên Hệ Admin</a>
         </div>
 
@@ -150,7 +150,7 @@
 
             <!-- BẢNG GIÁ DỊCH VỤ -->
             <div class="card">
-                <div class="vip-title">🔥 BẢNG GIÁ DỊCH VỤ VIP 🔥</div>
+                <div class="vip-title">🔥 BẢNG GIÁ DỊCH VỤ LIÊN QUÂN (CÁC GAME KHÁC IB ADMIN) 🔥</div>
                 <div class="vip-cat">⚔️ 1. HACK LIÊN QUÂN MOBILE (ADR)</div>
                 <div class="vip-row"><span class="v-name">Gói Hack Liên Quân - 1 Ngày</span><span class="v-price">10.000đ</span></div>
                 <div class="vip-row"><span class="v-name">Gói Hack Liên Quân - 7 Ngày</span><span class="v-price">45.000đ</span></div>
@@ -283,13 +283,13 @@
                 btnAdminBypass.style.display = "block";
             } else if (currentUser) {
                 nameEl.innerText = currentUser;
-                roleEl.innerText = "Thành viên VIP (5 Lượt)";
+                roleEl.innerText = "Thành viên VIP (10 Lượt)";
                 roleEl.className = "u-role role-vip";
                 avaEl.className = "avatar vip-avatar"; avaEl.innerText = "🦖";
                 btnLog.style.display = "none"; btnOut.style.display = "block";
                 btnAdminBypass.style.display = "none";
             } else {
-                nameEl.innerText = "Khách Vãng Lai";
+                nameEl.innerText = "Khách";
                 roleEl.innerText = "1 Lượt / Ngày";
                 roleEl.className = "u-role role-guest";
                 avaEl.className = "avatar"; avaEl.innerText = "👤";
@@ -392,7 +392,7 @@
             linkObj.href = linkVong1;
             linkObj.innerText = "👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT 2 LỚP LINK 👈";
 
-            btn.innerText = "✅ TẠO LINK X2 THÀNH CÔNG";
+            btn.innerText = "✅ TẠO LINK VƯỢT 2 LẦN THÀNH CÔNG";
 
             let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`;
             let used = parseInt(localStorage.getItem(limitKey)) || 0;
