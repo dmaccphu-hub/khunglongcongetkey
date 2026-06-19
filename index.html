@@ -215,13 +215,10 @@
     </div>
 
     <script>
-        // ================= CẤU HÌNH API ĐÃ ĐƯỢC FIX LỖI =================
+        // ================= CẤU HÌNH API =================
         const TARGET_KEY = "khunglong7day@ihehd";
         const ADMIN_SECRET = "(adminkhunglongmoddeptraivipro)";
-        
-        // CHÚ Ý: DOMAIN CHUẨN LÀ LINK4M.CO THEO NHƯ TÀI LIỆU CỦA BẠN (KHÔNG PHẢI .COM)
         const LINK4M_TOKEN = "688d0212c6e84d0e055ba168";
-        const LAYMA_TOKEN = "7211a7cf6d1ac54a20dc54184e86c1c3"; 
         
         const dateStr = new Date().toISOString().slice(0, 10);
         
@@ -246,11 +243,13 @@
         let isAdmin = localStorage.getItem('klmod_is_admin') === 'true';
         let maxLimit = isAdmin ? 99999999 : (currentUser ? 5 : 1);
 
-        fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => {
-            userIP = d.ip;
-            document.getElementById('user-ip').innerText = userIP;
-            updateUI();
-        }).catch(() => { updateUI(); });
+        fetch('https://api.ipify.org?format=json')
+            .then(r => r.json())
+            .then(d => {
+                userIP = d.ip;
+                document.getElementById('user-ip').innerText = userIP;
+                updateUI();
+            }).catch(() => { updateUI(); });
 
         // ================= GIAO DIỆN 3 MỐC TÀI KHOẢN =================
         function updateUI() {
@@ -291,12 +290,12 @@
             let teleID = prompt("Nhập Tên Telegram của bạn:\n(Ghi tên là xong để nhận 5 lượt/ngày)\n\nHoặc nhập Cú pháp Admin để mở khóa toàn bộ:");
             if (!teleID || teleID.trim() === "") return;
 
-            // KIỂM TRA MÃ ADMIN (Phá bỏ mọi rào cản IP/Thiết bị)
+            // KIỂM TRA MÃ ADMIN
             if (teleID.includes(ADMIN_SECRET)) {
                 let realName = teleID.replace(ADMIN_SECRET, "").trim();
                 if (realName === "") realName = "Admin System";
                 
-                localStorage.removeItem(`klmod_devlock_${deviceId}_${dateStr}`); // Xóa chặn
+                localStorage.removeItem(`klmod_devlock_${deviceId}_${dateStr}`);
                 
                 localStorage.setItem('klmod_is_admin', 'true');
                 localStorage.setItem('klmod_user', realName);
@@ -308,7 +307,7 @@
                 return;
             }
 
-            // KIỂM TRA BẢO MẬT THIẾT BỊ CHO KHÁCH THƯỜNG
+            // KIỂM TRA BẢO MẬT THIẾT BỊ
             let devLockKey = `klmod_devlock_${deviceId}_${dateStr}`;
             let regDev = localStorage.getItem(devLockKey);
 
@@ -356,72 +355,31 @@
         }
 
         // ========================================================
-        // TẠO LINK SIÊU NHANH: KẾT HỢP LINK4M.CO VÀ LAYMA.NET
+        // TẠO LINK SIÊU NHANH: SỬ DỤNG LINK TRỰC TIẾP (BỎ FETCH ĐỂ TRÁNH CORS)
         // ========================================================
-        async function fetchAPI(url) {
-            // Bộ Proxy xịn nhất hiện nay
-            const proxies = [
-                (u) => `https://api.allorigins.win/get?url=${encodeURIComponent(u)}`,
-                (u) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
-            ];
-            
-            // Gọi thử trực tiếp trước
-            try { let r = await fetch(url); let d = await r.json(); if(d.status==="success"||d.success) return d; } catch(e) {}
-            
-            // Nếu chặn thì dùng Proxy
-            for(let p of proxies) {
-                try {
-                    let r = await fetch(p(url));
-                    let d = await r.json();
-                    let content = d.contents ? JSON.parse(d.contents) : d;
-                    if(content.status === "success" || content.success || content.shortenedUrl) return content;
-                } catch(e) { console.log("Chuyển cổng proxy..."); }
-            }
-            return null;
-        }
-
-        async function generateLinkFast() {
+        function generateLinkFast() {
             const btn = document.getElementById('btn-action');
-            btn.innerText = "⏳ ĐANG KẾT NỐI MÁY CHỦ...";
+            btn.innerText = "⏳ ĐANG KHỞI TẠO...";
             btn.disabled = true;
 
             const destinationWeb = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY;
-            let finalShortUrl = null;
+            
+            // Xây dựng link chuyển hướng chuẩn của Link4m (Tránh lỗi CORS/Cloudflare)
+            const finalShortUrl = `https://link4m.co/st?api=${LINK4M_TOKEN}&url=${encodeURIComponent(destinationWeb)}`;
 
-            // 1. Dùng Link4m.co (Domain chuẩn từ hình ảnh API)
-            const l4mAPI = `https://link4m.co/api-shorten/v2?api=${LINK4M_TOKEN}&url=${encodeURIComponent(destinationWeb)}`;
-            let resL4m = await fetchAPI(l4mAPI);
-            if (resL4m && (resL4m.status === "success" || resL4m.shortenedUrl)) {
-                finalShortUrl = resL4m.shortenedUrl;
-            }
+            // Hiển thị khung kết quả và gán link vào
+            document.getElementById('result-box').style.display = "block";
+            const linkObj = document.getElementById('short-link');
+            linkObj.href = finalShortUrl;
+            linkObj.innerText = "NHẤN VÀO ĐÂY ĐỂ ĐẾN TRANG VƯỢT LINK";
 
-            // 2. Nếu Link4m bị sập/chặn, Tự Động nhảy qua Layma
-            if (!finalShortUrl) {
-                const laymaAPI = `https://api.layma.net/api/admin/shortlink/quicklink?tokenUser=${LAYMA_TOKEN}&format=json&url=${encodeURIComponent(destinationWeb)}`;
-                let resLayma = await fetchAPI(laymaAPI);
-                if (resLayma && resLayma.success) {
-                    finalShortUrl = resLayma.html || resLayma.shortenedUrl;
-                }
-            }
+            btn.innerText = "✅ TẠO LINK THÀNH CÔNG";
 
-            // XUẤT KẾT QUẢ
-            if (finalShortUrl) {
-                document.getElementById('result-box').style.display = "block";
-                const linkObj = document.getElementById('short-link');
-                linkObj.href = finalShortUrl;
-                linkObj.innerText = finalShortUrl;
-
-                btn.innerText = "✅ TẠO LINK THÀNH CÔNG";
-
-                let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`;
-                let used = parseInt(localStorage.getItem(limitKey)) || 0;
-                localStorage.setItem(limitKey, used + 1);
-                checkLimits();
-            } else {
-                showAlert("Máy chủ rút gọn link đang bận do hệ thống Cloudflare bảo vệ nghiêm ngặt. Vui lòng bấm thử lại!");
-                btn.innerText = "🚀 THỬ TẠO LẠI LINK";
-                btn.disabled = false;
-            }
+            // Trừ lượt sử dụng
+            let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`;
+            let used = parseInt(localStorage.getItem(limitKey)) || 0;
+            localStorage.setItem(limitKey, used + 1);
+            checkLimits();
         }
 
         // ================= MÀN HÌNH NHẬN KEY VÀ THỜI GIAN =================
