@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KHỦNG LONG MOD  | Hệ Thống Tự Động</title>
+    <title>Khủng Long Mod | Premium System</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
@@ -34,7 +34,9 @@
 
         .btn-main { width: 100%; padding: 18px; font-size: 16px; font-weight: 900; border-radius: 12px; cursor: pointer; border: none; text-transform: uppercase; letter-spacing: 1px; background: linear-gradient(90deg, #00ff88, #00bfff); color: #000; box-shadow: 0 5px 20px rgba(0,255,136,0.4); transition: 0.3s; margin-top: 10px; }
         .btn-main:disabled { background: #444; color: #888; box-shadow: none; cursor: not-allowed; }
-        .btn-admin-bypass { background: linear-gradient(90deg, #f12711, #f5af19); color: white; box-shadow: 0 5px 20px rgba(241,39,17,0.4); display: none; margin-top: 15px; }
+        
+        /* Nút ẩn chỉ dành cho Admin */
+        .btn-admin-bypass { background: linear-gradient(90deg, #ff3366, #ff9933); color: white; box-shadow: 0 5px 20px rgba(255,51,102,0.4); display: none; margin-top: 15px; }
 
         .vip-title-main { text-align: center; color: #ff3366; font-size: 22px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
         .vip-category { font-size: 15px; color: #00c6ff; font-weight: 800; text-transform: uppercase; margin: 25px 0 15px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(0,198,255,0.3); padding-bottom: 8px; }
@@ -65,7 +67,7 @@
                     <div>
                         <div class="user-name" id="user-name">Khách vãng lai</div>
                         <div id="user-role" class="user-role role-guest">1 Lượt / Ngày</div>
-                        <div style="font-size: 10px; color: #888; margin-top: 5px;">IP: <span id="user-ip">Đang quét...</span></div>
+                        <div style="font-size: 10px; color: #888; margin-top: 5px;">ID Thiết bị: <span id="device-id">Đang tải...</span></div>
                     </div>
                 </div>
                 <div>
@@ -79,7 +81,7 @@
             <div class="glass-card">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <h2 style="font-size: 20px; font-weight: 900; color: #fff;">🎁 NHẬN KEY LIÊN QUÂN (ADR)</h2>
-                    <p style="font-size: 13px; color: #00ff88; margin-top: 5px; font-weight: bold;">Hệ thống bảo mật 1 Lớp Link4m</p>
+                    <p style="font-size: 13px; color: #00ff88; margin-top: 5px; font-weight: bold;">Hệ thống bảo mật Tự động</p>
                 </div>
                 
                 <div style="background: rgba(0,0,0,0.4); border-radius: 10px; padding: 15px; display: flex; justify-content: space-between; border: 1px solid rgba(255,255,255,0.05);">
@@ -89,7 +91,7 @@
 
                 <button id="btn-action" class="btn-main" onclick="generateLink()">🚀 TIẾN HÀNH TẠO LINK VƯỢT</button>
                 
-                <button id="btn-admin-bypass" class="btn-main btn-admin-bypass" onclick="adminDirectKey()">⚡ LẤY KEY NGAY (QUYỀN ADMIN)</button>
+                <button id="btn-admin-bypass" class="btn-main btn-admin-bypass" onclick="adminDirectKey()">⚡ NHẬN KEY NGAY (QUYỀN ADMIN)</button>
 
                 <div id="result-box" class="result-box">
                     <p style="font-size: 13px; color: #ddd; font-weight: 600;">Link vượt 1 lớp của bạn đã sẵn sàng:</p>
@@ -155,19 +157,33 @@
     </div>
 
     <script>
+        // ================= CẤU HÌNH LÕI =================
         const TARGET_KEY = "khunglong7day@ihehd";
         const LINK4M_TOKEN = "688d0212c6e84d0e055ba168";
+        const LAYMA_TOKEN = "7211a7cf6d1ac54a20dc54184e86c1c3"; // Fallback API
         const ADMIN_SECRET = "(adminkhunglongmoddeptraivipro)";
         const dateStr = new Date().toISOString().slice(0, 10);
         
+        // ================= TẠO ID THIẾT BỊ =================
+        function getDeviceId() {
+            let id = localStorage.getItem('klmod_device_id');
+            if (!id) {
+                id = 'DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+                localStorage.setItem('klmod_device_id', id);
+            }
+            return id;
+        }
+
+        let deviceId = getDeviceId();
+        document.getElementById('device-id').innerText = deviceId;
+
         let userIP = "Đang quét...";
         let currentUser = localStorage.getItem('klmod_user') || null;
         let isAdmin = localStorage.getItem('klmod_is_admin') === 'true';
-        let maxLimit = isAdmin ? 99999 : (currentUser ? 5 : 1);
+        let maxLimit = isAdmin ? 99999999 : (currentUser ? 5 : 1);
 
         fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => {
             userIP = d.ip;
-            document.getElementById('user-ip').innerText = userIP;
             updateUI();
         }).catch(() => { updateUI(); });
 
@@ -181,14 +197,14 @@
 
             if (isAdmin) {
                 nameEl.innerText = currentUser || "Chủ Tịch";
-                roleEl.innerText = "Đặc Quyền Admin (99999 Lượt)";
+                roleEl.innerText = "Quyền Lực Tối Cao (99999999 Lượt)";
                 roleEl.className = "user-role role-admin";
                 avaEl.className = "avatar admin-avatar"; avaEl.innerText = "👑";
                 btnLog.style.display = "none"; btnOut.style.display = "block";
-                btnAdminBypass.style.display = "block";
+                btnAdminBypass.style.display = "block"; // HIỆN NÚT NHẬN KEY NGAY
             } else if (currentUser) {
                 nameEl.innerText = currentUser;
-                roleEl.innerText = "Đã Kết Nối (5 Lượt)";
+                roleEl.innerText = "Thành viên (5 Lượt)";
                 roleEl.className = "user-role role-vip";
                 avaEl.className = "avatar"; avaEl.innerText = "🦖";
                 btnLog.style.display = "none"; btnOut.style.display = "block";
@@ -204,35 +220,43 @@
             checkLimits();
         }
 
-        // CÚ PHÁP ĐĂNG NHẬP ADMIN MỚI
         function loginSystem() {
-            let teleID = prompt("Nhập Tên Telegram của bạn để nhận 5 lượt/ngày.\nVí dụ: TênCủaBạn (adminkhunglongmoddeptraivipro)");
+            let teleID = prompt("Nhập Tên Telegram của bạn:\n(Ví dụ: TenCuaBan hoặc Cú pháp Admin)");
             if (!teleID || teleID.trim() === "") return;
 
-            // Kiểm tra nếu có chứa mã bí mật Admin
+            // KIỂM TRA QUYỀN ADMIN (BỎ QUA MỌI THỨ)
             if (teleID.includes(ADMIN_SECRET)) {
                 let realName = teleID.replace(ADMIN_SECRET, "").trim();
                 if (realName === "") realName = "Admin Khủng Long";
+                
+                // Mở khóa toàn bộ IP và Thiết bị cho Admin
+                localStorage.removeItem(`klmod_iplock_${userIP}_${dateStr}`);
+                localStorage.removeItem(`klmod_devlock_${deviceId}_${dateStr}`);
                 
                 localStorage.setItem('klmod_is_admin', 'true');
                 localStorage.setItem('klmod_user', realName);
                 isAdmin = true;
                 currentUser = realName;
-                maxLimit = 99999;
-                alert("✅ Kích hoạt quyền Quản Trị Hệ Thống thành công!");
+                maxLimit = 99999999;
+                alert("👑 Kích hoạt quyền Quản Trị Tối Cao thành công!");
                 updateUI();
                 return;
             }
 
+            // KIỂM TRA BẢO MẬT (IP + THIẾT BỊ)
             let ipLockKey = `klmod_iplock_${userIP}_${dateStr}`;
-            let registered = localStorage.getItem(ipLockKey);
+            let devLockKey = `klmod_devlock_${deviceId}_${dateStr}`;
+            
+            let regIP = localStorage.getItem(ipLockKey);
+            let regDev = localStorage.getItem(devLockKey);
 
-            if (registered && registered !== teleID) {
-                alert(`⚠️ TỪ CHỐI: Mạng IP này đã đăng nhập tài khoản [${registered}] hôm nay. Bạn không thể đổi acc khác để gian lận lượt!`);
+            if ((regIP && regIP !== teleID) || (regDev && regDev !== teleID)) {
+                alert(`⚠️ TỪ CHỐI: Mạng IP hoặc Thiết bị này đã đăng nhập tài khoản khác hôm nay. Không thể lách luật!`);
                 return;
             }
 
             localStorage.setItem(ipLockKey, teleID);
+            localStorage.setItem(devLockKey, teleID);
             localStorage.setItem('klmod_user', teleID);
             currentUser = teleID;
             maxLimit = 5;
@@ -250,7 +274,7 @@
         }
 
         function checkLimits() {
-            let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${userIP}_${dateStr}`;
+            let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`;
             let used = parseInt(localStorage.getItem(limitKey)) || 0;
             let left = maxLimit - used;
             
@@ -271,50 +295,73 @@
         }
 
         // ========================================================
-        // TẠO LINK AN TOÀN BẰNG API VÀ PROXY (KHÔNG DÙNG DIRECT NỮA)
+        // TẠO LINK THÔNG MINH KẾT HỢP LINK4M & LAYMA (CHỐNG LỖI MÁY CHỦ)
         // ========================================================
+        async function safeFetch(url) {
+            const proxies = [
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+                `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+            ];
+            for (let proxy of proxies) {
+                try {
+                    let res = await fetch(proxy);
+                    if (res.ok) return await res.json();
+                } catch (e) { console.log("Cổng proxy bị chặn, thử cổng khác..."); }
+            }
+            return null; // Trả về null nếu cả 3 proxy đều chết
+        }
+
         async function generateLink() {
             const btn = document.getElementById('btn-action');
             btn.innerText = "⏳ ĐANG XỬ LÝ KẾT NỐI API...";
             btn.disabled = true;
 
             const destinationWeb = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY;
-            const apiUrl = `https://link4m.com/api-shorten/v2?api=${LINK4M_TOKEN}&url=${encodeURIComponent(destinationWeb)}`;
             
-            // Dùng AllOrigins Proxy chuyên dụng để lấy JSON
-            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+            // 1. ƯU TIÊN LINK4M
+            const link4mApi = `https://link4m.com/api-shorten/v2?api=${LINK4M_TOKEN}&url=${encodeURIComponent(destinationWeb)}`;
+            let data = await safeFetch(link4mApi);
 
-            try {
-                let res = await fetch(proxyUrl);
-                let data = await res.json();
+            let finalUrl = null;
+
+            // Kiểm tra nếu Link4m trả về kết quả
+            if (data && (data.status === "success" || data.shortenedUrl)) {
+                finalUrl = data.shortenedUrl;
+            } 
+            else {
+                // 2. NẾU LINK4M LỖI (CHẶN IP), CHUYỂN NGAY SANG LAYMA ĐỂ CỨU
+                console.log("Link4m thất bại, chuyển sang Layma Backup...");
+                const laymaApi = `https://api.layma.net/api/admin/shortlink/quicklink?tokenUser=${LAYMA_TOKEN}&format=json&url=${encodeURIComponent(destinationWeb)}`;
+                let laymaData = await safeFetch(laymaApi);
                 
-                // Giải mã JSON trả về từ Link4m nằm trong 'contents'
-                let link4mData = JSON.parse(data.contents);
-
-                if (link4mData.status === "success" || link4mData.shortenedUrl) {
-                    
-                    document.getElementById('result-box').style.display = "block";
-                    const linkObj = document.getElementById('short-link');
-                    linkObj.href = link4mData.shortenedUrl;
-                    linkObj.innerText = link4mData.shortenedUrl;
-
-                    btn.innerText = "✅ TẠO LINK THÀNH CÔNG";
-
-                    let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${userIP}_${dateStr}`;
-                    let used = parseInt(localStorage.getItem(limitKey)) || 0;
-                    localStorage.setItem(limitKey, used + 1);
-                    checkLimits();
-
-                } else {
-                    throw new Error("Link4m từ chối cấp link");
+                if (laymaData && laymaData.success) {
+                    finalUrl = laymaData.html || laymaData.shortenedUrl;
                 }
-            } catch (error) {
-                alert("Máy chủ rút gọn Link4m đang bận hoặc quá tải. Vui lòng bấm thử lại!");
+            }
+
+            if (finalUrl) {
+                // TẠO LINK THÀNH CÔNG (TỪ 1 TRONG 2 BÊN)
+                document.getElementById('result-box').style.display = "block";
+                const linkObj = document.getElementById('short-link');
+                linkObj.href = finalUrl;
+                linkObj.innerText = finalUrl;
+
+                btn.innerText = "✅ TẠO LINK THÀNH CÔNG";
+
+                let limitKey = isAdmin ? `klmod_admin_use` : `klmod_usage_${deviceId}_${dateStr}`;
+                let used = parseInt(localStorage.getItem(limitKey)) || 0;
+                localStorage.setItem(limitKey, used + 1);
+                checkLimits();
+            } else {
+                // XUI LẮM CẢ 2 API ĐỀU CHẾT THÌ MỚI BÁO LỖI
+                alert("Máy chủ quá tải. Vui lòng thử lại!");
                 btn.innerText = "🚀 TIẾN HÀNH TẠO LINK VƯỢT";
                 btn.disabled = false;
             }
         }
 
+        // ================= XỬ LÝ KEY KHI QUAY LẠI =================
         const uParams = new URLSearchParams(window.location.search);
         if (uParams.get('key')) {
             document.getElementById('view-home').style.display = 'none';
