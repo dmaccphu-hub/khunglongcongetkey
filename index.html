@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Khủng Long MOD VIP | V15 HOÀN THIỆN</title>
+    <title>KHỦNG LONG MOD VIP | V16 FINAL</title>
     <style>
-        /* ==================== CSS GIAO DIỆN CYBERPUNK ==================== */
+        /* ==================== CSS GIAO DIỆN ==================== */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
         input, button { appearance: none; outline: none; border: none; font-family: 'Montserrat', sans-serif; }
@@ -92,7 +92,7 @@
         <!-- NAVBAR -->
         <div class="navbar">
             <button style="background:none; color:#fff; font-size:22px; cursor:pointer;" onclick="toggleMenu()">☰</button>
-            <div class="nav-logo">KL V15 MASTER</div>
+            <div class="nav-logo">KL V16 MASTER</div>
             <button id="btn-logout" class="btn-modern btn-danger" style="display:none; padding:6px 10px; font-size:9px;" onclick="logout()">THOÁT</button>
         </div>
 
@@ -118,11 +118,10 @@
             </div>
         </div>
 
-        <!-- BẢNG ADMIN YONKI & THỐNG KÊ (ĐÃ KHÔI PHỤC) -->
+        <!-- BẢNG ADMIN YONKI & THỐNG KÊ -->
         <div class="card" id="admin-panel" style="display:none; border-color:#f43f5e; box-shadow:0 0 20px rgba(244,63,94,0.1) inset;">
             <div style="color:#f43f5e; font-weight:900; margin-bottom:10px; text-align:center; font-size:14px;">👑 QUẢN TRỊ TỐI CAO YONKI</div>
             
-            <!-- THỐNG KÊ HÔM NAY CỦA ADMIN -->
             <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; margin-bottom:15px;">
                 <div class="stat-box"><div style="font-size:9px; color:#a1a1aa">ĐÃ TẠO</div><div class="stat-val" id="st-tao" style="color:#38bdf8">0</div></div>
                 <div class="stat-box"><div style="font-size:9px; color:#a1a1aa">THÀNH CÔNG</div><div class="stat-val" id="st-tc" style="color:#10b981">0</div></div>
@@ -139,7 +138,7 @@
             <div id="ad-users" style="max-height:120px; overflow-y:auto; background:#000; padding:10px; border-radius:8px;"></div>
         </div>
 
-        <!-- Ô NHẬP CODE/KEY (ĐÃ KHÔI PHỤC) -->
+        <!-- Ô NHẬP CODE/KEY -->
         <div class="card" style="border-color:#fbbf24; background:linear-gradient(180deg, rgba(20,20,25,0.9), rgba(245,158,11,0.05));">
             <h3 style="color:#fbbf24; font-size:14px; text-transform:uppercase; margin-bottom:10px; text-align:center;">🔑 NHẬP CODE / KÍCH HOẠT VIP</h3>
             <div style="display:flex; gap:10px;">
@@ -243,16 +242,21 @@
     <script>
         document.addEventListener('keydown', function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) { e.preventDefault(); } });
 
-        // --- DATABASE JSON CÓ THÊM BỘ THỐNG KÊ ---
+        // --- CỨU TRỢ DATABASE: FIX LỖI ĐỨNG HÌNH ---
         let dStr = new Date().toISOString().slice(0, 10);
-        let DB = JSON.parse(localStorage.getItem('KL_MASTER_DB')) || { users: {}, chats: [], p_chats: [], history: {}, logs: [], tracking: {}, trash: {}, stats: {} };
-        if(!DB.stats[dStr]) DB.stats[dStr] = { tao: 0, tc: 0, tb: 0 }; // Khởi tạo thống kê ngày hôm nay
+        let DB = JSON.parse(localStorage.getItem('KL_MASTER_DB'));
+        
+        // Bổ sung cấu trúc nếu acc cũ nâng cấp lên chưa có
+        if (!DB) DB = { users: {}, chats: [], p_chats: [], history: {}, logs: [], tracking: {}, trash: {}, stats: {} };
+        if (!DB.stats) DB.stats = {}; // <- DÒNG FIX LỖI "LIỆT NÚT"
+        if (!DB.stats[dStr]) DB.stats[dStr] = { tao: 0, tc: 0, tb: 0 };
+        
         function saveDB() { localStorage.setItem('KL_MASTER_DB', JSON.stringify(DB)); }
         
         const AD_USER = "YonkiVNOfficial"; const AD_PASS = "YonkiVNOfficial";
-        let cUser = localStorage.getItem('kl_v15_cu') || null;
-        let guestID = localStorage.getItem('kl_v15_gid'); 
-        if(!guestID) { guestID = "Khách_" + Math.floor(10000 + Math.random()*89999); localStorage.setItem('kl_v15_gid', guestID); }
+        let cUser = localStorage.getItem('kl_v16_cu') || null;
+        let guestID = localStorage.getItem('kl_v16_gid'); 
+        if(!guestID) { guestID = "Khách_" + Math.floor(10000 + Math.random()*89999); localStorage.setItem('kl_v16_gid', guestID); }
         let myID = cUser || guestID; let isAdmin = (cUser === AD_USER);
         let maxL = isAdmin ? 99 : (cUser ? 5 : 1);
 
@@ -276,44 +280,40 @@
         }
         function sysLogin() {
             let u = document.getElementById('a-id').value.trim(), p = document.getElementById('a-pw').value.trim();
-            if(u === AD_USER && p === AD_PASS) { localStorage.setItem('kl_v15_cu', AD_USER); return location.reload(); }
+            if(u === AD_USER && p === AD_PASS) { localStorage.setItem('kl_v16_cu', AD_USER); return location.reload(); }
             if(!DB.users[u] || DB.users[u].p !== p) return alert("Sai tài khoản hoặc mật khẩu!");
-            localStorage.setItem('kl_v15_cu', u); location.reload();
+            localStorage.setItem('kl_v16_cu', u); location.reload();
         }
-        function logout() { localStorage.removeItem('kl_v15_cu'); location.reload(); }
+        function logout() { localStorage.removeItem('kl_v16_cu'); location.reload(); }
 
-        // --- NHẬP CODE KÍCH HOẠT (TÍNH NĂNG ĐÃ KHÔI PHỤC) ---
+        // --- NHẬP CODE KÍCH HOẠT ---
         function kichHoatCode() {
             let code = document.getElementById('i-code').value.trim();
             if(!code) return alert("Vui lòng dán mã Key vào ô!");
-            // Kích hoạt nếu là Key hôm nay hoặc Key admin tặng trong Lịch sử
             let isGifted = DB.history[myID] && DB.history[myID].some(h => h.k === code);
             if(code === TODAY_KEY || isGifted) {
                 alert("✅ KÍCH HOẠT THÀNH CÔNG! BẠN ĐÃ TRỞ THÀNH VIP HÔM NAY.");
                 document.getElementById('i-code').value = "";
-                // Logic mở khóa tool ở đây (Demo đổi màu)
                 document.getElementById('grid-tool').style.borderColor = "#10b981";
-            } else {
-                alert("❌ KEY KHÔNG HỢP LỆ HOẶC ĐÃ HẾT HẠN!");
-            }
+            } else { alert("❌ KEY KHÔNG HỢP LỆ HOẶC ĐÃ HẾT HẠN!"); }
         }
 
-        // --- VƯỢT LINK L4M & CỘNG THỐNG KÊ ---
+        // --- VƯỢT LINK L4M & THỐNG KÊ ---
         const TK_1 = "688d0212c6e84d0e055ba168", TK_2 = "688d0212c6e84d0e055ba168";
         function taoLink() {
             let uL = parseInt(localStorage.getItem(`kl_l_${myID}_${dStr}`)) || 0;
             if(uL >= maxL && !isAdmin) return alert("Hôm nay bạn đã hết lượt!");
             
             DB.tracking[myID] = { status: "pending", time: Date.now() }; 
-            DB.stats[dStr].tao += 1; // Cộng thống kê TẠO LINK
-            saveDB();
+            DB.stats[dStr].tao += 1; saveDB();
             
             let b = document.getElementById('btn-link'); b.innerText = "⏳ ĐANG MÃ HÓA..."; b.disabled = true;
             setTimeout(() => {
                 let fresh = JSON.parse(localStorage.getItem('KL_MASTER_DB'));
-                if(fresh.tracking[myID] && fresh.tracking[myID].status === "pending") {
+                if(fresh && fresh.tracking[myID] && fresh.tracking[myID].status === "pending") {
+                    if(!fresh.logs) fresh.logs = [];
                     fresh.logs.unshift(`[${new Date().toLocaleTimeString()}] ❌ ${myID} bỏ cuộc (Thất bại sau 5p)`);
-                    fresh.stats[dStr].tb += 1; // Cộng thống kê THẤT BẠI
+                    if(fresh.stats && fresh.stats[dStr]) fresh.stats[dStr].tb += 1;
                     localStorage.setItem('KL_MASTER_DB', JSON.stringify(fresh));
                     if(isAdmin) loadAdmin();
                 }
@@ -331,12 +331,14 @@
             let v = document.getElementById('i-chat').value.trim(); if(!v) return;
             let sName = myID, isAnon = false;
             if(isAdmin && document.getElementById('chk-anon').checked) { sName = "Hệ Thống VIP"; isAnon = true; }
+            if(!DB.chats) DB.chats = [];
             DB.chats.push({ real: myID, s: sName, m: v, anon: isAnon }); if(DB.chats.length > 50) DB.chats.shift(); saveDB();
             document.getElementById('i-chat').value = ''; uiChat();
         }
         function uiChat() {
             let box = document.getElementById('box-chat');
-            box.innerHTML = DB.chats.map((c, i) => {
+            let chats = DB.chats || [];
+            box.innerHTML = chats.map((c, i) => {
                 let isMe = (c.real === myID); let canEdit = isMe || isAdmin;
                 let wrap = canEdit ? "me" : "other"; if(c.anon && !isMe && !isAdmin) wrap = "other";
                 let b_edit = canEdit ? `<button class="ctrl-btn" onclick="suaChat(${i})">✏️</button><button class="ctrl-btn" onclick="xoaChat(${i})">🗑️</button>` : '';
@@ -348,6 +350,7 @@
         function suaChat(i) { let n = prompt("Sửa nội dung:", DB.chats[i].m); if(n!==null) { DB.chats[i].m = n; saveDB(); uiChat(); } }
         function tagUser(tID) {
             let t = prompt(`Nhắn riêng cho ${tID}:`); if(!t) return;
+            if(!DB.p_chats) DB.p_chats = [];
             DB.p_chats.push({ from: myID, to: tID, msg: t, time: new Date().toLocaleTimeString() }); saveDB(); alert("Đã gửi tin riêng!");
         }
 
@@ -355,15 +358,17 @@
         function loadAdmin() {
             document.getElementById('admin-panel').style.display='block'; document.getElementById('lbl-anon').style.display='inline';
             
-            // Load Thống kê
-            document.getElementById('st-tao').innerText = DB.stats[dStr].tao;
-            document.getElementById('st-tc').innerText = DB.stats[dStr].tc;
-            document.getElementById('st-tb').innerText = DB.stats[dStr].tb;
+            if(DB.stats && DB.stats[dStr]) {
+                document.getElementById('st-tao').innerText = DB.stats[dStr].tao;
+                document.getElementById('st-tc').innerText = DB.stats[dStr].tc;
+                document.getElementById('st-tb').innerText = DB.stats[dStr].tb;
+            }
 
-            let h = ""; for(let u in DB.users) {
+            let h = ""; let uList = DB.users || {};
+            for(let u in uList) {
                 h += `<div style="display:flex; justify-content:space-between; margin-bottom:5px; border-bottom:1px solid #333; padding-bottom:5px;">
-                <span style="color:#0ea5e9;font-size:11px;">${u} (Pass: ${DB.users[u].p})</span>
-                <div><button class="btn-modern btn-primary" style="font-size:8px;padding:3px" onclick="localStorage.setItem('kl_v15_cu','${u}'); location.reload()">Vào Acc</button>
+                <span style="color:#0ea5e9;font-size:11px;">${u} (Pass: ${uList[u].p})</span>
+                <div><button class="btn-modern btn-primary" style="font-size:8px;padding:3px" onclick="localStorage.setItem('kl_v16_cu','${u}'); location.reload()">Vào Acc</button>
                 <button class="btn-modern btn-danger" style="font-size:8px;padding:3px" onclick="xoaAcc('${u}')">Xóa</button></div></div>`;
             } document.getElementById('ad-users').innerHTML = h || "<span style='color:#777;font-size:10px;'>Chưa có member</span>";
         }
@@ -372,21 +377,24 @@
             if(!DB.history[u]) DB.history[u] = [];
             DB.history[u].unshift({ t: new Date().toLocaleTimeString(), k: k, m: "Qùa ADMIN" }); saveDB(); alert("Đã chuyển!"); uiHis();
         }
-        function xoaAcc(u) { if(confirm(`Xóa ${u}?`)){ DB.trash[u] = DB.users[u]; delete DB.users[u]; saveDB(); loadAdmin(); } }
+        function xoaAcc(u) { if(confirm(`Xóa ${u}?`)){ if(!DB.trash) DB.trash = {}; DB.trash[u] = DB.users[u]; delete DB.users[u]; saveDB(); loadAdmin(); } }
         function moThungRac() {
-            let h = ""; for(let u in DB.trash) { h += `<div style="display:flex;justify-content:space-between;margin-bottom:5px;"><b style="color:#e11d48">${u}</b> <button class="btn-modern btn-success" style="font-size:9px;padding:3px" onclick="phucHoi('${u}')">Khôi Phục</button></div>`; }
+            let h = ""; let trashList = DB.trash || {};
+            for(let u in trashList) { h += `<div style="display:flex;justify-content:space-between;margin-bottom:5px;"><b style="color:#e11d48">${u}</b> <button class="btn-modern btn-success" style="font-size:9px;padding:3px" onclick="phucHoi('${u}')">Khôi Phục</button></div>`; }
             openModal("🗑️ THÙNG RÁC", h || "Trống rỗng");
         }
         function phucHoi(u) { DB.users[u] = DB.trash[u]; delete DB.trash[u]; saveDB(); document.getElementById('sys-modal').style.display='none'; loadAdmin(); alert("Đã phục hồi!"); }
-        function xemNhatKy() { openModal("📊 NHẬT KÝ LỖI (5 PHÚT)", DB.logs.map(l => `<div style="border-bottom:1px solid #333;padding:4px 0;">${l}</div>`).join('') || "Chưa có lỗi nào"); }
+        function xemNhatKy() { let logs = DB.logs || []; openModal("📊 NHẬT KÝ LỖI (5 PHÚT)", logs.map(l => `<div style="border-bottom:1px solid #333;padding:4px 0;">${l}</div>`).join('') || "Chưa có lỗi nào"); }
         function xemChatRieng() {
-            let h = DB.p_chats.map(p => `<div style="margin-bottom:8px; border-bottom:1px dashed #333; padding-bottom:5px;"><b style="color:#10b981">${p.from}</b> ➡️ <b style="color:#0ea5e9">${p.to}</b>: ${p.msg} <br><small style="color:#777">${p.time}</small></div>`).join('');
+            let p_chats = DB.p_chats || [];
+            let h = p_chats.map(p => `<div style="margin-bottom:8px; border-bottom:1px dashed #333; padding-bottom:5px;"><b style="color:#10b981">${p.from}</b> ➡️ <b style="color:#0ea5e9">${p.to}</b>: ${p.msg} <br><small style="color:#777">${p.time}</small></div>`).join('');
             openModal("👁️ MẮT THẦN (INBOX)", h || "Chưa ai nhắn riêng");
         }
 
         // --- RENDER DỮ LIỆU ---
         function xemInbox() {
-            let h = DB.p_chats.filter(p => p.to === myID || p.from === myID).map(p => {
+            let p_chats = DB.p_chats || [];
+            let h = p_chats.filter(p => p.to === myID || p.from === myID).map(p => {
                 let dir = (p.from === myID) ? `Gửi đi ➡️ ${p.to}` : `Nhận từ ⬅️ ${p.from}`;
                 return `<div style="margin-bottom:8px; border-bottom:1px solid #333; padding-bottom:4px;"><b style="color:#f59e0b">${dir}</b>: ${p.msg} <br><small style="color:#666">${p.time}</small></div>`;
             }).join(''); openModal(`💬 HỘP THƯ CỦA [${myID}]`, h || "Chưa có tin nhắn.");
@@ -414,14 +422,15 @@
             uiChat(); uiHis(); genTools();
         }
 
-        // --- NHẬN KẾT QUẢ KHI QUAY VỀ ---
+        // --- NHẬN KẾT QUẢ ---
         const urlP = new URLSearchParams(window.location.search);
         if (urlP.get('key')) {
             let k = urlP.get('key'); let cbUser = urlP.get('u');
             if(cbUser === myID) {
-                if(DB.tracking[myID] && DB.tracking[myID].status === "pending") {
+                if(DB.tracking && DB.tracking[myID] && DB.tracking[myID].status === "pending") {
                     DB.tracking[myID].status = "success";
-                    DB.stats[dStr].tc += 1; // Cộng thống kê THÀNH CÔNG
+                    if(DB.stats && DB.stats[dStr]) DB.stats[dStr].tc += 1;
+                    if(!DB.logs) DB.logs = [];
                     DB.logs.unshift(`[${new Date().toLocaleTimeString()}] ✅ ${myID} vượt thành công.`);
                 }
                 if(!DB.history[myID]) DB.history[myID] = [];
