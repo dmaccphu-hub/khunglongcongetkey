@@ -3,37 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khủng Long ModGame - Nhận Key VIP</title>
+    <title>Khủng Long ModGame | Hệ Thống Key Dịch Vụ</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #121212; color: #ffffff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 20px; }
-        .header { text-align: center; margin-bottom: 40px; margin-top: 20px; }
-        .header h1 { color: #00ff88; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5); }
-        
-        .card { background: #1e1e1e; border: 1px solid #333; border-radius: 12px; padding: 30px; width: 100%; max-width: 500px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .card h2 { color: #ffcc00; margin-bottom: 15px; }
-        .status { margin-bottom: 20px; font-size: 14px; color: #aaa; }
-        .status span { color: #00ff88; font-weight: bold; }
-        
-        .btn-get { background: transparent; border: 2px solid #00ff88; color: #00ff88; font-size: 18px; font-weight: bold; padding: 15px 30px; border-radius: 8px; cursor: pointer; transition: 0.3s; width: 100%; text-transform: uppercase; }
-        .btn-get:hover { background: #00ff88; color: #121212; box-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
-        .btn-get:disabled { border-color: #555; color: #555; cursor: not-allowed; box-shadow: none; background: transparent; }
-        
-        #result-box { display: none; margin-top: 20px; padding: 15px; background: #2a2a2a; border-radius: 8px; border-left: 4px solid #00ff88; }
-        #result-box a { color: #00ff88; text-decoration: none; font-weight: bold; word-break: break-all; }
-        
-        .vip-board { margin-top: 40px; width: 100%; max-width: 500px; background: #1a1a1a; border: 1px solid #444; border-radius: 12px; padding: 20px; }
-        .vip-board h3 { text-align: center; color: #ff4d4d; margin-bottom: 15px; }
-        .vip-board ul { list-style: none; color: #ccc; line-height: 1.8; font-size: 14px; }
-        .vip-board li::before { content: '👑'; margin-right: 8px; }
-        
-        .footer { margin-top: auto; padding-top: 30px; font-size: 13px; color: #666; text-align: center; }
+        :root {
+            --bg-color: #0a0a0c;
+            --card-bg: #141416;
+            --accent-green: #00ff88;
+            --accent-gold: #ffcc00;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --border-color: #27272a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin: 32px 0;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .header .logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .header .logo span {
+            color: var(--accent-green);
+            text-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+        }
+
+        .header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Card Setup */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Free Section */
+        .free-card .card-title {
+            color: var(--accent-gold);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            background: rgba(255,255,255,0.02);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-item p {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .status-item span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-online { color: var(--accent-green); }
+        .status-count { color: #38bdf8; }
+
+        /* Buttons */
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88 0%, #00bfff 100%);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            margin-top: 12px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* VIP Pricing Section */
+        .vip-card .card-title {
+            color: #ef4444;
+        }
+
+        .pricing-section {
+            margin-bottom: 16px;
+        }
+
+        .section-tag {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 4px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+
+        .price-name {
+            color: #e4e4e7;
+        }
+
+        .price-value {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Info Footer */
+        .payment-box {
+            background: rgba(255,255,255,0.01);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .payment-box strong {
+            color: var(--text-main);
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 11px;
+            color: #4b5563;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>🦖 KHỦNG LONG MODGAME</h1>
+        <div class="logo">🦖 <span>KHỦNG LONG</span> MODGAME</div>
+        <p>Hệ Thống Phân Phối Dịch Vụ Game & Cloud Phone Toàn Quốc</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="card free-card">
+            <div class="card-title">🎁 NHẬN KEY LIÊN QUÂN (ADR)</div>
+            
+            <div class="status-grid">
+                <div class="status-item">
+                    <p>Trạng Thái</p>
+                    <span class="status-online">● Mượt Mà</span>
+                </div>
+                <div class="status-item">
+                    <p>Hạn Mức Hôm Nay</p>
+                    <span class="status-count">5 Lượt / Ngày</span>
+                </div>
+            </div>
+            
+            <a href="https://t.me/Khunglongmodgame" class="btn btn-primary" target="_blank">🚀 Lấy Link Nhận Key Ngay</a>
+        </div>
+
+        <div class="card vip-card">
+            <div class="card-title">👑 BẢNG GIÁ CÁC DỊCH VỤ VIP</div>
+            
+            <div class="pricing-section">
+                <div class="section-tag">🎣 Hack Play Together</div>
+                <div class="price-row"><span class="price-name">Gói 1 ngày</span><span class="price-value">15.000đ</span></div>
+                <div class="price-row"><span class="price-name">Gói 7 ngày</span><span class="price-value">65.000đ</span></div>
+                <div class="price-row"><span class="price-name">Gói 14 ngày</span><span class="price-value">100.000đ</span></div>
+                <div class="price-row"><span class="price-name">Gói 30 ngày</span><span class="price-value">180.000đ</span></div>
+            </div>
+
+            <div class="pricing-section">
+                <div class="section-tag">☁️ Cloud Phone Genplay</div>
+                <div class="price-row"><span class="price-name">Gói 1 ngày</span><span class="price-value">30.000đ</span></div>
+                <div class="price-row"><span class="price-name">Gói 7 ngày</span><span class="price-value">70.000đ</span></div>
+                <div class="price-row"><span class="price-name">Gói 15 ngày</span><span class="price-value">120.000đ</span></div>
+                <div class="price-row"><span class="price-name">Gói 30 ngày (Giá sỉ)</span><span class="price-value">180.000đ</span></div>
+            </div>
+
+            <div class="pricing-section">
+                <div class="section-tag">📱 Cloud Phone Redfinger</div>
+                <div class="price-row"><span class="price-name">Bản [VIP] (7 ngày / 30 ngày / 90 ngày)</span><span class="price-value">40k / 115k / 310k</span></div>
+                <div class="price-row"><span class="price-name">Bản [XVIP] (7 ngày / 30 ngày / 90 ngày)</span><span class="price-value">75k / 200k / 535k</span></div>
+                <div class="price-row"><span class="price-name">Bản [SVIP] (7 ngày / 30 ngày / 90 ngày)</span><span class="price-value">100k / 250k / 670k</span></div>
+                <div class="price-row"><span class="price-name">Bản [xvip cao cấp] (7 ngày / 30 ngày)</span><span class="price-value">200k / 550k</span></div>
+            </div>
+
+            <a href="https://t.me/Khunglongmodgame" class="btn btn-secondary" target="_blank">💬 Liên Hệ Admin Mua Dịch Vụ</a>
+        </div>
+
+        <div class="payment-box">
+            💵 Phương thức thanh toán: <strong>Thẻ Cào Điện Thoại</strong> & <strong>Chuyển Khoản Bank</strong><br>
+            Vui lòng liên hệ trực tiếp Admin để được hỗ trợ kích hoạt nhanh nhất.
+        </div>
+
+    </div>
+
+    <div class="footer-text">
+        © 2026 Khủng Long ModGame. All rights reserved.
+    </div>
+
+</body>
+</html>
         <p>Hệ Thống Phân Phối Dịch Vụ Game & Cloud Phone</p>
     </div>
 
