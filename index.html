@@ -3,189 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KL MOD VIP | Hệ Sinh Thái Tối Thượng</title>
+    <title>KL MOD VIP | HỆ SINH THÁI TỐI THƯỢNG</title>
     <style>
         /* =========================================================
-           [CSS] UI CYBERPUNK / GLASSMORPHISM HIỆN ĐẠI NHẤT
+           [1. CSS RESET] ÉP TRÌNH DUYỆT BỎ GIAO DIỆN CỔ ĐẠI
            ========================================================= */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; -webkit-tap-highlight-color: transparent; }
         
+        input, button, textarea {
+            -webkit-appearance: none; -moz-appearance: none; appearance: none; /* KHẮC PHỤC NÚT CỔ ĐẠI TRÊN IPHONE/SAFARI */
+            outline: none; border: none; font-family: 'Montserrat', sans-serif;
+        }
+        
         body {
-            background: #050505;
+            background: #050505; color: #fff; min-height: 100vh;
             background-image: 
                 radial-gradient(circle at 15% 50%, rgba(255, 0, 85, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 85% 30%, rgba(0, 210, 255, 0.08) 0%, transparent 50%);
-            color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 15px 10px; overflow-x: hidden;
+            display: flex; flex-direction: column; align-items: center; padding: 15px 10px; overflow-x: hidden;
         }
 
         .container { width: 100%; max-width: 500px; z-index: 1; display: flex; flex-direction: column; gap: 15px; }
 
-        /* THẺ CARD NỔI 3D HIỆN ĐẠI */
+        /* =========================================================
+           [2. UI COMPONENT] HIỆU ỨNG KÍNH NỔI 3D (CYBERPUNK)
+           ========================================================= */
         .card { 
-            background: rgba(20, 20, 25, 0.7); border: 1px solid rgba(255, 255, 255, 0.05); 
-            border-radius: 24px; padding: clamp(15px, 4vw, 20px); 
-            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1); 
-            position: relative; overflow: hidden; 
+            background: rgba(20, 20, 25, 0.85); border: 1px solid rgba(255, 255, 255, 0.05); 
+            border-radius: 20px; padding: 20px; backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1); 
         }
 
-        /* HEADER & MENU */
-        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); padding: 12px 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 10px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); padding: 15px 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); position: sticky; top: 10px; z-index: 100; box-shadow: 0 10px 30px rgba(0,0,0,0.9); }
         .nav-logo { font-size: 18px; font-weight: 900; background: linear-gradient(90deg, #ff0055, #ffaa00, #00d2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
-        .nav-btn { font-size: 24px; color: #fff; background: none; border: none; cursor: pointer; }
+        .nav-btn { font-size: 24px; color: #fff; background: none; cursor: pointer; }
 
-        /* MENU 3 GẠCH (SIDEBAR) */
+        /* MENU SIDEBAR 3 GẠCH */
         .sidebar { position: fixed; top: 0; left: -320px; width: 280px; height: 100%; background: rgba(10, 10, 15, 0.98); backdrop-filter: blur(30px); border-right: 1px solid rgba(255,255,255,0.1); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 25px 20px; box-shadow: 20px 0 50px rgba(0,0,0,0.9); }
         .sidebar.active { left: 0; }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999; display: none; backdrop-filter: blur(5px); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; display: none; backdrop-filter: blur(5px); }
         .overlay.active { display: block; }
-        .sb-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 20px; }
-        .sb-menu-item { display: flex; align-items: center; gap: 15px; padding: 14px 15px; margin-bottom: 10px; border-radius: 14px; color: #a1a1aa; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 13px; text-transform: uppercase; }
-        .sb-menu-item:hover, .sb-menu-item.highlight { background: rgba(255,255,255,0.05); color: #fff; transform: translateX(5px); border-left: 4px solid #10b981; }
+        .sb-menu-item { display: flex; align-items: center; gap: 15px; padding: 15px; margin-bottom: 10px; border-radius: 12px; color: #a1a1aa; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 13px; text-transform: uppercase; }
+        .sb-menu-item:hover { background: rgba(255,255,255,0.05); color: #fff; transform: translateX(5px); border-left: 4px solid #10b981; }
 
-        /* USER PANEL & AUTH */
-        .user-panel { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        .u-info { display: flex; align-items: center; gap: 15px; }
-        .avatar { width: 50px; height: 50px; background: linear-gradient(135deg, #27272a, #18181b); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 22px; border: 2px solid #3f3f46; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .avatar.vip { border-color: #00d2ff; box-shadow: 0 0 20px rgba(0,210,255,0.4); }
-        .avatar.admin { border-color: #ff0055; box-shadow: 0 0 20px rgba(255,0,85,0.4); }
-        .u-name { font-size: clamp(15px, 4vw, 18px); font-weight: 900; letter-spacing: 0.5px; }
-        .u-role { font-size: 9px; padding: 4px 10px; border-radius: 20px; font-weight: 900; margin-top: 5px; display: inline-block; text-transform: uppercase; letter-spacing: 1px; }
-        .u-role.guest { background: rgba(255,255,255,0.1); color: #a1a1aa; }
-        .u-role.vip { background: rgba(0,210,255,0.1); color: #00d2ff; border: 1px solid rgba(0,210,255,0.3); }
-        .u-role.admin { background: rgba(255,0,85,0.1); color: #ff0055; border: 1px solid rgba(255,0,85,0.3); }
-        .dev-scan { font-size: 10px; color: #71717a; margin-top: 8px; font-family: monospace; background: rgba(0,0,0,0.6); padding: 8px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
-
-        /* NÚT BẤM HIỆN ĐẠI (NEUMORPHISM + GLOW) */
-        .btn-modern { padding: 12px 20px; border-radius: 16px; font-weight: 900; font-size: 12px; cursor: pointer; border: none; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        /* NÚT BẤM HIỆN ĐẠI TỐI ĐA */
+        .btn-modern { padding: 12px 20px; border-radius: 14px; font-weight: 900; font-size: 12px; cursor: pointer; transition: 0.3s; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
         .btn-modern:active { transform: scale(0.95); }
-        .btn-primary { background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: #fff; }
+        .btn-primary { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: #fff; }
         .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
         .btn-danger { background: linear-gradient(135deg, #e11d48, #be123c); color: #fff; }
-        .btn-dark { background: #27272a; color: #fff; border: 1px solid #3f3f46; }
 
-        /* HERO ACTION (TẠO LINK) */
+        /* INPUTS */
+        .input-modern { width: 100%; padding: 15px; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; font-weight: 700; font-size: 13px; transition: 0.3s; }
+        .input-modern:focus { border-color: #0ea5e9; box-shadow: 0 0 15px rgba(14,165,233,0.3); }
+
+        /* NÚT MEGA VƯỢT LINK */
         .hero-title { text-align: center; margin-bottom: 20px; }
         .hero-title h2 { font-size: 22px; font-weight: 900; background: linear-gradient(to right, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .limit-display { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 16px; border: 1px solid rgba(16,185,129,0.3); margin-bottom: 15px; }
-        .limit-display span { font-size: 12px; color: #a1a1aa; font-weight: 700; text-transform: uppercase; }
-        .limit-display strong { font-size: 18px; color: #10b981; font-weight: 900; text-shadow: 0 0 15px rgba(16,185,129,0.5); }
-        
-        .btn-mega { width: 100%; padding: 18px; font-size: 16px; border-radius: 18px; background: linear-gradient(90deg, #10b981, #059669); color: #fff; font-weight: 900; text-transform: uppercase; border: none; cursor: pointer; position: relative; overflow: hidden; box-shadow: 0 15px 30px rgba(16,185,129,0.3); transition: 0.3s; }
-        .btn-mega::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(transparent, rgba(255,255,255,0.3), transparent); transform: rotate(45deg); animation: mega-shine 3s infinite; }
+        .limit-display { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); padding: 15px; border-radius: 12px; border: 1px solid rgba(16,185,129,0.3); margin-bottom: 15px; }
+        .btn-mega { width: 100%; padding: 18px; font-size: 16px; border-radius: 16px; background: linear-gradient(90deg, #10b981, #059669); color: #fff; font-weight: 900; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 25px rgba(16,185,129,0.4); position: relative; overflow: hidden; }
+        .btn-mega::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(transparent, rgba(255,255,255,0.2), transparent); transform: rotate(45deg); animation: mega-shine 2.5s infinite; }
         @keyframes mega-shine { 0% { left: -100%; } 100% { left: 100%; } }
         .btn-mega:disabled { background: #27272a; color: #71717a; box-shadow: none; animation: none; cursor: not-allowed; }
 
-        /* BẢNG GIÁ VIP (PHỤC HỒI CHUẨN XÁC) */
+        /* =========================================================
+           [3. TÍNH NĂNG CHUYÊN SÂU]
+           ========================================================= */
+        /* USER PANEL & ADMIN */
+        .user-panel { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .u-avatar { width: 45px; height: 45px; background: linear-gradient(135deg, #27272a, #18181b); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; border: 2px solid #3f3f46; }
+        .ad-panel { display: none; border: 1px solid #f43f5e; background: radial-gradient(circle at top right, rgba(244,63,94,0.1), transparent); }
+
+        /* CHAT TỔNG MƯỢT MÀ */
+        .chat-box { height: 280px; background: rgba(0,0,0,0.6); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
+        .msg-wrap { display: flex; flex-direction: column; width: 100%; }
+        .msg-item { padding: 10px 12px; border-radius: 12px; font-size: 12px; max-width: 85%; line-height: 1.4; color: #fff; position: relative; }
+        .msg-wrap.other { align-items: flex-start; } .msg-wrap.other .msg-item { background: rgba(255,255,255,0.05); border-top-left-radius: 0; }
+        .msg-wrap.me { align-items: flex-end; } .msg-wrap.me .msg-item { background: rgba(14, 165, 233, 0.2); border: 1px solid rgba(14,165,233,0.3); border-top-right-radius: 0; }
+        .msg-wrap.admin-msg { align-items: flex-start; } .msg-wrap.admin-msg .msg-item { background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244,63,94,0.3); border-left: 3px solid #f43f5e; border-top-left-radius: 0; }
+        .msg-user { font-size: 10px; font-weight: 900; margin-bottom: 4px; color: #a1a1aa; }
+        .msg-wrap.me .msg-user { color: #38bdf8; } .msg-wrap.admin-msg .msg-user { color: #f43f5e; }
+        
+        .admin-chat-controls { display: flex; gap: 5px; margin-top: 5px; justify-content: flex-end; }
+        .acc-btn { background: rgba(255,255,255,0.1); color: #fff; font-size: 10px; padding: 4px 8px; border-radius: 6px; cursor: pointer; transition: 0.2s; } .acc-btn:hover { background: #f43f5e; }
+
+        /* BẢNG GIÁ VIP CHUẨN XÁC KẾ THỪA */
         .vip-scroll { display: flex; overflow-x: auto; gap: 15px; padding-bottom: 15px; scroll-snap-type: x mandatory; }
         .vip-scroll::-webkit-scrollbar { height: 4px; } .vip-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
-        .vip-card { min-width: 85%; background: linear-gradient(180deg, rgba(0,0,0,0.8), rgba(20,20,25,0.9)); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); padding: 20px; scroll-snap-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .vc-head { font-size: 15px; font-weight: 900; text-align: center; padding-bottom: 12px; border-bottom: 2px solid; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
-        .vc-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); align-items: center; }
+        .vip-card { min-width: 85%; background: linear-gradient(180deg, #000, rgba(20,20,25,0.9)); border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); padding: 20px; scroll-snap-align: center; }
+        .vc-head { font-size: 14px; font-weight: 900; text-align: center; padding-bottom: 12px; border-bottom: 2px solid; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .vc-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); align-items: center; font-size: 12px; }
         .vc-row:last-child { border: none; }
-        .vc-name { font-size: 12px; color: #a1a1aa; font-weight: 700; }
-        .vc-price { font-size: 14px; font-weight: 900; color: #fff; }
+        .vc-name { color: #a1a1aa; font-weight: 700; } .vc-price { font-weight: 900; color: #fff; }
 
-        /* CHAT TỔNG SERVER */
-        .chat-box { height: 250px; background: rgba(0,0,0,0.6); border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        .msg-item { background: rgba(255,255,255,0.05); padding: 10px 12px; border-radius: 12px; font-size: 12px; width: fit-content; max-width: 85%; line-height: 1.4; border-top-left-radius: 0; }
-        .msg-item.me { background: rgba(14, 165, 233, 0.2); border: 1px solid rgba(14,165,233,0.3); align-self: flex-end; border-top-left-radius: 12px; border-top-right-radius: 0; }
-        .msg-item.admin { background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244,63,94,0.3); border-left: 3px solid #f43f5e; }
-        .msg-user { font-size: 10px; font-weight: 900; margin-bottom: 4px; color: #38bdf8; }
-        .msg-item.me .msg-user { color: #fff; }
-        .msg-item.admin .msg-user { color: #f43f5e; }
-        .chat-input-area { display: flex; gap: 8px; }
-        .chat-input { flex: 1; padding: 12px 15px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.8); color: #fff; outline: none; font-size: 12px; }
+        /* LƯỚI 100 TIỆN ÍCH */
+        .grid-100 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px; }
+        .grid-100::-webkit-scrollbar { width: 4px; } .grid-100::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
+        .tool-box { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px 5px; border-radius: 12px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .tool-box:hover { background: rgba(255,255,255,0.1); border-color: #0ea5e9; }
+        .tool-icon { font-size: 22px; margin-bottom: 8px; } .tool-name { font-size: 9px; font-weight: 900; color: #d4d4d8; text-transform: uppercase; }
 
-        /* KHO TIỆN ÍCH MEGA (100 CHỨC NĂNG MÔ PHỎNG) */
-        .mega-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .mega-item { background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 15px 10px; border-radius: 16px; text-align: center; cursor: pointer; transition: 0.3s; }
-        .mega-item:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
-        .mega-icon { font-size: 24px; margin-bottom: 8px; }
-        .mega-title { font-size: 10px; font-weight: 900; color: #e4e4e7; text-transform: uppercase; }
-
-        /* QUẢN TRỊ ADMIN */
-        .ad-panel { display: none; border: 1px solid #f43f5e; background: radial-gradient(circle at top right, rgba(244,63,94,0.1), transparent); }
-        .ad-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .ad-stat { background: rgba(0,0,0,0.6); padding: 15px; border-radius: 16px; text-align: center; border: 1px solid rgba(244,63,94,0.2); }
-        .ad-stat div { font-size: 10px; color: #fbbf24; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
-        .ad-stat span { font-size: 24px; font-weight: 900; color: #fff; }
-
-        /* POPUP ALERT */
+        /* ALERT POPUP */
         #custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(10px); padding: 20px; }
-        .alert-box { background: #09090b; border: 1px solid #3f3f46; border-radius: 24px; padding: 30px 25px; width: 100%; max-width: 380px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
+        .alert-box { background: #09090b; border: 1px solid #3f3f46; border-radius: 20px; padding: 25px; width: 100%; max-width: 350px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;"> <!-- BẢO HỘ CHỐNG CHUỘT PHẢI -->
 
+    <!-- POPUP THÔNG BÁO -->
     <div id="custom-alert"><div class="alert-box"><div id="alert-text" style="color:#fff; font-size:14px; font-weight:700; line-height:1.6; margin-bottom:20px;"></div><button class="btn-modern btn-primary" style="width:100%;" onclick="document.getElementById('custom-alert').style.display='none'">XÁC NHẬN</button></div></div>
 
+    <!-- SIDEBAR MENU -->
     <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
     <div class="sidebar" id="sidebar">
-        <div class="sb-header"><div class="nav-logo">HỆ SINH THÁI</div><button class="nav-btn" onclick="toggleMenu()">×</button></div>
-        <div class="sb-menu-item highlight" onclick="toggleMenu()">🏠 Trang Chủ Lấy Key</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:15px; margin-bottom:20px;">
+            <div class="nav-logo">MENU VIP</div><button class="nav-btn" onclick="toggleMenu()">×</button>
+        </div>
+        <div class="sb-menu-item" style="border-left: 4px solid #10b981; background:rgba(255,255,255,0.05); color:#fff;" onclick="toggleMenu()">🏠 Trang Chủ Lấy Key</div>
         <div class="sb-menu-item" onclick="document.getElementById('vip-sec').scrollIntoView(); toggleMenu();">💎 Dịch Vụ VIP</div>
         <div class="sb-menu-item" onclick="document.getElementById('chat-sec').scrollIntoView(); toggleMenu();">💬 Chat Toàn Server</div>
         <div class="sb-menu-item" onclick="document.getElementById('mega-sec').scrollIntoView(); toggleMenu();">🧩 Kho Tiện Ích Đa Năng</div>
-        <div class="sb-menu-item" onclick="resetLoiWeb()">🛠️ Khắc Phục Lỗi Web</div>
-        <div class="sb-menu-item" style="color:#f43f5e;" onclick="logoutSystem()" id="nav-logout">🚪 Đăng Xuất</div>
     </div>
 
-    <div class="container">
+    <div class="container" id="main-ui">
+        
+        <!-- NAVBAR -->
         <div class="navbar">
             <button class="nav-btn" onclick="toggleMenu()">☰</button>
-            <div class="nav-logo">KL MOD VIP</div>
-            <a href="https://t.me/Khunglongmodgame" target="_blank" style="background:rgba(255,255,255,0.1); color:#fff; padding:6px 12px; border-radius:20px; font-size:10px; font-weight:900; text-decoration:none;">LH ADMIN</a>
+            <div class="nav-logo">KL MOD V11</div>
+            <button class="btn-modern btn-danger" style="padding: 6px 12px; font-size:9px; display:none;" id="nav-logout" onclick="logoutSystem()">ĐĂNG XUẤT</button>
         </div>
 
+        <!-- MODULE 1: HỆ THỐNG TÀI KHOẢN -->
         <div class="card">
             <div class="user-panel">
-                <div class="u-info">
-                    <div class="avatar" id="avatar-icon">👤</div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="u-avatar" id="avatar-icon">👤</div>
                     <div>
-                        <div class="u-name" id="user-name">Khách Lạ</div>
-                        <div id="user-role" class="u-role guest">1 Lượt / Ngày</div>
+                        <div style="font-size:16px; font-weight:900;" id="user-name">Khách Lạ</div>
+                        <div style="font-size:10px; color:#a1a1aa; font-weight:bold; background:rgba(255,255,255,0.1); padding:3px 8px; border-radius:10px; display:inline-block; margin-top:4px;" id="user-role">1 Lượt / Ngày</div>
                     </div>
                 </div>
                 <button id="btn-show-auth" class="btn-modern btn-primary" onclick="document.getElementById('auth-box').style.display='flex'; this.style.display='none';">ĐĂNG NHẬP</button>
             </div>
-            <div class="dev-scan">
-                <div>Thiết bị: <strong id="dev-name" style="color:#fbbf24;">Đang quét...</strong></div>
-                <div style="margin-top:4px;">IP: <span id="dev-ip" style="color:#38bdf8;">Loading...</span></div>
-            </div>
 
-            <div id="auth-box" style="display:none; flex-direction:column; gap:12px; margin-top:20px; border-top:1px dashed #3f3f46; padding-top:20px;">
-                <div style="font-size:10px; color:#f59e0b; text-align:center; font-weight:bold;">⚠️ Bắt buộc đặt Tên là ID Telegram để Admin hỗ trợ cấp lại pass nếu quên!</div>
-                <input type="text" id="auth-u" style="width:100%; padding:14px; background:#000; border:1px solid #3f3f46; border-radius:14px; color:#fff; outline:none; font-weight:bold;" placeholder="Tên Đăng Nhập (ID Telegram)">
-                <input type="password" id="auth-p" style="width:100%; padding:14px; background:#000; border:1px solid #3f3f46; border-radius:14px; color:#fff; outline:none; font-weight:bold;" placeholder="Mật Khẩu">
+            <!-- FORM ĐĂNG NHẬP/ĐĂNG KÝ -->
+            <div id="auth-box" style="display:none; flex-direction:column; gap:10px; border-top:1px dashed rgba(255,255,255,0.1); padding-top:15px; margin-top:15px;">
+                <div style="font-size:10px; color:#f59e0b; text-align:center; font-weight:bold;">Tên Đăng Nhập hãy đặt là ID Telegram!</div>
+                <input type="text" id="auth-u" class="input-modern" placeholder="Tên Đăng Nhập (ID Telegram)">
+                <input type="password" id="auth-p" class="input-modern" placeholder="Mật Khẩu">
                 <div style="display:flex; gap:10px;">
                     <button class="btn-modern btn-primary" style="flex:1;" onclick="doLogin()">VÀO TRONG</button>
                     <button class="btn-modern btn-success" style="flex:1;" onclick="doReg()">TẠO ACC</button>
                 </div>
-                <div style="text-align:center; font-size:11px; color:#a1a1aa; text-decoration:underline; cursor:pointer;" onclick="showAlert('Hãy inbox Admin Khủng Long Mod qua Telegram, đọc đúng ID Telegram của bạn để xin lại Mật Khẩu nhé!')">Quên mật khẩu? (Bấm vào đây)</div>
             </div>
         </div>
 
+        <!-- MODULE 2: QUẢN TRỊ ADMIN (CHỈ HIỆN KHI LÀ YONKI) -->
         <div class="card ad-panel" id="admin-panel">
-            <div class="admin-title"><span>👑 QUẢN TRỊ TỐI CAO</span><button class="btn-modern btn-dark" style="padding:6px 10px; font-size:9px;" onclick="clearAdmin()">DỌN DẸP</button></div>
-            <div class="ad-stat-grid">
-                <div class="ad-stat"><div>Link Đã Tạo</div><span id="ad-gen">0</span></div>
-                <div class="ad-stat"><div>Vượt Thành Công</div><span id="ad-suc" style="color:#10b981;">0</span></div>
-            </div>
-            <button class="btn-modern btn-success" style="width:100%; margin-bottom:15px;" onclick="adminDirectKey()">⚡ BƠM KEY TRỰC TIẾP (KHÔNG VƯỢT)</button>
-            <div style="font-size:11px; color:#f43f5e; font-weight:bold; margin-bottom:8px;">👥 DANH SÁCH NGƯỜI DÙNG & HỖ TRỢ:</div>
-            <div id="ad-user-list" style="max-height:150px; overflow-y:auto; background:rgba(0,0,0,0.6); padding:10px; border-radius:12px; display:flex; flex-direction:column; gap:8px;"></div>
+            <div style="color:#f43f5e; font-weight:900; margin-bottom:10px; font-size:16px; text-align:center;">👑 QUẢN TRỊ TỐI CAO YONKI</div>
+            <button class="btn-modern btn-success" style="width:100%; margin-bottom:15px;" onclick="adminDirectKey()">⚡ TẠO KEY TRỰC TIẾP (KHÔNG VƯỢT)</button>
+            <div style="font-size:11px; color:#fca5a5; font-weight:bold; margin-bottom:8px;">👥 DANH SÁCH THÀNH VIÊN:</div>
+            <div id="ad-user-list" style="max-height:150px; overflow-y:auto; background:rgba(0,0,0,0.5); padding:10px; border-radius:12px; display:flex; flex-direction:column; gap:8px;"></div>
         </div>
 
-        <div class="card" style="border-color: rgba(16,185,129,0.4); box-shadow: 0 0 30px rgba(16,185,129,0.1) inset;">
+        <!-- MODULE 3: TẠO LINK CHÍNH (LINK4M 2 LỚP) -->
+        <div class="card" style="border-color: rgba(16,185,129,0.5); box-shadow: 0 0 30px rgba(16,185,129,0.1) inset;">
             <div class="hero-title">
                 <h2>NHẬN KEY LIÊN QUÂN VIP</h2>
-                <div style="font-size:11px; color:#10b981; font-weight:bold; margin-top:5px; text-transform:uppercase;">Hệ thống bảo mật 2 lớp</div>
+                <div style="font-size:10px; color:#10b981; font-weight:bold; margin-top:5px; text-transform:uppercase;">Hệ thống bảo mật 2 lớp API</div>
             </div>
             <div class="limit-display">
-                <span>Lượt Tạo Key Hôm Nay:</span>
-                <strong id="limit-num">0/0</strong>
+                <span>Lượt Tạo Hôm Nay:</span>
+                <strong id="limit-num" style="color:#10b981;">0/0</strong>
             </div>
             <button id="btn-action" class="btn-mega" onclick="generateLink()">🚀 KHỞI ĐỘNG VƯỢT LINK</button>
             <div id="result-box" style="display:none; margin-top:20px; text-align:center;">
@@ -193,42 +185,28 @@
             </div>
         </div>
 
+        <!-- MODULE 4: CHAT TỔNG SERVER (ADMIN CÓ THỂ SỬA/XÓA) -->
         <div class="card" id="chat-sec">
-            <div style="font-size:14px; font-weight:900; color:#38bdf8; margin-bottom:15px; text-transform:uppercase; display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:14px; font-weight:900; color:#38bdf8; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center;">
                 <span>💬 BOX CHAT TOÀN SERVER</span>
                 <div id="ad-chat-opt" style="display:none; align-items:center; gap:5px; font-size:10px; color:#fff;"><input type="checkbox" id="ad-anon"> Ẩn danh</div>
             </div>
             <div class="chat-box" id="chat-content"></div>
-            <div class="chat-input-area">
-                <input type="text" id="chat-val" class="chat-input" placeholder="Nhập tin nhắn..." onkeypress="if(event.key==='Enter') sendChat()">
+            <div style="display:flex; gap:8px;">
+                <input type="text" id="chat-val" class="input-modern" placeholder="Nhập tin nhắn..." onkeypress="if(event.key==='Enter') sendChat()">
                 <button class="btn-modern btn-primary" style="padding:0 20px;" onclick="sendChat()">GỬI</button>
             </div>
         </div>
 
+        <!-- MODULE 5: 100+ TIỆN ÍCH & QUÀ TẶNG -->
         <div class="card" id="mega-sec">
-            <div style="font-size:14px; font-weight:900; color:#fbbf24; margin-bottom:15px; text-transform:uppercase;">🧩 HỆ SINH THÁI TIỆN ÍCH</div>
-            <div class="mega-grid">
-                <div class="mega-item" onclick="nhanQuaNgay()">
-                    <div class="mega-icon">🎁</div><div class="mega-title">Điểm Danh</div>
-                </div>
-                <div class="mega-item" onclick="doiCode()">
-                    <div class="mega-icon">🎫</div><div class="mega-title">Nhập Code</div>
-                </div>
-                <div class="mega-item" onclick="baoUpdate('Vòng Quay May Mắn')">
-                    <div class="mega-icon">🎡</div><div class="mega-title">Vòng Quay VIP</div>
-                </div>
-                <div class="mega-item" onclick="baoUpdate('Nạp Tiền Động')">
-                    <div class="mega-icon">💳</div><div class="mega-title">Nạp Số Dư</div>
-                </div>
-                <div class="mega-item" onclick="baoUpdate('Chợ Acc Liên Quân')">
-                    <div class="mega-icon">🛒</div><div class="mega-title">Chợ Tài Khoản</div>
-                </div>
-                <div class="mega-item" onclick="baoUpdate('Thuê Người Cày Thuê')">
-                    <div class="mega-icon">⚔️</div><div class="mega-title">Thuê Cày Rank</div>
-                </div>
+            <div style="font-size:14px; font-weight:900; color:#fbbf24; margin-bottom:15px; text-transform:uppercase;">🧩 HỆ SINH THÁI 100+ CÔNG CỤ</div>
+            <div class="grid-100" id="grid-100">
+                <!-- Sẽ chèn bằng JS để tiết kiệm HTML -->
             </div>
         </div>
 
+        <!-- MODULE 6: BẢNG GIÁ VIP (PHỤC HỒI ĐẦY ĐỦ 100%) -->
         <div class="card" id="vip-sec">
             <div style="text-align:center; font-size:16px; font-weight:900; color:#f43f5e; margin-bottom:20px; text-transform:uppercase;">🔥 BẢNG GIÁ DỊCH VỤ VIP 🔥</div>
             <div class="vip-scroll">
@@ -265,580 +243,201 @@
                     <div class="vc-row"><span class="vc-name">7 ngày: 200k | 30 ngày: 550k</span></div>
                 </div>
             </div>
-            <a href="https://t.me/Khunglongmodgame" target="_blank" style="display:block; text-align:center; background:linear-gradient(90deg, #e11d48, #9f1239); color:#fff; padding:16px; border-radius:14px; font-weight:900; text-decoration:none; margin-top:10px; box-shadow:0 10px 20px rgba(225,29,72,0.3); text-transform:uppercase;">📩 INBOX ADMIN CHỐT ĐƠN</a>
+            <a href="https://t.me/Khunglongmodgame" target="_blank" style="display:block; text-align:center; background:linear-gradient(90deg, #e11d48, #9f1239); color:#fff; padding:15px; border-radius:12px; font-weight:900; text-decoration:none; margin-top:10px; text-transform:uppercase; box-shadow: 0 5px 15px rgba(225,29,72,0.4);">📩 LIÊN HỆ ADMIN CHỐT ĐƠN</a>
         </div>
 
+        <!-- MODULE 7: LỊCH SỬ GIAO DỊCH -->
         <div class="card">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:15px; margin-bottom:10px;">
-                <div style="font-size:14px; font-weight:900; color:#a1a1aa; text-transform:uppercase;">Lịch Sử Hoạt Động</div>
+                <div style="font-size:14px; font-weight:900; color:#a1a1aa; text-transform:uppercase;">📜 Lịch Sử Giao Dịch</div>
                 <button class="btn-modern btn-danger" style="padding:6px 12px; font-size:10px;" onclick="xoaAllHis()">XÓA HẾT</button>
             </div>
-            <div class="history-list" id="box-his"></div>
-        </div>
-
-        <div id="view-key" class="card" style="display:none; text-align:center; border-color:#10b981; padding:30px 20px;">
-            <div style="font-size:60px; margin-bottom:15px;">🚀</div>
-            <h2 style="color:#10b981; font-weight:900; font-size:22px; margin-bottom:20px; text-transform:uppercase;">TRUY XUẤT THÀNH CÔNG</h2>
-            <div id="key-text" style="background:#000; border:2px dashed #10b981; padding:25px 20px; border-radius:16px; font-size:24px; font-weight:900; color:#10b981; word-break:break-all; margin-bottom:20px; box-shadow:0 0 30px rgba(16,185,129,0.2) inset;">Đang tải...</div>
-            <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:14px; margin-bottom:20px; border:1px solid rgba(255,255,255,0.1);">
-                <div style="color:#38bdf8; font-weight:900; font-size:13px; margin-bottom:8px;">⏳ HSD: <span id="time-val">--/--/----</span></div>
-                <div style="color:#a1a1aa; font-size:11px; font-weight:bold;">Lấy lúc: <span id="time-clock" style="color:#fff;">--:--:--</span></div>
-            </div>
-            <button class="btn-mega" style="background:#fff; color:#000; margin-bottom:10px; box-shadow:none; animation:none;" onclick="navigator.clipboard.writeText(document.getElementById('key-text').innerText); this.innerText='✅ ĐÃ COPY';">📋 SAO CHÉP MÃ KEY</button>
-            <button class="btn-mega" style="background:#27272a; box-shadow:none; animation:none; font-size:12px; padding:15px;" onclick="window.location.href=window.location.pathname">🔙 VỀ TRANG CHỦ</button>
+            <div id="box-his" style="max-height: 200px; overflow-y: auto; display:flex; flex-direction:column; gap:8px;"></div>
         </div>
 
     </div>
 
-    <script>
-        // --- CẤU HÌNH & DATA ---
-        const KHO_KEY = ["KL_01", "KL_02", "KL_03", "KL_04", "KL_05", "KL_06", "KL_07", "KL_08", "KL_09", "KL_10", "KL_11", "KL_12", "KL_13", "KL_14", "KL_15", "KL_16", "KL_17", "KL_18", "KL_19", "KL_20"];
-        const NGAY_BAT_DAU = new Date("2026-06-20T00:00:00+07:00"); 
-        const ADMIN_SECRET = "(adminkhunglong)";
-        const TK_1 = "688d0212c6e84d0e055ba168", TK_2 = "688d0212c6e84d0e055ba168"; 
+    <!-- MÀN HÌNH TRẢ KẾT QUẢ KEY (CHỈ HIỆN KHI VƯỢT LINK XONG) -->
+    <div id="view-key" class="container" style="display:none; margin-top:20px;">
+        <div class="card" style="text-align:center; border-color:#10b981; padding:30px 20px;">
+            <div style="font-size:60px; margin-bottom:15px;">🚀</div>
+            <h2 style="color:#10b981; font-weight:900; font-size:22px; margin-bottom:20px; text-transform:uppercase;">TRUY XUẤT THÀNH CÔNG</h2>
+            <div id="key-text" style="background:#000; border:2px dashed #10b981; padding:25px 20px; border-radius:16px; font-size:24px; font-weight:900; color:#10b981; word-break:break-all; margin-bottom:20px; box-shadow:0 0 30px rgba(16,185,129,0.2) inset;">Đang tải...</div>
+            <button class="btn-mega" style="background:#fff; color:#000; margin-bottom:10px; box-shadow:none; animation:none;" onclick="navigator.clipboard.writeText(document.getElementById('key-text').innerText); this.innerText='✅ ĐÃ COPY';">📋 SAO CHÉP MÃ KEY</button>
+            <button class="btn-mega" style="background:#27272a; box-shadow:none; animation:none; font-size:12px; padding:15px;" onclick="window.location.href=window.location.pathname">🔙 VỀ TRANG CHỦ</button>
+        </div>
+    </div>
 
+    <!-- =========================================================
+         [4. JAVASCRIPT] XỬ LÝ LÕI HỆ THỐNG V11 (FULL BỘ)
+         ========================================================= -->
+    <script>
+        // --- BẢO HỘ CHỐNG F12 / CHỐNG COPY ---
+        document.addEventListener('keydown', function(e) { if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) { e.preventDefault(); } });
+        
+        // --- CẤU HÌNH KHO KEY (TỰ ĐỘNG NHẢ THEO NGÀY) ---
+        const KHO_KEY = ["KL_VIP_01", "KL_VIP_02", "KL_VIP_03", "KL_VIP_04", "KL_VIP_05", "KL_VIP_06", "KL_VIP_07", "KL_VIP_08", "KL_VIP_09", "KL_VIP_10", "KL_VIP_11", "KL_VIP_12", "KL_VIP_13", "KL_VIP_14", "KL_VIP_15", "KL_VIP_16", "KL_VIP_17", "KL_VIP_18", "KL_VIP_19", "KL_VIP_20"];
+        const NGAY_BAT_DAU = new Date("2026-06-20T00:00:00+07:00"); 
+        
+        // --- ADMIN MỚI CHÍNH THỨC ---
+        const AD_USER = "YonkiVNOfficial"; const AD_PASS = "YonkiVNOfficial";
+
+        // --- API VƯỢT LINK L4M ---
+        const TK_1 = "688d0212c6e84d0e055ba168", TK_2 = "688d0212c6e84d0e055ba168"; 
         const NOW = new Date(); const dStr = NOW.toISOString().slice(0, 10);
+        
+        // TÍNH TOÁN KEY HÔM NAY
         let sNgay = Math.floor((NOW.getTime() - NGAY_BAT_DAU.getTime()) / 86400000); if(sNgay < 0) sNgay = 0;
-        let TARGET_KEY = (sNgay < KHO_KEY.length) ? KHO_KEY[sNgay] : null;
+        let TARGET_KEY = (sNgay < KHO_KEY.length) ? KHO_KEY[sNgay] : KHO_KEY[KHO_KEY.length-1];
 
         // --- HÀM TIỆN ÍCH ---
         function showAlert(msg) { document.getElementById('alert-text').innerText = msg; document.getElementById('custom-alert').style.display = 'flex'; }
         function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
-        function baoUpdate(ten) { showAlert(`🚀 Tính năng [${ten}] hiện đang được Admin xây dựng và cập nhật trong phiên bản tới. Mong bạn thông cảm chờ đợi nhé!`); }
-        function formatT(d) { return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')} - ${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
-
-        // --- INFO THIẾT BỊ ---
-        document.getElementById('dev-name').innerText = (/iPhone|iPad/i.test(navigator.userAgent)) ? "Apple iOS" : (/Android/i.test(navigator.userAgent)) ? "Android Device" : "PC / Laptop";
-        fetch('https://get.geojs.io/v1/ip/geo.json').then(r=>r.json()).then(d=>{ document.getElementById('dev-ip').innerText = `${d.ip} (${d.country})`; }).catch(()=>{});
 
         // --- DATABASE ---
-        let dbUsers = JSON.parse(localStorage.getItem('kl_db_u')) || {};
-        let cUser = localStorage.getItem('kl_cu') || null;
-        let isAdmin = (cUser === 'AdminBoss');
+        let dbUsers = JSON.parse(localStorage.getItem('kl_v11_users')) || {};
+        let cUser = localStorage.getItem('kl_v11_cu') || null;
+        let isAdmin = (cUser === AD_USER);
         let maxL = isAdmin ? 99 : (cUser ? 5 : 1);
 
-        // --- AUTH ---
+        // --- AUTH ĐĂNG KÝ / ĐĂNG NHẬP ---
         function doReg() {
             let u = document.getElementById('auth-u').value.trim(), p = document.getElementById('auth-p').value.trim();
-            if(!u || !p) return showAlert("Điền đủ ID và Pass!");
-            if(dbUsers[u]) return showAlert("Tài khoản đã tồn tại!");
-            dbUsers[u] = { p: p }; localStorage.setItem('kl_db_u', JSON.stringify(dbUsers)); showAlert("✅ Tạo acc thành công! Bấm VÀO TRONG để đăng nhập.");
+            if(!u || !p) return showAlert("Cần điền đầy đủ thông tin!");
+            if(u === AD_USER || u.includes("Admin")) return showAlert("Tên này đã bị cấm đặt!");
+            if(dbUsers[u]) return showAlert("Tài khoản này đã tồn tại!");
+            dbUsers[u] = { p: p }; localStorage.setItem('kl_v11_users', JSON.stringify(dbUsers)); showAlert("✅ Đăng ký thành công! Vui lòng bấm VÀO TRONG.");
         }
         function doLogin() {
             let u = document.getElementById('auth-u').value.trim(), p = document.getElementById('auth-p').value.trim();
-            if(u.includes(ADMIN_SECRET) || p === ADMIN_SECRET) { localStorage.setItem('kl_cu', 'AdminBoss'); return location.reload(); }
+            // Lệnh Admin Bí Mật
+            if(u === AD_USER && p === AD_PASS) { localStorage.setItem('kl_v11_cu', AD_USER); return location.reload(); }
             if(!dbUsers[u] || dbUsers[u].p !== p) return showAlert("❌ Sai tài khoản hoặc mật khẩu!");
-            localStorage.setItem('kl_cu', u); location.reload();
+            localStorage.setItem('kl_v11_cu', u); location.reload();
         }
-        function logoutSystem() { localStorage.removeItem('kl_cu'); location.reload(); }
+        function logoutSystem() { localStorage.removeItem('kl_v11_cu'); location.reload(); }
 
-        // --- UI RENDER ---
+        // --- RENDER GIAO DIỆN CHÍNH ---
         function updateUI() {
             if(isAdmin) {
-                document.getElementById('user-name').innerText = "ADMIN BOSS"; document.getElementById('user-role').className = "u-role admin"; document.getElementById('user-role').innerText = "VÔ HẠN"; document.getElementById('avatar-icon').className = "avatar admin";
+                document.getElementById('user-name').innerText = "YONKI ĐẠI ĐẾ"; document.getElementById('user-name').style.color = "#f43f5e";
+                document.getElementById('user-role').innerText = "VÔ HẠN LƯỢT (ADMIN)"; document.getElementById('user-role').style.background = "rgba(244,63,94,0.2)"; document.getElementById('user-role').style.color = "#f43f5e";
+                document.getElementById('avatar-icon').style.borderColor = "#f43f5e"; document.getElementById('avatar-icon').innerText = "👑";
                 document.getElementById('admin-panel').style.display = 'block'; document.getElementById('ad-chat-opt').style.display = 'flex';
-                renderAdPanel();
+                
+                // Hiển thị danh sách User cho Admin
+                let html = ""; for(let u in dbUsers) { html += `<div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.8); padding:10px; border-radius:8px; border:1px solid #3f3f46;"><div style="font-size:12px;"><b style="color:#0ea5e9">${u}</b> (Pass: ${dbUsers[u].p})</div><button class="btn-modern btn-success" style="padding:4px 8px; font-size:9px;" onclick="localStorage.setItem('kl_v11_cu','${u}'); location.reload()">ĐĂNG NHẬP HỘ</button></div>`; }
+                document.getElementById('ad-user-list').innerHTML = html || "<div style='color:#71717a; font-size:11px;'>Chưa có ai đăng ký.</div>";
             } else if(cUser) {
-                document.getElementById('user-name').innerText = cUser; document.getElementById('user-role').className = "u-role vip"; document.getElementById('user-role').innerText = "MEMBER (5 LƯỢT)"; document.getElementById('avatar-icon').className = "avatar vip";
+                document.getElementById('user-name').innerText = cUser; 
+                document.getElementById('user-role').innerText = "THÀNH VIÊN VIP (5 LƯỢT)"; document.getElementById('user-role').style.color = "#10b981"; document.getElementById('user-role').style.background = "rgba(16,185,129,0.1)";
+                document.getElementById('avatar-icon').style.borderColor = "#10b981";
             }
             if(cUser) { document.getElementById('btn-show-auth').style.display='none'; document.getElementById('nav-logout').style.display='block'; }
-            renderHis(); checkLim(); renderChat();
+            
+            checkLim(); renderChat(); renderHis(); tao100TienIch();
         }
 
-        // --- ADMIN ---
-        function renderAdPanel() {
-            document.getElementById('ad-gen').innerText = localStorage.getItem('kl_ad_gen')||0; document.getElementById('ad-suc').innerText = localStorage.getItem('kl_ad_suc')||0;
-            let html = ""; for(let u in dbUsers) { html += `<div style="display:flex; justify-content:space-between; align-items:center; background:#000; padding:10px; border-radius:8px;"><div><b style="color:#0ea5e9">${u}</b> (Pass: ${dbUsers[u].p})</div><button class="btn-modern btn-success" style="padding:4px 8px; font-size:9px;" onclick="localStorage.setItem('kl_cu','${u}'); location.reload()">VÀO ACC</button></div>`; }
-            document.getElementById('ad-user-list').innerHTML = html || "<div style='color:#71717a; font-size:11px;'>Chưa có ai đăng ký.</div>";
-        }
-        function clearAdmin() { localStorage.setItem('kl_ad_gen',0); localStorage.setItem('kl_ad_suc',0); renderAdPanel(); }
-        function adminDirectKey() { if(TARGET_KEY) window.location.href = `?key=${TARGET_KEY}&m=ad`; }
-
-        // --- LINK & LIMIT ---
+        // --- XỬ LÝ LƯỢT & VƯỢT LINK ---
         function checkLim() {
-            let use = parseInt(localStorage.getItem(`kl_u_${cUser||'g'}_${dStr}`)) || 0; let left = maxL - use;
+            let use = parseInt(localStorage.getItem(`kl_v11_u_${cUser||'g'}_${dStr}`)) || 0; let left = maxL - use;
             document.getElementById('limit-num').innerText = `${left}/${maxL}`;
-            if(left <= 0 && !isAdmin) { let b = document.getElementById('btn-action'); b.innerText = "❌ HẾT LƯỢT"; b.disabled = true; }
+            if(left <= 0 && !isAdmin) { let b = document.getElementById('btn-action'); b.innerText = "❌ HẾT LƯỢT HÔM NAY"; b.disabled = true; }
         }
         function generateLink() {
-            if(!TARGET_KEY) return showAlert("Kho đã hết Key!");
-            document.getElementById('btn-action').innerText = "⏳ ĐANG XỬ LÝ..."; document.getElementById('btn-action').disabled = true;
+            let b = document.getElementById('btn-action'); b.innerText = "⏳ ĐANG MÃ HÓA..."; b.disabled = true;
             let dest = window.location.origin + window.location.pathname + `?key=${TARGET_KEY}&m=link`;
             let l1 = `https://link4m.co/st?api=${TK_1}&url=${encodeURIComponent(`https://link4m.co/st?api=${TK_2}&url=${encodeURIComponent(dest)}`)}`;
             document.getElementById('result-box').style.display = 'block'; document.getElementById('short-link').href = l1;
-            document.getElementById('btn-action').innerText = "✅ TẠO LINK THÀNH CÔNG";
-            localStorage.setItem(`kl_u_${cUser||'g'}_${dStr}`, (parseInt(localStorage.getItem(`kl_u_${cUser||'g'}_${dStr}`))||0)+1);
-            if(isAdmin) localStorage.setItem('kl_ad_gen', (parseInt(localStorage.getItem('kl_ad_gen'))||0)+1);
-            checkLim();
+            b.innerText = "✅ TẠO LINK THÀNH CÔNG";
+            localStorage.setItem(`kl_v11_u_${cUser||'g'}_${dStr}`, (parseInt(localStorage.getItem(`kl_v11_u_${cUser||'g'}_${dStr}`))||0)+1); checkLim();
         }
+        function adminDirectKey() { window.location.href = `?key=${TARGET_KEY}&m=ad`; }
 
-        // --- CHAT TỔNG (LOCALSTORAGE SYNC) ---
+        // --- BOX CHAT TOÀN SERVER (ADMIN QUẢN LÝ TỐI CAO) ---
         function sendChat() {
             let val = document.getElementById('chat-val').value.trim(); if(!val) return;
-            let chats = JSON.parse(localStorage.getItem('kl_chats')) || [];
-            let sender = isAdmin ? (document.getElementById('ad-anon').checked ? "Hệ Thống" : "ADMIN") : (cUser || "Khách");
-            chats.push({s: sender, m: val, a: isAdmin&&!document.getElementById('ad-anon').checked});
-            if(chats.length > 50) chats.shift();
-            localStorage.setItem('kl_chats', JSON.stringify(chats)); document.getElementById('chat-val').value = ""; renderChat();
+            let chats = JSON.parse(localStorage.getItem('kl_v11_chats')) || [];
+            let sender = isAdmin ? (document.getElementById('ad-anon').checked ? "Hệ Thống" : "ADMIN YONKI") : (cUser || "Khách");
+            chats.push({ s: sender, m: val, a: isAdmin&&!document.getElementById('ad-anon').checked, real: cUser||"g" });
+            if(chats.length > 100) chats.shift(); // Lưu tối đa 100 tin
+            localStorage.setItem('kl_v11_chats', JSON.stringify(chats)); document.getElementById('chat-val').value = ""; renderChat();
         }
+        
+        function xoaChat(idx) {
+            if(!confirm("Admin: Bạn chắc chắn muốn xóa tin nhắn này?")) return;
+            let chats = JSON.parse(localStorage.getItem('kl_v11_chats')) || []; chats.splice(idx, 1);
+            localStorage.setItem('kl_v11_chats', JSON.stringify(chats)); renderChat();
+        }
+
+        function suaChat(idx) {
+            let chats = JSON.parse(localStorage.getItem('kl_v11_chats')) || [];
+            let newMsg = prompt("Admin chỉnh sửa tin nhắn:", chats[idx].m);
+            if(newMsg !== null && newMsg.trim() !== "") { chats[idx].m = newMsg.trim(); localStorage.setItem('kl_v11_chats', JSON.stringify(chats)); renderChat(); }
+        }
+
         function renderChat() {
-            let chats = JSON.parse(localStorage.getItem('kl_chats')) || []; let box = document.getElementById('chat-content');
-            box.innerHTML = chats.map(c => {
-                let isMe = c.s === (cUser||"Khách") || c.s==="ADMIN";
-                let cls = c.a ? "admin" : (isMe ? "me" : "");
-                return `<div class="msg-item ${cls}"><div class="msg-user">${c.s} ${c.a?'🛡️':''}</div>${c.m}</div>`;
+            let chats = JSON.parse(localStorage.getItem('kl_v11_chats')) || []; let box = document.getElementById('chat-content');
+            box.innerHTML = chats.map((c, idx) => {
+                let isMe = (c.real === (cUser||"g") || c.s==="ADMIN YONKI");
+                let wrapCls = c.a ? "admin-msg" : (isMe ? "me" : "other");
+                let adminBtns = isAdmin ? `<div class="admin-chat-controls"><button class="acc-btn" onclick="suaChat(${idx})">✏️</button><button class="acc-btn" onclick="xoaChat(${idx})">🗑️</button></div>` : '';
+                return `<div class="msg-wrap ${wrapCls}"><div class="msg-item"><div class="msg-user">${c.s} ${c.a?'🛡️':''}</div>${c.m}${adminBtns}</div></div>`;
             }).join('');
             box.scrollTop = box.scrollHeight;
         }
-        window.addEventListener('storage', (e) => { if(e.key === 'kl_chats') renderChat(); });
+        window.addEventListener('storage', (e) => { if(e.key === 'kl_v11_chats') renderChat(); });
 
-        // --- LỊCH SỬ & QUÀ ---
-        function nhanQuaNgay() {
-            if(localStorage.getItem(`kl_chk_${cUser||'g'}_${dStr}`)) return showAlert("Hôm nay bạn đã nhận quà rồi!");
-            localStorage.setItem(`kl_chk_${cUser||'g'}_${dStr}`, 'true');
-            let uK = `kl_u_${cUser||'g'}_${dStr}`; let u = parseInt(localStorage.getItem(uK))||0; if(u>0) localStorage.setItem(uK, u-1);
-            showAlert("🎁 NHẬN THÀNH CÔNG +1 LƯỢT TẠO KEY!"); checkLim();
+        // --- HỆ SINH THÁI 100+ TIỆN ÍCH ---
+        function nhanLuuTru() {
+            if(localStorage.getItem(`kl_dd_${cUser||'g'}_${dStr}`)) return showAlert("Hôm nay bạn đã điểm danh rồi!");
+            localStorage.setItem(`kl_dd_${cUser||'g'}_${dStr}`, 'true');
+            let k = `kl_v11_u_${cUser||'g'}_${dStr}`; let u = parseInt(localStorage.getItem(k))||0; if(u>0) localStorage.setItem(k, u-1);
+            showAlert("🎁 Điểm danh thành công! Bạn được cộng lại 1 lượt vượt link."); checkLim();
         }
-        function doiCode() {
-            let val = prompt("Nhập mã Giftcode:"); if(!val) return; val = val.toUpperCase();
-            if(val==="KHUNGLONGVIP" && !localStorage.getItem(`kl_cd_${val}_${cUser||'g'}`)) { localStorage.setItem(`kl_cd_${val}_${cUser||'g'}`, '1'); luuHis("VIP Liên Quân 1 Ngày", "Nhập Code"); showAlert("Đổi Code Thành Công!"); } else showAlert("Mã sai hoặc đã dùng!");
+        function nhapGiftcode() {
+            let c = prompt("Nhập Giftcode:"); if(!c) return;
+            if(c.toUpperCase() === "YONKIVIP" && !localStorage.getItem(`kl_gc_${c}_${cUser||'g'}`)) { localStorage.setItem(`kl_gc_${c}_${cUser||'g'}`, '1'); luuHis("VIP Mặc định 1 Ngày", "Nhập Code"); showAlert("Đổi Code thành công!"); } else showAlert("Mã Code không đúng hoặc đã sử dụng!");
         }
+        function tao100TienIch() {
+            let html = `<div class="tool-box" onclick="nhanLuuTru()"><div class="tool-icon" style="color:#10b981;">🎁</div><div class="tool-name">Điểm Danh</div></div>
+                        <div class="tool-box" onclick="nhapGiftcode()"><div class="tool-icon" style="color:#f59e0b;">🎫</div><div class="tool-name">Nhập Code</div></div>
+                        <div class="tool-box" onclick="showAlert('Chức năng Vòng Quay đang bảo trì nâng cấp Server!')"><div class="tool-icon" style="color:#0ea5e9;">🎡</div><div class="tool-name">Vòng Quay</div></div>
+                        <div class="tool-box" onclick="showAlert('Hệ thống Nạp Thẻ Auto đang bảo trì!')"><div class="tool-icon" style="color:#f43f5e;">💳</div><div class="tool-name">Nạp Tiền</div></div>`;
+            const icons = ["🚀", "⚡", "💎", "🔥", "🛡️", "⚙️", "🛒", "📱", "⚔️", "☁️"];
+            const names = ["Hack Map", "Auto Aim", "Mở Tướng", "Antiban", "Fake IP", "Tăng FPS", "Bypass", "Thuê Acc", "Cày Thuê", "Mod Skin"];
+            for(let i = 1; i <= 96; i++) {
+                html += `<div class="tool-box" onclick="showAlert('Chức năng [${names[i%names.length]} v${i}] đang được cập nhật trong phiên bản tiếp theo. Vui lòng đợi!')"><div class="tool-icon">${icons[i%icons.length]}</div><div class="tool-name">${names[i%names.length]} ${i}</div></div>`;
+            }
+            document.getElementById('grid-100').innerHTML = html;
+        }
+
+        // --- LỊCH SỬ GIAO DỊCH ---
         function luuHis(k, m) {
-            let h = JSON.parse(localStorage.getItem(`kl_h_${cUser||'g'}`)) || []; let t = formatT(NOW);
+            let h = JSON.parse(localStorage.getItem(`kl_v11_h_${cUser||'g'}`)) || []; let t = `${String(NOW.getHours()).padStart(2,'0')}:${String(NOW.getMinutes()).padStart(2,'0')} - ${String(NOW.getDate()).padStart(2,'0')}/${String(NOW.getMonth()+1).padStart(2,'0')}`;
             if(h.length>0 && h[0].k===k && h[0].t===t) return;
-            h.unshift({t:t, k:k, m:m}); if(h.length>20) h.pop(); localStorage.setItem(`kl_h_${cUser||'g'}`, JSON.stringify(h)); renderHis();
+            h.unshift({t:t, k:k, m:m}); if(h.length>30) h.pop(); localStorage.setItem(`kl_v11_h_${cUser||'g'}`, JSON.stringify(h)); renderHis();
         }
         function renderHis() {
-            let h = JSON.parse(localStorage.getItem(`kl_h_${cUser||'g'}`)) || []; let box = document.getElementById('box-his');
-            if(h.length===0) return box.innerHTML = '<div style="text-align:center; color:#71717a; font-size:11px; padding:10px;">Trống rỗng.</div>';
-            box.innerHTML = h.map((i,idx) => `<div class="history-item"><button class="btn-del-item" onclick="xoa1His(${idx})">X</button><div style="margin-bottom:4px;">🕒 ${i.t}</div><div style="font-size:14px;">🔑 <strong>${i.k}</strong></div><div style="font-size:10px; color:#fbbf24; margin-top:4px;">Từ: ${i.m}</div></div>`).join('');
+            let h = JSON.parse(localStorage.getItem(`kl_v11_h_${cUser||'g'}`)) || []; let box = document.getElementById('box-his');
+            if(h.length===0) return box.innerHTML = '<div style="color:#71717a; font-size:12px; text-align:center; padding:10px;">Chưa có giao dịch nào.</div>';
+            box.innerHTML = h.map(i => `<div style="background:rgba(0,0,0,0.5); padding:12px; border-radius:10px; border:1px solid rgba(255,255,255,0.05);"><div style="font-size:11px; color:#a1a1aa; margin-bottom:4px;">🕒 ${i.t} | Nguồn: ${i.m}</div><div style="font-size:14px; color:#10b981; font-weight:900;">🔑 ${i.k}</div></div>`).join('');
         }
-        function xoa1His(id) { let h = JSON.parse(localStorage.getItem(`kl_h_${cUser||'g'}`)); h.splice(id,1); localStorage.setItem(`kl_h_${cUser||'g'}`, JSON.stringify(h)); renderHis(); }
-        function xoaAllHis() { if(confirm("Xóa sạch lịch sử?")) { localStorage.removeItem(`kl_h_${cUser||'g'}`); renderHis(); } }
+        function xoaAllHis() { if(confirm("Xóa sạch lịch sử?")) { localStorage.removeItem(`kl_v11_h_${cUser||'g'}`); renderHis(); } }
 
-        // --- NHẬN KEY (TRẢ VỀ) ---
+        // --- MÀN HÌNH NHẬN KEY (SAU KHI CHUYỂN HƯỚNG VỀ) ---
         const uP = new URLSearchParams(window.location.search);
         if (uP.get('key')) {
-            let k = uP.get('key'); let m = (uP.get('m')==='ad') ? "Admin Cấp" : "Vượt Link";
-            if(!sessionStorage.getItem(`sv_${k}`)) { luuHis(k,m); if(isAdmin) localStorage.setItem('kl_ad_suc', (parseInt(localStorage.getItem('kl_ad_suc'))||0)+1); sessionStorage.setItem(`sv_${k}`,"1"); }
-            document.getElementById('view-home').style.display='none'; document.getElementById('user-section').style.display='none'; document.getElementById('view-key').style.display='block';
-            document.getElementById('key-text').innerText = k; document.getElementById('time-clock').innerText = formatT(NOW);
-            let d1 = new Date(NGAY_BAT_DAU); d1.setDate(d1.getDate()+sNgay); let d2 = new Date(d1); d2.setDate(d2.getDate()+1);
-            let f = (d) => String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
-            document.getElementById('time-val').innerText = `${f(d1)} -> ${f(d2)}`;
+            let k = uP.get('key'); let m = (uP.get('m')==='ad') ? "Admin Cấp Nhanh" : "Vượt Link Hệ Thống";
+            if(!sessionStorage.getItem(`sv11_${k}`)) { luuHis(k,m); sessionStorage.setItem(`sv11_${k}`,"1"); }
+            document.getElementById('main-ui').style.display='none'; document.getElementById('view-key').style.display='block';
+            document.getElementById('key-text').innerText = k;
         }
+
+        // --- TỰ ĐỘNG XÓA BỘ NHỚ ĐỆM ĐỂ TRÁNH LỖI (FORCE REFRESH) ---
+        window.onload = () => { if(!sessionStorage.getItem('v11_loaded')) { sessionStorage.setItem('v11_loaded', 'true'); location.reload(); } }
 
         updateUI();
-    </script>
-</body>
-</html>
-        /* THẺ CARD CHUNG */
-        .card { background: rgba(20, 20, 25, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: clamp(15px, 4vw, 20px); margin-bottom: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; overflow: hidden; }
-        
-        /* TÀI KHOẢN & LOGIN/REGISTER MODAL */
-        .user-panel { display: flex; justify-content: space-between; align-items: center; }
-        .u-info { display: flex; align-items: center; gap: 12px; }
-        .avatar { width: 45px; height: 45px; background: #27272a; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 20px; border: 2px solid #3f3f46; }
-        .u-name { font-size: clamp(14px, 4vw, 16px); font-weight: 900; }
-        .u-role { font-size: 9px; padding: 4px 8px; border-radius: 12px; font-weight: 800; margin-top: 4px; display: inline-block; background: rgba(255,255,255,0.1); }
-        .role-vip { color: #00d2ff; border: 1px solid #00d2ff; background: rgba(0, 210, 255, 0.1); }
-        .role-admin { color: #ff0055; border: 1px solid #ff0055; background: rgba(255, 0, 85, 0.1); }
-
-        .auth-box { display: none; flex-direction: column; gap: 15px; margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 15px; }
-        .auth-input { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid #3f3f46; border-radius: 12px; color: #fff; font-weight: bold; outline: none; }
-        .auth-input:focus { border-color: #0ea5e9; }
-        .btn-auth { padding: 12px; border-radius: 12px; font-weight: 900; border: none; cursor: pointer; text-transform: uppercase; }
-        .btn-blue { background: linear-gradient(90deg, #0ea5e9, #2563eb); color: #fff; }
-        .btn-green { background: linear-gradient(90deg, #10b981, #059669); color: #fff; }
-        .auth-hint { font-size: 10px; color: #f59e0b; text-align: center; }
-        .forgot-pass { font-size: 11px; color: #a1a1aa; text-align: center; cursor: pointer; text-decoration: underline; margin-top: -5px; }
-
-        /* NÚT CHÍNH TẠO LINK */
-        .title-box { text-align: center; margin-bottom: 15px; }
-        .title-box h2 { font-size: clamp(16px, 5vw, 20px); font-weight: 900; color: #fff; }
-        .title-box p { font-size: 12px; color: #10b981; margin-top: 5px; font-weight: 800; }
-        .limit-box { background: rgba(0,0,0,0.6); border-radius: 12px; padding: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid #f59e0b; margin-bottom: 15px; }
-        @keyframes pulse-neon { 0% { box-shadow: 0 0 10px rgba(16,185,129,0.4); } 50% { box-shadow: 0 0 25px rgba(16,185,129,0.8); } 100% { box-shadow: 0 0 10px rgba(16,185,129,0.4); } }
-        .btn-main { width: 100%; padding: 15px; font-size: clamp(14px, 4vw, 16px); font-weight: 900; border-radius: 14px; cursor: pointer; border: none; background: linear-gradient(90deg, #10b981, #059669); color: #fff; animation: pulse-neon 2s infinite; text-transform: uppercase; }
-        .btn-main:disabled { background: #3f3f46; color: #a1a1aa; animation: none; cursor: not-allowed; }
-        
-        /* BẢNG ĐIỀU KHIỂN ADMIN */
-        .admin-section { display: none; border: 1px solid #f43f5e; background: rgba(244,63,94,0.05); }
-        .admin-title { color: #f43f5e; font-weight: 900; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .user-list-admin { max-height: 150px; overflow-y: auto; background: rgba(0,0,0,0.5); border-radius: 10px; padding: 10px; margin-top: 10px; }
-        .user-item-ad { display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #3f3f46; font-size: 12px; align-items: center; }
-        .btn-chui-acc { background: #f97316; color: #fff; border: none; padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: bold; cursor: pointer; }
-
-        /* LỊCH SỬ KHÁCH */
-        .history-list { max-height: 180px; overflow-y: auto; margin-top: 10px; }
-        .history-item { background: rgba(0,0,0,0.4); padding: 10px; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid #38bdf8; font-size: 12px; color: #e4e4e7; position: relative; }
-        .btn-del-item { position: absolute; top: 10px; right: 10px; background: rgba(225,29,72,0.8); color: #fff; border: none; border-radius: 6px; width: 22px; height: 22px; font-weight: bold; cursor: pointer; }
-
-        /* TIỆN ÍCH SÁNG TẠO */
-        .daily-checkin { background: linear-gradient(135deg, #f59e0b, #d97706); padding: 15px; border-radius: 16px; text-align: center; cursor: pointer; box-shadow: 0 5px 15px rgba(245,158,11,0.3); transition: 0.2s; margin-bottom: 18px; }
-        .daily-checkin:active { transform: scale(0.95); }
-        .daily-text { font-weight: 900; font-size: 15px; color: #fff; text-transform: uppercase; }
-
-        /* BẢNG GIÁ VIP CUỘN */
-        .vip-scroll { display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px; scroll-snap-type: x mandatory; }
-        .vip-scroll::-webkit-scrollbar { height: 4px; } .vip-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
-        .movie-card { min-width: 85%; background: rgba(0,0,0,0.7); border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); padding: 15px; scroll-snap-align: start; }
-        .mc-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed rgba(255,255,255,0.05); font-size: 12px; }
-
-        /* MODALS */
-        #custom-alert { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(5px); padding: 20px; }
-        .alert-box { background: #18181b; border: 1px solid #3f3f46; border-radius: 20px; padding: 25px; width: 100%; max-width: 350px; text-align: center; }
-        .alert-btn { background: #0ea5e9; color: #fff; border: none; padding: 10px 20px; border-radius: 12px; font-weight: 900; width: 100%; margin-top: 15px; }
-
-        #view-key { display: none; text-align: center; padding: 20px 10px; }
-    </style>
-</head>
-<body>
-
-    <div id="custom-alert"><div class="alert-box"><div id="alert-text" style="color:#fff; font-weight:bold; margin-bottom:10px;"></div><button class="alert-btn" onclick="document.getElementById('custom-alert').style.display='none'">ĐÓNG</button></div></div>
-
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-    <div class="sidebar" id="sidebar">
-        <div class="sb-header">
-            <div class="nav-logo">HỆ SINH THÁI</div>
-            <div class="nav-btn" onclick="toggleMenu()">❌</div>
-        </div>
-        <div class="sb-menu-item highlight" onclick="toggleMenu()">🏠 Trang Chủ Nhận Key</div>
-        <div class="sb-menu-item" onclick="document.getElementById('vip-section').scrollIntoView(); toggleMenu();">💎 Bảng Giá VIP</div>
-        <div class="sb-menu-item" onclick="document.getElementById('event-section').scrollIntoView(); toggleMenu();">🎁 Nhập Code Đổi Quà</div>
-        <div class="sb-menu-item" onclick="resetLoiWeb()">🛠️ Khắc Phục Lỗi Web</div>
-        <div class="sb-menu-item" onclick="window.open('https://t.me/Khunglongmodgame', '_blank')">💬 Liên Hệ Admin</div>
-        <div id="sb-logout" class="sb-menu-item" style="color:#e11d48; display:none;" onclick="logoutSystem()">🚪 Đăng Xuất</div>
-    </div>
-
-    <div class="container">
-        <div class="navbar">
-            <button class="nav-btn" onclick="toggleMenu()">☰</button>
-            <div class="nav-logo">KL MOD VIP</div>
-            <div class="nav-icons">
-                <div class="bell-icon" onclick="showAlert('🔔 Hệ thống đang hoạt động ổn định. Chúc bạn chơi game vui vẻ!')">
-                    🔔<div class="bell-badge">1</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card" id="user-section">
-            <div class="user-panel">
-                <div class="u-info">
-                    <div class="avatar" id="avatar-icon">👤</div>
-                    <div>
-                        <div class="u-name" id="user-name">Chưa Đăng Nhập</div>
-                        <div id="user-role" class="u-role role-guest">Khách vãng lai</div>
-                    </div>
-                </div>
-                <button id="btn-show-auth" class="btn-sm btn-blue" onclick="toggleAuth()">Đăng Nhập / Ký</button>
-            </div>
-            
-            <div class="auth-box" id="auth-box">
-                <div class="auth-hint">⚠️ LƯU Ý: Vui lòng đặt Tên Đăng Nhập là <b>ID Telegram</b> của bạn. Nếu quên mật khẩu mà không đúng ID Telegram sẽ không được Admin hỗ trợ lấy lại!</div>
-                <input type="text" id="auth-username" class="auth-input" placeholder="Tên Đăng Nhập (ID Telegram)">
-                <input type="password" id="auth-pass" class="auth-input" placeholder="Mật khẩu">
-                <div style="display:flex; gap:10px;">
-                    <button class="btn-auth btn-blue" style="flex:1;" onclick="processLogin()">ĐĂNG NHẬP</button>
-                    <button class="btn-auth btn-green" style="flex:1;" onclick="processRegister()">ĐĂNG KÝ</button>
-                </div>
-                <div class="forgot-pass" onclick="showAlert('Để lấy lại mật khẩu, vui lòng Inbox Admin và cung cấp ID Telegram bạn đã dùng để đăng ký nhé!')">Quên mật khẩu?</div>
-            </div>
-        </div>
-
-        <div id="view-home">
-            
-            <div class="card admin-section" id="admin-panel">
-                <div class="admin-title"><span>👑 TRUNG TÂM ADMIN</span></div>
-                <button class="btn-sm btn-green" style="width:100%; margin-bottom:10px; padding:12px; font-size:12px;" onclick="adminGiveKeyDirect()">⚡ TẠO KEY KHÔNG CẦN VƯỢT LINK</button>
-                
-                <div style="font-size: 12px; font-weight: bold; color: #a1a1aa; margin-top: 15px;">👥 Danh sách User & Chui Acc:</div>
-                <div class="user-list-admin" id="ad-user-list">
-                    </div>
-            </div>
-
-            <div class="daily-checkin" onclick="dailyCheckIn()">
-                <div class="daily-text">🎁 ĐIỂM DANH NHẬN +1 LƯỢT FREE</div>
-                <div style="font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 3px;">Nhấn vào đây mỗi ngày để nhận quà</div>
-            </div>
-
-            <div class="card" style="border: 1px solid rgba(16,185,129,0.3); box-shadow: 0 0 20px rgba(16,185,129,0.1) inset;">
-                <div class="title-box">
-                    <h2>🎬 NHẬN KEY LIÊN QUÂN (VIP)</h2>
-                    <p>Hệ Thống Vượt 2 Lớp X2 Doanh Thu</p>
-                </div>
-                <div class="limit-box">
-                    <span>Giới hạn lấy Key:</span><strong id="limit-display">0/0 Lượt</strong>
-                </div>
-                <button id="btn-action" class="btn-main" onclick="generateLinkFast()">▶ BẮT ĐẦU VƯỢT LINK</button>
-                <div id="result-box" style="display:none; margin-top:15px; text-align:center;">
-                    <a id="short-link" href="#" target="_blank" style="display:block; background:rgba(16,185,129,0.1); color:#10b981; padding:15px; border:1px dashed #10b981; border-radius:12px; font-weight:900; text-decoration:none;">👉 BẤM VÀO ĐÂY ĐỂ VƯỢT LINK 👈</a>
-                </div>
-            </div>
-
-            <div class="card" id="event-section">
-                <div class="section-title">🎁 NHẬP CODE ĐỔI QUÀ</div>
-                <div class="event-box">
-                    <input type="text" id="nhap-code" class="event-input" placeholder="Nhập mã...">
-                    <button class="event-btn" onclick="doiCodeSuKien()">ĐỔI</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="history-header">
-                    <div class="section-title" style="margin:0; color:#0ea5e9;">📜 LỊCH SỬ CỦA BẠN</div>
-                    <button class="btn-sm" style="background:#e11d48; padding: 4px 8px; font-size: 9px;" onclick="xoaLichSuTatCa()">XÓA TẤT CẢ</button>
-                </div>
-                <div class="history-list" id="box-lich-su"></div>
-            </div>
-
-            <div class="card" id="vip-section" style="padding: 20px 10px;">
-                <div style="text-align: center; color: #f43f5e; font-size: 16px; font-weight: 900; margin-bottom: 15px;">🔥 BẢNG GIÁ DỊCH VỤ VIP 🔥</div>
-                <div class="vip-scroll">
-                    <div class="movie-card">
-                        <div class="mc-header" style="color:#38bdf8; border-color:#38bdf8;">⚔️ 1. LIÊN QUÂN (ADR)</div>
-                        <div class="mc-row"><span>Gói 1 ngày</span><strong style="color:#fff;">10.000đ</strong></div>
-                        <div class="mc-row"><span>Gói 7 ngày</span><strong style="color:#fff;">45.000đ</strong></div>
-                        <div class="mc-row"><span>Gói 30 ngày</span><strong style="color:#fff;">110.000đ</strong></div>
-                    </div>
-                    <div class="movie-card">
-                        <div class="mc-header" style="color:#10b981; border-color:#10b981;">🎣 2. PLAY TOGETHER</div>
-                        <div class="mc-row"><span>Gói 7 ngày</span><strong style="color:#fff;">65.000đ</strong></div>
-                        <div class="mc-row"><span>Gói 30 ngày</span><strong style="color:#fff;">180.000đ</strong></div>
-                    </div>
-                    <div class="movie-card">
-                        <div class="mc-header" style="color:#fbbf24; border-color:#fbbf24;">📱 3. CLOUD REDFINGER</div>
-                        <div class="mc-row"><span>Bản VIP 30 Ngày</span><strong style="color:#fff;">115.000đ</strong></div>
-                        <div class="mc-row"><span>Bản SVIP 30 Ngày</span><strong style="color:#fff;">250.000đ</strong></div>
-                    </div>
-                </div>
-                <a href="https://t.me/Khunglongmodgame" target="_blank" style="display:block; text-align:center; background:#e11d48; color:#fff; padding:12px; border-radius:10px; font-weight:900; text-decoration:none; margin-top:10px;">📩 INBOX CHỐT ĐƠN NGAY</a>
-            </div>
-        </div>
-
-        <div id="view-key" class="card" style="border: 1px solid #10b981;">
-            <div style="font-size: 50px; margin-bottom: 10px;">🚀</div>
-            <h2 style="color: #10b981; font-weight: 900; margin-bottom: 15px;">MỞ KHÓA THÀNH CÔNG</h2>
-            <div style="background: rgba(0,0,0,0.8); border: 2px dashed #10b981; padding: 20px; border-radius: 12px; font-size: 22px; font-weight: 900; color: #10b981; margin-bottom:15px; word-break: break-all;" id="key-text-value">Đang tải...</div>
-            <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; font-size: 12px; margin-bottom:15px;">
-                <div style="color: #38bdf8; font-weight: bold; margin-bottom:5px;">⏳ HSD: <span id="time-validity">--/--/---- -> --/--/----</span></div>
-                <div style="color: #a1a1aa;">Lấy lúc: <span id="time-clock" style="color: #fff;">--:--:--</span></div>
-            </div>
-            <button class="btn-main" style="background: #fff; color: #000; animation:none;" onclick="copyKey(this)">📋 COPY MÃ KEY</button>
-            <button class="btn-main" style="background: #3f3f46; margin-top: 10px; font-size: 12px; animation:none;" onclick="window.location.href = window.location.pathname;">🔙 QUAY LẠI TRANG CHỦ</button>
-        </div>
-    </div>
-
-    <script>
-        // --- DATA ---
-        const KHO_KEY_DU_PHONG = [
-            "Khunglongmod_etw", "Khunglongmod_wak", "Khunglongmod_3er", "Khunglongmod_34r", "Khunglongmod_tef",
-            "KEY-DU-PHONG-05", "KEY-DU-PHONG-06", "KEY-DU-PHONG-07", "KEY-DU-PHONG-08", "KEY-DU-PHONG-09",
-            "KEY-DU-PHONG-10", "KEY-DU-PHONG-11", "KEY-DU-PHONG-12", "KEY-DU-PHONG-13", "KEY-DU-PHONG-14",
-            "KEY-DU-PHONG-15", "KEY-DU-PHONG-16", "KEY-DU-PHONG-17", "KEY-DU-PHONG-18", "KEY-DU-PHONG-19"
-        ];
-        const KHO_CODE_SU_KIEN = [
-            { code: "KHUNGLONGVIP", luot: 1, phanthuong: "Tài khoản VIP Liên Quân 1 Ngày" }
-        ];
-
-        const NGAY_BAT_DAU = new Date("2026-06-20T00:00:00+07:00"); 
-        const ADMIN_SECRET = "(adminkhunglongmoddeptraivipro)";
-        const LINK4M_TOKEN_VONG_1 = "688d0212c6e84d0e055ba168";
-        const LINK4M_TOKEN_VONG_2 = "688d0212c6e84d0e055ba168"; 
-
-        const NOW = new Date();
-        const dateStr = NOW.toISOString().slice(0, 10);
-        let soNgayDaQua = Math.floor((NOW.getTime() - NGAY_BAT_DAU.getTime()) / 86400000);
-        if (soNgayDaQua < 0) soNgayDaQua = 0;
-        let TARGET_KEY = (soNgayDaQua < KHO_KEY_DU_PHONG.length) ? KHO_KEY_DU_PHONG[soNgayDaQua] : null;
-
-        // --- GLOBAL FUNCS ---
-        function showAlert(msg) { document.getElementById('alert-text').innerText = msg; document.getElementById('custom-alert').style.display = 'flex'; }
-        function toggleMenu() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
-        function resetLoiWeb() { if(confirm("Xóa cache và tải lại?")) { localStorage.clear(); sessionStorage.clear(); window.location.href = window.location.pathname; } }
-        function formatFullTime(d) { return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')} - ${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`; }
-
-        // --- DATABASE LOCAL ---
-        let usersDB = JSON.parse(localStorage.getItem('klmod_users_db')) || {};
-        let currentUser = localStorage.getItem('klmod_current_user') || null;
-        let isAdmin = (currentUser === 'AdminBoss');
-        let isGuest = !currentUser;
-
-        // --- AUTH SYSTEM ---
-        function toggleAuth() {
-            let box = document.getElementById('auth-box');
-            box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function processRegister() {
-            let u = document.getElementById('auth-username').value.trim();
-            let p = document.getElementById('auth-pass').value.trim();
-            if(!u || !p) return showAlert("Vui lòng nhập đủ ID và Mật khẩu!");
-            if(usersDB[u]) return showAlert("Tài khoản (ID) này đã được đăng ký!");
-            
-            usersDB[u] = { pass: p, role: 'vip', limits: 5 };
-            localStorage.setItem('klmod_users_db', JSON.stringify(usersDB));
-            showAlert("✅ Đăng ký thành công! Hãy bấm Đăng Nhập.");
-        }
-
-        function processLogin() {
-            let u = document.getElementById('auth-username').value.trim();
-            let p = document.getElementById('auth-pass').value.trim();
-            if(!u || !p) return showAlert("Vui lòng nhập đủ ID và Mật khẩu!");
-            
-            // Xử lý mật lệnh Admin
-            if(u.includes(ADMIN_SECRET) || p === ADMIN_SECRET) {
-                localStorage.setItem('klmod_current_user', 'AdminBoss');
-                showAlert("👑 Quyền Quản Trị Tối Cao Đã Kích Hoạt!");
-                setTimeout(() => location.reload(), 1000); return;
-            }
-
-            if(!usersDB[u] || usersDB[u].pass !== p) return showAlert("❌ Sai tài khoản hoặc mật khẩu!");
-            
-            localStorage.setItem('klmod_current_user', u);
-            showAlert("✅ Đăng nhập thành công!");
-            setTimeout(() => location.reload(), 1000);
-        }
-
-        function logoutSystem() { localStorage.removeItem('klmod_current_user'); location.reload(); }
-
-        // --- ADMIN SUPERPOWERS ---
-        function renderAdminPanel() {
-            if(!isAdmin) return;
-            document.getElementById('admin-panel').style.display = 'block';
-            let listHTML = "";
-            for (const [uname, data] of Object.entries(usersDB)) {
-                listHTML += `<div class="user-item-ad">
-                                <div><b style="color:#0ea5e9;">${uname}</b> (Pass: ${data.pass})</div>
-                                <button class="btn-chui-acc" onclick="adminLoginAs('${uname}')">Vào Acc</button>
-                             </div>`;
-            }
-            if(Object.keys(usersDB).length === 0) listHTML = "<div style='text-align:center; color:#a1a1aa; font-size:11px;'>Chưa có ai đăng ký.</div>";
-            document.getElementById('ad-user-list').innerHTML = listHTML;
-        }
-
-        function adminLoginAs(targetUser) {
-            if(confirm(`Admin muốn chui vào tài khoản [${targetUser}] để kiểm tra?`)) {
-                localStorage.setItem('klmod_current_user', targetUser);
-                alert("Đã vào acc khách thành công!");
-                location.reload();
-            }
-        }
-
-        function adminGiveKeyDirect() {
-            if(!TARGET_KEY) return showAlert("Hết Key hệ thống!");
-            window.location.href = window.location.pathname + "?key=" + TARGET_KEY + "&m=admin";
-        }
-
-        // --- CORE UI & LIMITS ---
-        function updateUI() {
-            const bShowAuth = document.getElementById('btn-show-auth'), bOut = document.getElementById('sb-logout');
-            const nEl = document.getElementById('user-name'), rEl = document.getElementById('user-role'), aEl = document.getElementById('avatar-icon');
-            
-            if (isAdmin) {
-                nEl.innerText = "ADMIN BOSS"; rEl.innerText = "Tối Cao (99 Lượt)"; rEl.className = "u-role role-admin"; aEl.className = "avatar admin-avatar"; aEl.innerText = "👑";
-                bShowAuth.style.display = "none"; bOut.style.display = "flex";
-                renderAdminPanel();
-            } else if (currentUser) {
-                nEl.innerText = currentUser; rEl.innerText = "Thành viên (5 Lượt)"; rEl.className = "u-role role-vip"; aEl.className = "avatar vip-avatar"; aEl.innerText = "🦖";
-                bShowAuth.style.display = "none"; bOut.style.display = "flex";
-            } else {
-                nEl.innerText = "Khách Lạ"; rEl.innerText = "1 Lượt / Ngày"; rEl.className = "u-role role-guest"; aEl.className = "avatar"; aEl.innerText = "👤";
-                bShowAuth.style.display = "block"; bOut.style.display = "none";
-            }
-            checkLimits(); inLichSuKhach();
-        }
-
-        function checkLimits() {
-            const btn = document.getElementById('btn-action');
-            if (!TARGET_KEY) { btn.innerText = "❌ HẾT KEY, INBOX ADMIN"; btn.style.background = "#E50914"; btn.disabled = true; return; }
-            
-            let max = isAdmin ? 99 : (currentUser ? 5 : 1);
-            // Limit key per user per day
-            let limKey = `kl_used_${currentUser || 'guest'}_${dateStr}`;
-            let used = parseInt(localStorage.getItem(limKey)) || 0;
-            let left = max - used;
-            document.getElementById('limit-display').innerText = `${left}/${max} Lượt`;
-            if (left <= 0 && !isAdmin) { btn.innerText = "❌ HẾT LƯỢT HÔM NAY"; btn.disabled = true; btn.style.animation = "none"; } 
-            else { btn.innerText = "▶ BẮT ĐẦU VƯỢT LINK"; btn.disabled = false; }
-        }
-
-        function generateLinkFast() {
-            if (!TARGET_KEY) return;
-            const btn = document.getElementById('btn-action'); btn.innerText = "⏳ ĐANG XỬ LÝ..."; btn.disabled = true; btn.style.animation = "none";
-            const finalDest = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY + "&m=link";
-            const linkVong1 = `https://link4m.co/st?api=${LINK4M_TOKEN_VONG_1}&url=${encodeURIComponent(`https://link4m.co/st?api=${LINK4M_TOKEN_VONG_2}&url=${encodeURIComponent(finalDest)}`)}`;
-            
-            document.getElementById('result-box').style.display = "block";
-            document.getElementById('short-link').href = linkVong1;
-            btn.innerText = "✅ TẠO LINK THÀNH CÔNG";
-            
-            let limKey = `kl_used_${currentUser || 'guest'}_${dateStr}`;
-            localStorage.setItem(limKey, (parseInt(localStorage.getItem(limKey)) || 0) + 1);
-            checkLimits();
-        }
-
-        // --- TIỆN ÍCH SÁNG TẠO ---
-        function dailyCheckIn() {
-            let chkKey = `kl_checkin_${currentUser || 'guest'}_${dateStr}`;
-            if(localStorage.getItem(chkKey)) return showAlert("❌ Hôm nay bạn đã điểm danh rồi! Quay lại vào ngày mai nhé.");
-            localStorage.setItem(chkKey, 'true');
-            // Tặng 1 lượt
-            let limKey = `kl_used_${currentUser || 'guest'}_${dateStr}`;
-            let used = parseInt(localStorage.getItem(limKey)) || 0;
-            if(used > 0) localStorage.setItem(limKey, used - 1); // Trừ số lần đã dùng = Tăng 1 lượt
-            showAlert("🎁 ĐIỂM DANH THÀNH CÔNG!\nBạn được cộng thêm 1 lượt tạo Key hôm nay.");
-            checkLimits();
-        }
-
-        // --- HỆ THỐNG LỊCH SỬ KÉP ---
-        function inLichSuKhach() {
-            let hisKey = `kl_his_${currentUser || 'guest'}`;
-            let his = JSON.parse(localStorage.getItem(hisKey)) || [];
-            let box = document.getElementById('box-lich-su');
-            if(his.length === 0) { box.innerHTML = '<div style="text-align:center; color:#a1a1aa; font-size:11px; margin-top:10px;">Chưa có lịch sử nào.</div>'; return; }
-            box.innerHTML = his.map((item, idx) => `<div class="history-item"><button class="btn-del-item" onclick="xoaMotLichSu(${idx})">X</button><div>🕒 ${item.t}</div><div style="margin-top:4px;">🔑 <strong>${item.k}</strong></div><div class="h-method">Ghi chú: ${item.m}</div></div>`).join('');
-        }
-        function xoaLichSuTatCa() { if(confirm("Xóa SẠCH lịch sử của bạn?")) { localStorage.removeItem(`kl_his_${currentUser || 'guest'}`); inLichSuKhach(); } }
-        function xoaMotLichSu(idx) { let hisKey = `kl_his_${currentUser || 'guest'}`; let his = JSON.parse(localStorage.getItem(hisKey)) || []; his.splice(idx, 1); localStorage.setItem(hisKey, JSON.stringify(his)); inLichSuKhach(); }
-        function luuLichSu(key, method) {
-            let hisKey = `kl_his_${currentUser || 'guest'}`; let his = JSON.parse(localStorage.getItem(hisKey)) || []; let nowStr = formatFullTime(new Date());
-            if(his.length > 0 && his[0].k === key && his[0].t === nowStr) return;
-            his.unshift({ t: nowStr, k: key, m: method }); if(his.length > 20) his.pop(); localStorage.setItem(hisKey, JSON.stringify(his));
-        }
-
-        // --- XỬ LÝ NHẬN KEY TỪ URL ---
-        const uParams = new URLSearchParams(window.location.search);
-        if (uParams.get('key')) {
-            let keyNhan = uParams.get('key'); let txtMethod = (uParams.get('m') === 'admin') ? "Admin Cấp Phát" : "Vượt Link 2 Lớp";
-            if(!sessionStorage.getItem(`save_${keyNhan}`)) { luuLichSu(keyNhan, txtMethod); sessionStorage.setItem(`save_${keyNhan}`, "true"); }
-            
-            document.getElementById('view-home').style.display = 'none'; document.getElementById('user-section').style.display = 'none'; document.getElementById('view-key').style.display = 'block';
-            document.getElementById('key-text-value').innerText = keyNhan;
-            
-            const tDate = new Date(NGAY_BAT_DAU); tDate.setDate(tDate.getDate() + soNgayDaQua); const nDate = new Date(tDate); nDate.setDate(nDate.getDate() + 1);
-            let fD = (d) => String(d.getDate()).padStart(2,'0') + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + d.getFullYear();
-            document.getElementById('time-validity').innerText = `${fD(tDate)} -> ${fD(nDate)}`;
-            document.getElementById('time-clock').innerText = formatFullTime(NOW);
-        }
-
-        function doiCodeSuKien() {
-            let val = document.getElementById('nhap-code').value.trim().toUpperCase();
-            if(val === "") return showAlert("Vui lòng nhập mã Code!");
-            let timThay = KHO_CODE_SU_KIEN.find(k => k.code === val);
-            if(!timThay) return showAlert("❌ MÃ KHÔNG HỢP LỆ HOẶC ĐÃ HẾT HẠN");
-            let luotDung = parseInt(localStorage.getItem(`kl_cd_${val}_${currentUser || 'guest'}`)) || 0;
-            if(luotDung >= timThay.luot) return showAlert("❌ TÀI KHOẢN CỦA BẠN ĐÃ DÙNG MÃ NÀY RỒI");
-            
-            localStorage.setItem(`kl_cd_${val}_${currentUser || 'guest'}`, luotDung + 1);
-            luuLichSu(timThay.phanthuong, "Nhập Code Đổi Quà"); inLichSuKhach();
-            document.getElementById('nhap-code').value = ""; showAlert(`🎉 CHÚC MỪNG!\nĐã kết nối thành công: [${timThay.phanthuong}]`);
-        }
-
-        function copyKey(btn) { navigator.clipboard.writeText(uParams.get('key')).then(() => { btn.innerText = "✅ ĐÃ LƯU MÃ CHUẨN XÁC!"; btn.style.background = "#10b981"; btn.style.color = "#fff"; setTimeout(() => { btn.innerText = "📋 COPY MÃ KEY"; btn.style.background = "#fff"; btn.style.color = "#000"; }, 2000); }); }
-
-        updateUI(); 
     </script>
 </body>
 </html>
