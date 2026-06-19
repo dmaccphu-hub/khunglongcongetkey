@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khủng Long Mod | Premium System</title>
+    <title>Khủng Long Mod | Hệ Thống Tự Động</title>
     <style>
         /* =========================================================
-           BỘ TÀI NGUYÊN GIAO DIỆN SIÊU CẤP (GLASSMORPHISM + ANIMATION)
+           GIAO DIỆN GLASSMORPHISM SIÊU CẤP (TỐI ƯU NHẸ < 1MB)
            ========================================================= */
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800;900&display=swap');
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
 
         body {
-            background: #0f0c29;  /* fallback cho browser cũ */
+            background: #0f0c29;
             background: linear-gradient(to right, #24243e, #302b63, #0f0c29); 
             color: #ffffff;
             min-height: 100vh;
@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* Hiệu ứng hạt bụi phát sáng chuyển động làm nền */
+        /* Nền hạt bụi bay */
         .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
         .particles::before {
             content: ''; position: absolute; width: 200vw; height: 200vh;
@@ -37,11 +37,11 @@
 
         .container { width: 100%; max-width: 550px; z-index: 1; }
 
-        /* HEADER SIÊU ĐẸP */
+        /* HEADER */
         .header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 25px; }
         .logo { font-size: 32px; font-weight: 900; background: linear-gradient(45deg, #ff3366, #ff9933); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0px 5px 15px rgba(255,51,102,0.4); letter-spacing: 2px; }
 
-        /* KHUNG KÍNH HIỆN ĐẠI */
+        /* KHUNG KÍNH */
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -51,9 +51,7 @@
             -webkit-backdrop-filter: blur(16px);
             box-shadow: 0 10px 40px rgba(0,0,0,0.6);
             margin-bottom: 25px;
-            transition: 0.3s;
         }
-        .glass-card:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-2px); }
 
         /* USER PANEL */
         .user-panel { display: flex; justify-content: space-between; align-items: center; }
@@ -61,7 +59,7 @@
         .avatar { width: 50px; height: 50px; background: linear-gradient(135deg, #00c6ff, #0072ff); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; box-shadow: 0 0 15px rgba(0,198,255,0.5); }
         .admin-avatar { background: linear-gradient(135deg, #f12711, #f5af19); box-shadow: 0 0 15px rgba(241,39,17,0.5); }
         .user-name { font-size: 16px; font-weight: 800; }
-        .user-role { font-size: 11px; padding: 4px 10px; border-radius: 12px; font-weight: 800; margin-top: 5px; display: inline-block; text-transform: uppercase; letter-spacing: 1px; }
+        .user-role { font-size: 11px; padding: 4px 10px; border-radius: 12px; font-weight: 800; margin-top: 5px; display: inline-block; text-transform: uppercase; }
         .role-guest { background: #333; color: #ccc; }
         .role-vip { background: rgba(0, 198, 255, 0.2); color: #00c6ff; border: 1px solid #00c6ff; }
         .role-admin { background: rgba(229, 9, 20, 0.2); color: #ff3366; border: 1px solid #ff3366; }
@@ -73,36 +71,25 @@
         /* NÚT BẤM CHÍNH */
         .btn-main {
             width: 100%; padding: 18px; font-size: 16px; font-weight: 900; border-radius: 12px; cursor: pointer; border: none; text-transform: uppercase; letter-spacing: 1px;
-            background: linear-gradient(90deg, #00ff88, #00bfff); color: #000; box-shadow: 0 5px 20px rgba(0,255,136,0.4); transition: 0.3s;
+            background: linear-gradient(90deg, #00ff88, #00bfff); color: #000; box-shadow: 0 5px 20px rgba(0,255,136,0.4); transition: 0.3s; margin-top: 10px;
         }
         .btn-main:disabled { background: #444; color: #888; box-shadow: none; cursor: not-allowed; }
-        .btn-main:active { transform: scale(0.98); }
-
-        .btn-admin-bypass { background: linear-gradient(90deg, #f12711, #f5af19); color: white; box-shadow: 0 5px 20px rgba(241,39,17,0.4); display: none; margin-top: 15px; }
 
         /* KẾT QUẢ LINK */
         .result-box { display: none; margin-top: 25px; background: rgba(0,0,0,0.5); padding: 20px; border-radius: 12px; border-left: 5px solid #00ff88; text-align: center; }
-        .result-url { display: block; margin-top: 10px; color: #00ff88; font-weight: bold; font-size: 18px; word-break: break-all; text-decoration: none; padding: 10px; border: 1px dashed rgba(0,255,136,0.3); border-radius: 8px; }
+        .result-url { display: block; margin-top: 10px; color: #00ff88; font-weight: bold; font-size: 16px; word-break: break-all; text-decoration: none; padding: 10px; border: 1px dashed rgba(0,255,136,0.3); border-radius: 8px; }
 
-        /* BẢNG GIÁ CHI TIẾT DÀI RÕ RÀNG */
+        /* BẢNG GIÁ FULL TÁCH RỜI TỪNG DÒNG */
         .vip-title-main { text-align: center; color: #ff3366; font-size: 22px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
-        .vip-category { font-size: 16px; color: #00c6ff; font-weight: 800; text-transform: uppercase; margin: 25px 0 15px 0; display: flex; align-items: center; gap: 10px; }
-        .vip-category::after { content: ''; flex: 1; height: 1px; background: rgba(0,198,255,0.3); }
+        .vip-category { font-size: 15px; color: #00c6ff; font-weight: 800; text-transform: uppercase; margin: 25px 0 15px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(0,198,255,0.3); padding-bottom: 8px; }
         
-        .vip-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 14px 16px; border-radius: 10px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.05); }
-        .vip-name { font-size: 14px; color: #e2e8f0; font-weight: 600; }
-        .vip-price { font-size: 15px; font-weight: 900; color: #ffcc00; text-shadow: 0 0 10px rgba(255,204,0,0.3); }
-
-        /* TRANG QUẢN TRỊ ADMIN */
-        #view-admin { display: none; }
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .stat-card { background: rgba(0,0,0,0.5); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,51,102,0.3); }
-        .stat-num { font-size: 32px; font-weight: 900; color: #ff3366; margin-top: 10px; }
+        .vip-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.3); padding: 14px 16px; border-radius: 8px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.05); }
+        .vip-name { font-size: 13px; color: #e2e8f0; font-weight: 600; line-height: 1.4; }
+        .vip-price { font-size: 14px; font-weight: 900; color: #ffcc00; white-space: nowrap; margin-left: 10px; }
 
         /* TRANG NHẬN KEY */
         #view-key { display: none; text-align: center; }
         .key-box { background: rgba(0,0,0,0.8); border: 2px dashed #00ff88; padding: 25px; border-radius: 15px; margin: 25px 0; font-size: 28px; font-weight: 900; color: #00ff88; letter-spacing: 3px; word-break: break-all; text-shadow: 0 0 15px rgba(0,255,136,0.5); }
-        
     </style>
 </head>
 <body>
@@ -111,10 +98,10 @@
     <div class="container">
         <div class="header">
             <div class="logo">KL MOD VIP</div>
-            <a href="https://t.me/Khunglongmodgame" style="color: #a3a3a3; font-size: 13px; font-weight: 600; text-decoration: none;">💬 Hỗ Trợ 24/7</a>
+            <a href="https://t.me/Khunglongmodgame" target="_blank" style="color: #a3a3a3; font-size: 13px; font-weight: 600; text-decoration: none;">💬 Hỗ Trợ 24/7</a>
         </div>
 
-        <div class="glass-card">
+        <div class="glass-card" id="user-section">
             <div class="user-panel">
                 <div class="user-info">
                     <div class="avatar" id="avatar-icon">👤</div>
@@ -125,7 +112,7 @@
                     </div>
                 </div>
                 <div>
-                    <button id="btn-login" class="btn-tele" onclick="loginSystem()">Kết Nối Bot</button>
+                    <button id="btn-login" class="btn-tele" onclick="loginSystem()">Đăng Nhập</button>
                     <button id="btn-logout" class="btn-tele btn-logout" onclick="logoutSystem()">Đăng Xuất</button>
                 </div>
             </div>
@@ -135,20 +122,18 @@
             <div class="glass-card">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <h2 style="font-size: 20px; font-weight: 900; color: #fff;">🎁 NHẬN KEY LIÊN QUÂN (ADR)</h2>
-                    <p style="font-size: 13px; color: #aaa; margin-top: 5px;">Bảo mật: 2 Lớp (Link4m + Layma)</p>
+                    <p style="font-size: 13px; color: #00ff88; margin-top: 5px; font-weight: bold;">Chỉ vượt 1 lớp Link duy nhất!</p>
                 </div>
                 
-                <div style="background: rgba(0,0,0,0.4); border-radius: 10px; padding: 15px; display: flex; justify-content: space-between; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05);">
-                    <span style="color: #ccc; font-weight: 600; font-size: 14px;">Giới hạn của bạn:</span>
-                    <strong id="limit-display" style="color: #00ff88; font-size: 16px;">0/0 Lượt</strong>
+                <div style="background: rgba(0,0,0,0.4); border-radius: 10px; padding: 15px; display: flex; justify-content: space-between; border: 1px solid rgba(255,255,255,0.05);">
+                    <span style="color: #ccc; font-weight: 600; font-size: 13px;">Giới hạn tạo Key:</span>
+                    <strong id="limit-display" style="color: #00ff88; font-size: 15px;">0/0 Lượt</strong>
                 </div>
 
                 <button id="btn-action" class="btn-main" onclick="generateLink()">🚀 TIẾN HÀNH TẠO LINK</button>
-                
-                <button id="btn-admin-bypass" class="btn-main btn-admin-bypass" onclick="adminDirectKey()">⚡ LẤY KEY TRỰC TIẾP (ADMIN)</button>
 
                 <div id="result-box" class="result-box">
-                    <p style="font-size: 13px; color: #ddd; font-weight: 600;">Mã liên kết 2 lớp đã được tạo:</p>
+                    <p style="font-size: 13px; color: #ddd; font-weight: 600;">Link vượt 1 lớp của bạn đã sẵn sàng:</p>
                     <a id="short-link" class="result-url" href="#" target="_blank">Đang tải...</a>
                     <p style="font-size: 12px; color: #ffcc00; margin-top: 15px; font-weight: 800;">⚠️ Hoàn thành nhiệm vụ vượt link để hiển thị Mã Key!</p>
                 </div>
@@ -158,188 +143,150 @@
                 <div class="vip-title-main">🔥 BẢNG GIÁ DỊCH VỤ VIP 🔥</div>
 
                 <div class="vip-category">⚔️ 1. HACK LIÊN QUÂN MOBILE (ADR)</div>
-                <div class="vip-row"><span class="vip-name">Gói Hack Liên Quân - Trải nghiệm 1 Ngày</span><span class="vip-price">10.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Gói Hack Liên Quân - Tuần 7 Ngày</span><span class="vip-price">45.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Gói Hack Liên Quân - Tháng 30 Ngày</span><span class="vip-price">110.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Gói Hack Liên Quân - Siêu cấp 60 Ngày</span><span class="vip-price">170.000 VNĐ</span></div>
+                <div class="vip-row"><span class="vip-name">Gói Hack Liên Quân - 1 Ngày</span><span class="vip-price">10.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Gói Hack Liên Quân - 7 Ngày</span><span class="vip-price">45.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Gói Hack Liên Quân - 30 Ngày</span><span class="vip-price">110.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Gói Hack Liên Quân - 60 Ngày</span><span class="vip-price">170.000đ</span></div>
 
                 <div class="vip-category">🎣 2. HACK PLAY TOGETHER</div>
-                <div class="vip-row"><span class="vip-name">Gói Auto Play Together - 1 Ngày</span><span class="vip-price">15.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Gói Auto Play Together - 7 Ngày</span><span class="vip-price">65.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Gói Auto Play Together - 14 Ngày</span><span class="vip-price">100.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Gói Auto Play Together - 30 Ngày</span><span class="vip-price">180.000 VNĐ</span></div>
+                <div class="vip-row"><span class="vip-name">Gói Auto Play Together - 1 Ngày</span><span class="vip-price">15.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Gói Auto Play Together - 7 Ngày</span><span class="vip-price">65.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Gói Auto Play Together - 14 Ngày</span><span class="vip-price">100.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Gói Auto Play Together - 30 Ngày</span><span class="vip-price">180.000đ</span></div>
 
                 <div class="vip-category">☁️ 3. CLOUD PHONE GENPLAY</div>
-                <div class="vip-row"><span class="vip-name">Treo Game Genplay - 1 Ngày</span><span class="vip-price">30.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Treo Game Genplay - 7 Ngày</span><span class="vip-price">70.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Treo Game Genplay - 15 Ngày</span><span class="vip-price">120.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Treo Game Genplay - 30 Ngày (Giá Sỉ)</span><span class="vip-price">180.000 VNĐ</span></div>
+                <div class="vip-row"><span class="vip-name">Treo Game Genplay - 1 Ngày</span><span class="vip-price">30.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Treo Game Genplay - 7 Ngày</span><span class="vip-price">70.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Treo Game Genplay - 15 Ngày</span><span class="vip-price">120.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Treo Game Genplay - 30 Ngày (Giá Sỉ)</span><span class="vip-price">180.000đ</span></div>
 
-                <div class="vip-category">📱 4. CLOUD PHONE REDFINGER</div>
-                <div class="vip-row"><span class="vip-name">Redfinger [Bản VIP] - 7 Ngày</span><span class="vip-price">40.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Redfinger [Bản VIP] - 30 Ngày / 90 Ngày</span><span class="vip-price">115k / 310k</span></div>
-                
-                <div class="vip-row"><span class="vip-name">Redfinger [Bản XVIP] - 7 Ngày</span><span class="vip-price">75.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Redfinger [Bản XVIP] - 30 Ngày / 90 Ngày</span><span class="vip-price">200k / 535k</span></div>
+                <div class="vip-category">📱 4. REDFINGER [BẢN VIP]</div>
+                <div class="vip-row"><span class="vip-name">Redfinger VIP - 7 Ngày</span><span class="vip-price">40.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Redfinger VIP - 30 Ngày</span><span class="vip-price">115.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Redfinger VIP - 90 Ngày</span><span class="vip-price">310.000đ</span></div>
 
-                <div class="vip-row"><span class="vip-name">Redfinger [Bản SVIP] - 7 Ngày</span><span class="vip-price">100.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Redfinger [Bản SVIP] - 30 Ngày / 90 Ngày</span><span class="vip-price">250k / 670k</span></div>
+                <div class="vip-category">👑 5. REDFINGER [BẢN XVIP]</div>
+                <div class="vip-row"><span class="vip-name">Redfinger XVIP - 7 Ngày</span><span class="vip-price">75.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Redfinger XVIP - 30 Ngày</span><span class="vip-price">200.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Redfinger XVIP - 90 Ngày</span><span class="vip-price">535.000đ</span></div>
 
-                <div class="vip-row"><span class="vip-name">Redfinger [Bản xvip cao cấp] - 7 Ngày</span><span class="vip-price">200.000 VNĐ</span></div>
-                <div class="vip-row"><span class="vip-name">Redfinger [Bản xvip cao cấp] - 30 Ngày</span><span class="vip-price">550.000 VNĐ</span></div>
+                <div class="vip-category">🔥 6. REDFINGER [BẢN SVIP]</div>
+                <div class="vip-row"><span class="vip-name">Redfinger SVIP - 7 Ngày</span><span class="vip-price">100.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Redfinger SVIP - 30 Ngày</span><span class="vip-price">250.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Redfinger SVIP - 90 Ngày</span><span class="vip-price">670.000đ</span></div>
 
-                <a href="https://t.me/Khunglongmodgame" target="_blank" style="display: block; text-align: center; background: rgba(255,51,102,0.1); border: 1px dashed #ff3366; color: #fff; padding: 18px; border-radius: 12px; font-weight: 800; text-decoration: none; margin-top: 25px; transition: 0.3s;">
-                    📩 NHẮN TIN ADMIN ĐỂ CHỐT ĐƠN NGAY
+                <div class="vip-category">🚀 7. REDFINGER [BẢN XVIP MAX]</div>
+                <div class="vip-row"><span class="vip-name">Redfinger Max - 7 Ngày</span><span class="vip-price">200.000đ</span></div>
+                <div class="vip-row"><span class="vip-name">Redfinger Max - 30 Ngày</span><span class="vip-price">550.000đ</span></div>
+
+                <a href="https://t.me/Khunglongmodgame" target="_blank" style="display: block; text-align: center; background: rgba(255,51,102,0.1); border: 1px dashed #ff3366; color: #fff; padding: 18px; border-radius: 12px; font-weight: 800; text-decoration: none; margin-top: 25px;">
+                    📩 NHẮN TIN ADMIN ĐỂ MUA GÓI VIP NGAY
                 </a>
             </div>
-        </div>
-
-        <div id="view-admin" class="glass-card">
-            <h2 style="color: #ff3366; font-size: 20px; text-align: center; font-weight: 900; text-transform: uppercase;">Trang Quản Trị Hệ Thống</h2>
-            <p style="text-align: center; font-size: 12px; color: #aaa; margin-top: 5px;">Thống kê dữ liệu cục bộ trên máy chủ</p>
-
-            <div class="stat-grid">
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #ccc;">Lượt Link Đã Tạo</div>
-                    <div class="stat-num" id="stat-links">0</div>
-                </div>
-                <div class="stat-card">
-                    <div style="font-size: 12px; color: #ccc;">Quyền Quản Trị</div>
-                    <div class="stat-num" style="color: #00ff88; font-size: 24px;">Active</div>
-                </div>
-            </div>
-            
-            <button class="btn-main" style="margin-top: 20px;" onclick="window.location.reload()">⬅️ Quay Về Trang Cấp Key</button>
         </div>
 
         <div id="view-key" class="glass-card">
             <div style="font-size: 60px; margin-bottom: 15px;">🎉</div>
             <h2 style="color: #00ff88; font-size: 24px; font-weight: 900;">XÁC THỰC THÀNH CÔNG</h2>
-            <p style="font-size: 14px; color: #ccc; margin-top: 10px;">Cảm ơn bạn đã sử dụng dịch vụ. Mã Key của bạn là:</p>
+            <p style="font-size: 14px; color: #ccc; margin-top: 10px;">Dưới đây là mã Key của bạn:</p>
 
             <div class="key-box" id="key-text-value">Đang tải...</div>
 
-            <button id="btn-copy" class="btn-main" style="background: #fff; color: #000;" onclick="copyKey()">📋 COPY MÃ KEY VÀO MÁY</button>
+            <button id="btn-copy" class="btn-main" style="background: #fff; color: #000; margin-top: 0;" onclick="copyKey()">📋 COPY MÃ KEY</button>
         </div>
-
     </div>
 
     <script>
-        /* ========================================================
-           PHẦN LÕI HỆ THỐNG: QUẢN LÝ IP, TÀI KHOẢN VÀ ADMIN
-        ======================================================== */
-        const ADMIN_CODE = "adminkhunglongmoddeptraivipro";
+        // ================== CẤU HÌNH LÕI ==================
         const TARGET_KEY = "khunglong7day@ihehd";
+        const ADMIN_IP = "118.69.28.113"; // IP Bất tử của bạn
         const dateStr = new Date().toISOString().slice(0, 10);
         
         let userIP = "Đang quét...";
         let currentUser = localStorage.getItem('klmod_user') || null;
-        let isAdmin = localStorage.getItem('klmod_is_admin') === 'true';
-        let maxLimit = isAdmin ? 99999 : (currentUser ? 5 : 1);
+        let isSpecialIP = false;
+        let maxLimit = 1;
 
-        // Lấy IP Khách Hàng
+        // Xử lý Check IP và Cập nhật Giao Diện
         fetch('https://api.ipify.org?format=json').then(r => r.json()).then(d => {
             userIP = d.ip;
             document.getElementById('user-ip').innerText = userIP;
+            if (userIP === ADMIN_IP) {
+                isSpecialIP = true;
+                maxLimit = 99999;
+            } else {
+                maxLimit = currentUser ? 5 : 1;
+            }
             updateUI();
-        }).catch(() => { document.getElementById('user-ip').innerText = "IP Ẩn"; updateUI(); });
+        }).catch(() => { updateUI(); });
 
-        // Cập nhật Giao diện theo quyền
         function updateUI() {
-            const btnLogin = document.getElementById('btn-login');
-            const btnLogout = document.getElementById('btn-logout');
+            const btnLog = document.getElementById('btn-login');
+            const btnOut = document.getElementById('btn-logout');
             const nameEl = document.getElementById('user-name');
             const roleEl = document.getElementById('user-role');
             const avaEl = document.getElementById('avatar-icon');
 
-            if (isAdmin) {
-                nameEl.innerText = "Chủ Tịch Khủng Long";
-                roleEl.innerText = "Admin Hệ Thống (99999 Lượt)";
+            if (isSpecialIP) {
+                nameEl.innerText = "IP Chủ Tịch";
+                roleEl.innerText = "Đặc Quyền (99999 Lượt)";
                 roleEl.className = "user-role role-admin";
-                avaEl.className = "avatar admin-avatar";
-                avaEl.innerText = "👑";
-                btnLogin.style.display = "none"; btnLogout.style.display = "block";
-                document.getElementById('btn-admin-bypass').style.display = "block";
-                maxLimit = 99999;
-                
-                // Hiển thị thống kê ảo cho admin
-                let totalLinks = localStorage.getItem('klmod_total_links_generated') || 0;
-                document.getElementById('stat-links').innerText = totalLinks;
-                
+                avaEl.className = "avatar admin-avatar"; avaEl.innerText = "👑";
+                btnLog.style.display = "none"; btnOut.style.display = "none";
             } else if (currentUser) {
                 nameEl.innerText = currentUser;
-                roleEl.innerText = "Tài khoản Đã Liên Kết (5 Lượt)";
+                roleEl.innerText = "Đã Kết Nối (5 Lượt)";
                 roleEl.className = "user-role role-vip";
                 avaEl.className = "avatar"; avaEl.innerText = "🦖";
-                btnLogin.style.display = "none"; btnLogout.style.display = "block";
-                document.getElementById('btn-admin-bypass').style.display = "none";
-                maxLimit = 5;
+                btnLog.style.display = "none"; btnOut.style.display = "block";
             } else {
                 nameEl.innerText = "Khách Vãng Lai";
-                roleEl.innerText = "Chưa Đăng Nhập (1 Lượt)";
+                roleEl.innerText = "1 Lượt / Ngày";
                 roleEl.className = "user-role role-guest";
                 avaEl.className = "avatar"; avaEl.innerText = "👤";
-                btnLogin.style.display = "block"; btnLogout.style.display = "none";
-                document.getElementById('btn-admin-bypass').style.display = "none";
-                maxLimit = 1;
+                btnLog.style.display = "block"; btnOut.style.display = "none";
             }
-
             checkLimits();
         }
 
-        // CHỨC NĂNG ĐĂNG NHẬP CHỐNG FAKE IP
+        // Logic chống 1 IP Login nhiều acc
         function loginSystem() {
-            let teleID = prompt("Nhập Username Telegram của bạn để nhận 5 lượt/ngày.\n(Lưu ý: 1 Wifi/Mạng chỉ được kết nối 1 tài khoản/ngày để chống tool)");
+            let teleID = prompt("Nhập Tên Telegram của bạn để nhận 5 lượt/ngày.\n(Mỗi mạng Wifi chỉ được 1 tài khoản/ngày):");
             if (!teleID || teleID.trim() === "") return;
 
-            // KIỂM TRA QUYỀN ADMIN
-            if (teleID === ADMIN_CODE) {
-                localStorage.setItem('klmod_is_admin', 'true');
-                isAdmin = true;
-                alert("Đăng nhập quyền Admin thành công! Chuyển hướng sang giao diện Quản Trị.");
-                document.getElementById('view-home').style.display = "none";
-                document.getElementById('view-admin').style.display = "block";
-                updateUI();
+            let ipLockKey = `klmod_iplock_${userIP}_${dateStr}`;
+            let registered = localStorage.getItem(ipLockKey);
+
+            if (registered && registered !== teleID) {
+                alert(`⚠️ TỪ CHỐI: Mạng IP này đã đăng nhập tài khoản [${registered}] hôm nay. Bạn không thể đổi acc khác để gian lận lượt!`);
                 return;
             }
 
-            // KIỂM TRA LUẬT 1 IP = 1 ACCOUNT / NGÀY
-            let ipLockKey = `klmod_ip_lock_${userIP}_${dateStr}`;
-            let registeredAccountForThisIP = localStorage.getItem(ipLockKey);
-
-            if (registeredAccountForThisIP && registeredAccountForThisIP !== teleID) {
-                alert(`⚠️ LỖI BẢO MẬT: Mạng IP này đã được liên kết với tài khoản Telegram [${registeredAccountForThisIP}] trong ngày hôm nay. Vui lòng không dùng nhiều tài khoản ảo!`);
-                return;
-            }
-
-            // Đăng nhập thành công
-            localStorage.setItem(ipLockKey, teleID); // Khoá IP này với tài khoản này
+            localStorage.setItem(ipLockKey, teleID);
             localStorage.setItem('klmod_user', teleID);
             currentUser = teleID;
-            alert(`Liên kết thành công tài khoản: ${teleID}. Hệ thống đã cấp 5 lượt tạo Key!`);
+            maxLimit = 5;
+            alert("✅ Liên kết Telegram thành công! Bạn có 5 lượt tạo link.");
             updateUI();
         }
 
         function logoutSystem() {
             localStorage.removeItem('klmod_user');
-            localStorage.removeItem('klmod_is_admin');
             currentUser = null;
-            isAdmin = false;
-            document.getElementById('view-admin').style.display = "none";
-            document.getElementById('view-home').style.display = "block";
+            maxLimit = 1;
             updateUI();
         }
 
         function checkLimits() {
-            let limitKey = isAdmin ? `klmod_usage_admin` : `klmod_usage_${userIP}_${dateStr}`;
+            let limitKey = isSpecialIP ? `klmod_admin_use` : `klmod_usage_${userIP}_${dateStr}`;
             let used = parseInt(localStorage.getItem(limitKey)) || 0;
             let left = maxLimit - used;
             
             document.getElementById('limit-display').innerText = `${left}/${maxLimit} Lượt`;
             const btnAction = document.getElementById('btn-action');
             
-            if (left <= 0 && !isAdmin) {
-                btnAction.innerText = "❌ HẾT LƯỢT TẠO LINK TRONG NGÀY";
+            if (left <= 0 && !isSpecialIP) {
+                btnAction.innerText = "❌ ĐÃ HẾT LƯỢT TRONG NGÀY";
                 btnAction.disabled = true;
             } else {
                 btnAction.innerText = "🚀 TIẾN HÀNH TẠO LINK";
@@ -347,91 +294,72 @@
             }
         }
 
-        /* ========================================================
-           PHẦN LÕI KẾT NỐI API: VƯỢT LỖI MÁY CHỦ BẬN
-        ======================================================== */
-        // Admin lấy thẳng Key không cần tạo link
-        function adminDirectKey() {
-            window.location.href = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY;
-        }
-
-        // Quét nhiều cổng Proxy để đảm bảo không bị chặn
-        async function fetchSafe(targetUrl) {
-            const proxies = [
-                `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
-                `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
-            ];
-            for (let p of proxies) {
-                try {
-                    let r = await fetch(p);
-                    if (r.ok) {
-                        let json = await r.json();
-                        // AllOrigins bọc kết quả trong biến 'contents'
-                        if (json.contents) return JSON.parse(json.contents);
-                        return json;
-                    }
-                } catch (e) { console.log("Chuyển proxy phụ..."); }
-            }
-            throw new Error("Tất cả máy chủ trung gian đều bị chặn");
-        }
-
+        // ================== THUẬT TOÁN TẠO LINK CHỐNG LỖI ==================
         async function generateLink() {
             const btn = document.getElementById('btn-action');
-            btn.innerText = "⏳ ĐANG XỬ LÝ KHỞI TẠO LINK...";
+            btn.innerText = "⏳ ĐANG TẠO LINK ĐỢI GIÂY LÁT...";
             btn.disabled = true;
 
             const LINK4M_TOKEN = "688d0212c6e84d0e055ba168";
-            const LAYMA_TOKEN = "7211a7cf6d1ac54a20dc54184e86c1c3";
             const destinationWeb = window.location.origin + window.location.pathname + "?key=" + TARGET_KEY;
             
-            let finalUrl = destinationWeb;
+            // API chỉ chạy Link4m
+            const apiUrl = `https://link4m.com/api-shorten/v2?api=${LINK4M_TOKEN}&url=${encodeURIComponent(destinationWeb)}`;
+            
+            // Vòng lặp các Proxy (Cổng nào chết thì nhảy qua cổng tiếp theo)
+            const proxies = [
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`,
+                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(apiUrl)}`,
+                `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`
+            ];
 
-            try {
-                // 1. Gói Layma
-                const laymaApi = `https://api.layma.net/api/admin/shortlink/quicklink?tokenUser=${LAYMA_TOKEN}&format=json&url=${encodeURIComponent(finalUrl)}`;
+            let successUrl = null;
+
+            for (let proxy of proxies) {
                 try {
-                    let laymaRes = await fetchSafe(laymaApi);
-                    if (laymaRes.success) finalUrl = laymaRes.html || laymaRes.shortenedUrl;
-                } catch(e) { console.log("Bỏ qua Layma"); }
-
-                // 2. Gói Link4m (Bắt buộc)
-                const link4mApi = `https://link4m.com/api-shorten/v2?api=${LINK4M_TOKEN}&url=${encodeURIComponent(finalUrl)}`;
-                let link4mRes = await fetchSafe(link4mApi);
-
-                if (link4mRes.status === "success" || link4mRes.shortenedUrl) {
-                    document.getElementById('result-box').style.display = "block";
-                    const linkObj = document.getElementById('short-link');
-                    linkObj.href = link4mRes.shortenedUrl;
-                    linkObj.innerText = link4mRes.shortenedUrl;
-
-                    btn.innerText = "✅ ĐÃ TẠO LINK THÀNH CÔNG";
-
-                    // Trừ lượt & Cộng thống kê
-                    let limitKey = isAdmin ? `klmod_usage_admin` : `klmod_usage_${userIP}_${dateStr}`;
-                    let used = parseInt(localStorage.getItem(limitKey)) || 0;
-                    localStorage.setItem(limitKey, used + 1);
+                    let res = await fetch(proxy);
+                    if (!res.ok) continue;
                     
-                    let totalL = parseInt(localStorage.getItem('klmod_total_links_generated') || 0);
-                    localStorage.setItem('klmod_total_links_generated', totalL + 1);
-                    
-                    checkLimits();
-                } else {
-                    throw new Error("Link4m bảo trì");
-                }
-            } catch (error) {
-                alert("Hệ thống rút gọn Link4m đang quá tải hoặc từ chối kết nối. Vui lòng bấm thử lại!");
+                    let text = await res.text();
+                    try {
+                        let json = JSON.parse(text);
+                        if (json.status === "success" || json.shortenedUrl) {
+                            successUrl = json.shortenedUrl;
+                            break; // Thành công thì thoát vòng lặp
+                        }
+                    } catch(e) {
+                        console.log("Cổng này bị Cloudflare chặn, đang thử cổng khác...");
+                    }
+                } catch(error) { console.log("Lỗi mạng ở proxy này..."); }
+            }
+
+            if (successUrl) {
+                // TẠO THÀNH CÔNG
+                document.getElementById('result-box').style.display = "block";
+                const linkObj = document.getElementById('short-link');
+                linkObj.href = successUrl;
+                linkObj.innerText = successUrl;
+
+                btn.innerText = "✅ TẠO LINK THÀNH CÔNG";
+
+                // Trừ lượt
+                let limitKey = isSpecialIP ? `klmod_admin_use` : `klmod_usage_${userIP}_${dateStr}`;
+                let used = parseInt(localStorage.getItem(limitKey)) || 0;
+                localStorage.setItem(limitKey, used + 1);
+                checkLimits();
+            } else {
+                // TẤT CẢ CỔNG ĐỀU BỊ CHẶN (TUYỆT ĐỐI KHÔNG HIỆN LINK GỐC)
+                alert("Hệ thống rút gọn Link4m đang quá tải hoặc chặn kết nối máy chủ. Vui lòng thử bấm lại!");
                 btn.innerText = "🚀 TIẾN HÀNH TẠO LINK";
                 btn.disabled = false;
             }
         }
 
-        /* ========================================================
-           PHẦN KIỂM TRA ĐIỀU HƯỚNG TỪ URL (NẾU CÓ KEY)
-        ======================================================== */
+        // ================== CHUYỂN TRANG KEY & COPY ==================
         const uParams = new URLSearchParams(window.location.search);
         if (uParams.get('key')) {
             document.getElementById('view-home').style.display = 'none';
-            document.querySelector('.glass-card').style.display = 'none'; // Ẩn info user
+            document.getElementById('user-section').style.display = 'none';
             document.getElementById('view-key').style.display = 'block';
             document.getElementById('key-text-value').innerText = uParams.get('key');
         }
@@ -439,7 +367,7 @@
         function copyKey() {
             navigator.clipboard.writeText(uParams.get('key')).then(() => {
                 const btnC = document.getElementById('btn-copy');
-                btnC.innerText = "✅ COPY THÀNH CÔNG!";
+                btnC.innerText = "✅ ĐÃ LƯU MÃ KEY THÀNH CÔNG!";
                 btnC.style.background = "#00ff88";
                 setTimeout(() => {
                     btnC.innerText = "📋 COPY MÃ KEY VÀO MÁY";
