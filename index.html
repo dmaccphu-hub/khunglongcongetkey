@@ -321,7 +321,7 @@ function taoLink(){
         window.open(shortLink,'_blank');
         step1Time=Date.now();
         step1Done=true;
-        // Hiện bước 2 sau 3 giây
+        // Hiện bước 2 sau khi vượt xong bước 1
         document.getElementById('step1-dot').classList.add('active');
         document.getElementById('step1-line').classList.add('active');
         setTimeout(function(){
@@ -337,7 +337,7 @@ function taoLink(){
     document.getElementById('btn-link').innerText='🔄 LINK ĐÃ TẠO';
     document.getElementById('btn-link').disabled=true;
     document.getElementById('btn-link').classList.remove('pulse');
-    document.getElementById('link-info').innerText='⚠️ Nhấn BƯỚC 1 → Đợi 3s → Nhấn BƯỚC 2';
+    document.getElementById('link-info').innerText='⚠️ Nhấn BƯỚC 1 → Nhấn BƯỚC 2';
     document.getElementById('step1-dot').classList.remove('active');
     document.getElementById('step1-line').classList.remove('active');
     document.getElementById('step2-dot').classList.remove('active');
