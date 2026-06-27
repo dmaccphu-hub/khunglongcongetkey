@@ -28,13 +28,803 @@
             border-radius: 20px; padding: 18px;
             box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.03);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            transition: all 0.3s ease; position: relative; overflow: hidden;
+            position: relative; overflow: hidden;
         }
         .card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); pointer-events: none; }
         .card-glow { border-color: rgba(16,185,129,0.3); box-shadow: 0 0 30px rgba(16,185,129,0.08), inset 0 1px 0 rgba(255,255,255,0.03); }
         .card-gold { border-color: rgba(251,191,36,0.3); box-shadow: 0 0 30px rgba(251,191,36,0.08), inset 0 1px 0 rgba(255,255,255,0.03); }
         .card-red { border-color: rgba(244,63,94,0.4); box-shadow: 0 0 35px rgba(244,63,94,0.1), inset 0 1px 0 rgba(255,255,255,0.03); }
         .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(8,8,12,0.9); padding: 14px 18px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.08); position: sticky; top: 10px; z-index: 100;
+            backdrop-filter: blur(30px);
+        }
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #10b981, #0ea5e9, #10b981);
+            background-size: 200% auto; -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoShine 3s linear infinite; text-transform: uppercase;
+        }
+        @keyframes logoShine { to { background-position: 200% center; } }
+        .nav-btn { background: none; color: #fff; font-size: 24px; cursor: pointer; }
+        .sidebar {
+            position: fixed; top: 0; left: -320px; width: 280px; height: 100%;
+            background: rgba(5,5,10,0.98); backdrop-filter: blur(40px);
+            border-right: 1px solid rgba(255,255,255,0.08); transition: 0.4s;
+            z-index: 1000; padding: 25px 20px;
+        }
+        .sidebar.active { left: 0; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; display: none; cursor: pointer; }
+        .overlay.active { display: block; }
+        .sb-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 18px; margin-bottom: 20px; }
+        .sb-item {
+            display: flex; align-items: center; gap: 12px; padding: 14px 16px; margin-bottom: 8px;
+            border-radius: 14px; color: #a1a1aa; font-weight: 700; font-size: 12px;
+            text-transform: uppercase; cursor: pointer; transition: 0.3s; letter-spacing: 1px;
+        }
+        .sb-item:active { background: rgba(255,255,255,0.06); color: #fff; }
+        .sb-icon { font-size: 18px; width: 24px; text-align: center; }
+        .btn {
+            padding: 12px 18px; border-radius: 14px; font-weight: 700; font-size: 11px;
+            cursor: pointer; text-transform: uppercase; transition: all 0.2s;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            letter-spacing: 1px;
+        }
+        .btn:active { transform: scale(0.94); }
+        .btn-primary { background: linear-gradient(135deg, #0ea5e9, #6366f1); color: #fff; }
+        .btn-success { background: linear-gradient(135deg, #10b981, #059669); color: #fff; }
+        .btn-danger { background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; }
+        .btn-warn { background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; }
+        .btn-mega {
+            width: 100%; padding: 20px; font-size: 17px; border-radius: 18px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff; font-weight: 900; text-transform: uppercase; cursor: pointer;
+            letter-spacing: 2px; transition: all 0.3s;
+        }
+        .btn-mega:active { transform: scale(0.96); }
+        .btn-mega:disabled { background: #3f3f46; color: #71717a; cursor: not-allowed; }
+        .btn-sm { padding: 8px 14px; font-size: 9px; border-radius: 10px; }
+        .input {
+            width: 100%; padding: 14px 16px; background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 14px;
+            color: #fff; font-size: 13px; transition: all 0.3s; font-weight: 500;
+        }
+        .input:focus { border-color: #10b981; }
+        .input::placeholder { color: #52525b; }
+        .avatar { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; position: relative; }
+        .avatar-admin { background: linear-gradient(135deg, #ef4444, #dc2626); }
+        .avatar-vip { background: linear-gradient(135deg, #10b981, #059669); }
+        .avatar-guest { background: #27272a; }
+        .avatar-dot { width: 12px; height: 12px; border-radius: 50%; position: absolute; bottom: -2px; right: -2px; border: 2px solid #000; }
+        .dot-active { background: #10b981; }
+        .dot-offline { background: #71717a; }
+        .badge { display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; }
+        .badge-success { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+        .badge-danger { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+        .badge-warn { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .stat-box { background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 14px; padding: 12px 8px; text-align: center; }
+        .stat-label { font-size: 9px; color: #71717a; text-transform: uppercase; }
+        .stat-val { font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 900; margin-top: 4px; }
+        .chat-box {
+            height: 300px; background: rgba(0,0,0,0.5); border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.04); padding: 15px;
+            overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px;
+        }
+        .msg-wrap { display: flex; flex-direction: column; width: 100%; }
+        .msg-item { padding: 10px 14px; border-radius: 16px; font-size: 12px; max-width: 88%; line-height: 1.5; color: #fff; }
+        .msg-wrap.other { align-items: flex-start; } .msg-wrap.other .msg-item { background: rgba(255,255,255,0.04); }
+        .msg-wrap.me { align-items: flex-end; } .msg-wrap.me .msg-item { background: linear-gradient(135deg, rgba(14,165,233,0.25), rgba(99,102,241,0.2)); border: 1px solid rgba(14,165,233,0.2); }
+        .msg-user { font-size: 10px; font-weight: 800; margin-bottom: 3px; color: #a1a1aa; }
+        .chat-actions { display: flex; gap: 4px; margin-top: 6px; justify-content: flex-end; }
+        .chat-btn { background: rgba(255,255,255,0.08); color: #fff; font-size: 8px; padding: 4px 10px; border-radius: 8px; cursor: pointer; }
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92); z-index: 9999; display: none;
+            justify-content: center; align-items: center; padding: 20px;
+        }
+        .modal {
+            background: #0f0f16; border: 1px solid #27272a; border-radius: 20px;
+            width: 100%; max-width: 440px; padding: 22px; max-height: 80vh; overflow-y: auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid #27272a; }
+        .modal-title { font-family: 'Orbitron', sans-serif; font-size: 13px; color: #10b981; text-transform: uppercase; letter-spacing: 2px; }
+        .pm-box { height: 280px; overflow-y: auto; background: rgba(0,0,0,0.6); padding: 12px; border-radius: 14px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 6px; border: 1px solid #27272a; }
+        .pm-msg { padding: 10px 14px; border-radius: 14px; max-width: 85%; font-size: 12px; line-height: 1.5; color: #fff; }
+        .pm-msg.me { align-self: flex-end; background: linear-gradient(135deg, #0ea5e9, #6366f1); }
+        .pm-msg.other { align-self: flex-start; background: #1f1f28; }
+        .key-display { background: #000; padding: 24px; font-family: 'Orbitron', monospace; font-size: 20px; color: #10b981; border: 2px dashed #10b981; border-radius: 16px; margin-bottom: 18px; word-break: break-all; font-weight: 900; letter-spacing: 2px; }
+        .sec-title { font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 3px; margin-bottom: 14px; text-transform: uppercase; }
+        .sec-title.cyan { color: #0ea5e9; } .sec-title.green { color: #10b981; }
+        .sec-title.gold { color: #fbbf24; } .sec-title.red { color: #ef4444; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        .pulse { animation: pulse 2s infinite; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .flex-row { display: flex; gap: 10px; align-items: center; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .text-center { text-align: center; }
+        .mt-8 { margin-top: 8px; } .mt-12 { margin-top: 12px; } .mt-16 { margin-top: 16px; }
+        .mb-8 { margin-bottom: 8px; } .mb-12 { margin-bottom: 12px; } .mb-16 { margin-bottom: 16px; }
+        .gap-8 { gap: 8px; } .gap-12 { gap: 12px; }
+        .text-xs { font-size: 10px; } .text-sm { font-size: 11px; } .text-base { font-size: 13px; }
+        .text-lg { font-size: 16px; } .font-black { font-weight: 900; }
+        .text-gray { color: #a1a1aa; } .text-green { color: #10b981; } .text-red { color: #ef4444; }
+        .text-yellow { color: #fbbf24; } .text-blue { color: #0ea5e9; }
+    </style>
+</head>
+<body>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="sys-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Tiêu Đề</h3>
+                <button class="btn btn-danger btn-sm" onclick="closeModal()">✕ ĐÓNG</button>
+            </div>
+            <div id="modal-body" style="font-size:12px;color:#ccc;line-height:1.7;"></div>
+        </div>
+    </div>
+
+    <!-- OVERLAY -->
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <div class="sb-header">
+            <div class="nav-logo">🦖 KHỦNG LONG</div>
+            <button style="background:none;color:#fff;font-size:28px;cursor:pointer;" onclick="toggleMenu()">×</button>
+        </div>
+        <div class="sb-item" onclick="scrollToSec('activate-sec');toggleMenu();"><span class="sb-icon">🔑</span> Kích Hoạt Code</div>
+        <div class="sb-item" onclick="scrollToSec('main-sec');toggleMenu();"><span class="sb-icon">🏠</span> Trang Chủ Nhận Key</div>
+        <div class="sb-item" onclick="scrollToSec('chat-sec');toggleMenu();"><span class="sb-icon">💬</span> Cộng Đồng Chat</div>
+        <div class="sb-item" onclick="scrollToSec('history-sec');toggleMenu();"><span class="sb-icon">📜</span> Lịch Sử Key</div>
+        <div class="sb-item" onclick="window.open('https://t.me/Khunglongmodgame','_blank')"><span class="sb-icon">📩</span> Telegram Admin</div>
+    </div>
+
+    <!-- MAIN UI -->
+    <div class="container" id="main-ui">
+        
+        <!-- NAVBAR -->
+        <div class="navbar">
+            <button class="nav-btn" onclick="toggleMenu()">☰</button>
+            <div class="nav-logo">🦖 KHỦNG LONG MOD VIP</div>
+            <button id="btn-logout" class="btn btn-danger btn-sm" style="display:none;" onclick="logout()">THOÁT</button>
+        </div>
+
+        <!-- PROFILE CARD -->
+        <div class="card">
+            <div class="flex-between">
+                <div class="flex-row gap-12">
+                    <div class="avatar avatar-guest" id="avatar">
+                        <span id="avatar-emoji">👤</span>
+                        <div class="avatar-dot dot-offline" id="avatar-dot"></div>
+                    </div>
+                    <div>
+                        <div class="text-lg font-black text-green" id="u-name">Khách</div>
+                        <div class="mt-8 flex-row gap-8">
+                            <span class="badge badge-warn" id="u-role">Chưa đăng nhập</span>
+                            <span class="text-xs text-gray" id="u-key-info"></span>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-auth" class="btn btn-primary" onclick="showAuthBox()">🔐 ĐĂNG NHẬP</button>
+            </div>
+            <div id="auth-box" style="display:none;margin-top:16px;padding-top:16px;border-top:1px dashed #27272a;">
+                <input type="text" id="a-id" class="input mb-8" placeholder="👤 Tên Đăng Nhập">
+                <input type="password" id="a-pw" class="input mb-12" placeholder="🔒 Mật Khẩu">
+                <div class="grid-2">
+                    <button class="btn btn-primary" onclick="sysLogin()">🚀 VÀO TRONG</button>
+                    <button class="btn btn-success" onclick="sysReg()">✨ TẠO ACC MỚI</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN PANEL -->
+        <div class="card card-red" id="admin-panel" style="display:none;">
+            <div class="sec-title red text-center mb-12">👑 QUẢN TRỊ TỐI CAO</div>
+            <button class="btn btn-danger" style="width:100%;margin-bottom:14px;padding:16px;font-size:13px;" onclick="adminLayKeyChoBanThan()">⚡ LẤY KEY BỎ QUA LINK</button>
+            <div class="stat-grid mb-14">
+                <div class="stat-box"><div class="stat-label">Đã Tạo</div><div class="stat-val" id="st-tao" style="color:#38bdf8">0</div></div>
+                <div class="stat-box"><div class="stat-label">Thành Công</div><div class="stat-val" id="st-tc" style="color:#10b981">0</div></div>
+                <div class="stat-box"><div class="stat-label">Thất Bại</div><div class="stat-val" id="st-tb" style="color:#ef4444">0</div></div>
+            </div>
+            <div class="grid-2 mb-12">
+                <button class="btn btn-success btn-sm" onclick="adminTangKey()">🎁 TẶNG KEY</button>
+                <button class="btn btn-warn btn-sm" onclick="xemNhatKy()">📊 NHẬT KÝ</button>
+                <button class="btn btn-primary btn-sm" onclick="xemChatRiengAdmin()">👁️ CHAT RIÊNG</button>
+                <button class="btn btn-danger btn-sm" onclick="moThungRac()">🗑️ THÙNG RÁC</button>
+            </div>
+            <div class="text-xs text-red mb-8">👥 Danh sách thành viên:</div>
+            <div id="ad-users" style="max-height:130px;overflow-y:auto;background:#000;padding:10px;border-radius:12px;font-size:10px;"></div>
+        </div>
+
+        <!-- KÍCH HOẠT CODE -->
+        <div class="card card-gold" id="activate-sec">
+            <div class="sec-title gold text-center">🔑 KÍCH HOẠT CODE</div>
+            <div class="text-xs text-gray text-center mb-12">Nhập mã Code được cấp để kích hoạt VIP</div>
+            <input type="text" id="i-code" class="input mb-12" placeholder="📝 Dán mã Code vào đây...">
+            <button class="btn btn-warn" style="width:100%;padding:14px;font-size:14px;" onclick="kichHoatCode()">✅ KÍCH HOẠT CODE</button>
+            <div id="key-status-msg" class="text-center text-sm mt-12" style="min-height:20px;"></div>
+        </div>
+
+        <!-- MAIN KEY SYSTEM -->
+        <div class="card card-glow text-center" id="main-sec">
+            <div class="sec-title green">🦖 HỆ THỐNG LẤY KEY VIP</div>
+            <div class="text-sm text-green mb-8">⏰ Key có hiệu lực <b class="text-yellow">12 giờ</b></div>
+            <div class="flex-between mb-14" style="background:#000;padding:12px 16px;border-radius:12px;font-size:12px;border:1px solid #27272a;">
+                <span class="text-gray">Lượt tạo hôm nay:</span>
+                <b id="l-num" class="text-green" style="font-family:'Orbitron',monospace;">0/0</b>
+            </div>
+            <button id="btn-link" class="btn-mega pulse" onclick="taoLink()">🚀 LẤY LINK VƯỢT NHẬN KEY</button>
+            <a id="res-link" href="#" target="_blank" style="display:none;margin-top:14px;background:rgba(16,185,129,0.12);color:#10b981;padding:16px;border-radius:14px;text-decoration:none;font-weight:700;border:1px dashed #10b981;word-break:break-all;">👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT LINK 👈</a>
+            <div id="link-info" class="text-xs text-gray mt-8" style="display:none;"></div>
+        </div>
+
+        <!-- CHAT -->
+        <div class="card" id="chat-sec">
+            <div class="flex-between mb-12">
+                <span class="sec-title cyan">💬 CHAT CỘNG ĐỒNG</span>
+                <label id="lbl-anon" style="display:none;font-size:10px;color:#fff;"><input type="checkbox" id="chk-anon"> 🛡️ Ẩn danh</label>
+            </div>
+            <div class="chat-box" id="box-chat"></div>
+            <div class="flex-row gap-8">
+                <input type="text" id="i-chat" class="input" placeholder="💬 Nhập tin nhắn..." onkeypress="if(event.key==='Enter')guiChat()">
+                <button class="btn btn-primary" onclick="guiChat()">📤 GỬI</button>
+            </div>
+        </div>
+
+        <!-- HISTORY -->
+        <div class="card" id="history-sec">
+            <div class="flex-between mb-12">
+                <span class="sec-title gold">📜 LỊCH SỬ KEY</span>
+                <button class="btn btn-warn btn-sm" onclick="moDanhSachLienHe()">💬 CHAT RIÊNG</button>
+            </div>
+            <div id="box-his" style="max-height:160px;overflow-y:auto;font-size:11px;"></div>
+        </div>
+    </div>
+
+    <!-- KEY RESULT PAGE -->
+    <div id="view-key" class="container" style="display:none;text-align:center;margin-top:20px;">
+        <div class="card card-glow" style="padding:30px;">
+            <div style="font-size:70px;margin-bottom:10px;">🏆</div>
+            <h2 class="sec-title green text-center" style="font-size:18px;">VƯỢT LINK THÀNH CÔNG!</h2>
+            <div class="text-sm text-gray mb-8">Key có hiệu lực trong <b class="text-yellow">12 giờ</b></div>
+            <div class="text-xs text-red mb-16">⏰ Hết hạn: <span id="key-expire-time">--</span></div>
+            <div class="key-display" id="k-txt">Đang tải...</div>
+            <button class="btn-mega" style="background:#fff;color:#000;font-size:15px;padding:16px;margin-bottom:10px;" onclick="copyKey()">📋 SAO CHÉP MÃ KEY</button>
+            <button class="btn btn-primary" style="width:100%;padding:14px;font-size:12px;margin-bottom:8px;" onclick="window.open('https://t.me/Khunglongmodgame','_blank')">📩 VÀO TELEGRAM HỖ TRỢ</button>
+            <button class="btn btn-danger" style="width:100%;padding:14px;font-size:12px;" onclick="window.location.href=window.location.pathname">🔙 VỀ TRANG CHỦ</button>
+        </div>
+    </div>
+
+<script>
+// ============================================
+// DATABASE
+// ============================================
+let dStr = new Date().toISOString().slice(0, 10);
+let DB = JSON.parse(localStorage.getItem('KL_MASTER_DB'));
+if (!DB) DB = { users:{}, chats:[], p_chats:[], history:{}, logs:[], tracking:{}, trash:{}, stats:{} };
+if (!DB.stats) DB.stats = {};
+if (!DB.stats[dStr]) DB.stats[dStr] = { tao:0, tc:0, tb:0 };
+function saveDB() { localStorage.setItem('KL_MASTER_DB', JSON.stringify(DB)); }
+
+// ============================================
+// CONFIG
+// ============================================
+const AD_USER = "YonkiVNOfficial";
+const AD_PASS = "YonkiVNOfficial";
+const API_LINK4M = "688d0212c6e84d0e055ba168";
+const API_LAYMA = "7211a7cf6d1ac54a20dc54184e86c1c3";
+const KEY_EXPIRY_MS = 43200000; // 12h
+
+// ============================================
+// USER
+// ============================================
+let cUser = localStorage.getItem('kl_v17_cu') || null;
+let guestID = localStorage.getItem('kl_v17_gid');
+if(!guestID) { guestID = "Khach_" + Math.floor(10000+Math.random()*89999); localStorage.setItem('kl_v17_gid', guestID); }
+let myID = cUser || guestID;
+let isAdmin = (cUser === AD_USER);
+let maxL = isAdmin ? 999 : (cUser ? 5 : 1);
+
+// ============================================
+// FUNCTIONS
+// ============================================
+function taoKeyNgauNhien() {
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = 'KHUNGLONG_';
+    for(let i=0;i<4;i++) {
+        for(let j=0;j<4;j++) result += chars.charAt(Math.floor(Math.random()*chars.length));
+        if(i<3) result += '-';
+    }
+    return result;
+}
+
+function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('active');
+    document.getElementById('overlay').classList.toggle('active');
+}
+
+function scrollToSec(id) {
+    let el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth'});
+}
+
+function openModal(t, c) {
+    document.getElementById('modal-title').innerText = t;
+    document.getElementById('modal-body').innerHTML = c;
+    document.getElementById('sys-modal').style.display = 'flex';
+}
+
+function closeModal() {
+    document.getElementById('sys-modal').style.display = 'none';
+}
+
+function showAuthBox() {
+    document.getElementById('auth-box').style.display = 'block';
+    document.getElementById('btn-auth').style.display = 'none';
+}
+
+// ============================================
+// AUTH
+// ============================================
+function sysReg() {
+    let u = document.getElementById('a-id').value.trim();
+    let p = document.getElementById('a-pw').value.trim();
+    if(!u||!p) return alert('Nhập đủ Tên và Mật khẩu!');
+    if(u.toLowerCase().includes('admin')||u===AD_USER) return alert('Tên bị cấm!');
+    if(DB.users[u]||DB.trash[u]) return alert('Tài khoản đã tồn tại!');
+    DB.users[u] = { p:p, date:new Date().toLocaleDateString() };
+    saveDB();
+    alert('✅ Đăng ký thành công! Hãy Đăng Nhập.');
+}
+
+function sysLogin() {
+    let u = document.getElementById('a-id').value.trim();
+    let p = document.getElementById('a-pw').value.trim();
+    if(u===AD_USER && p===AD_PASS) {
+        localStorage.setItem('kl_v17_cu', AD_USER);
+        return location.reload();
+    }
+    if(!DB.users[u] || DB.users[u].p !== p) return alert('Sai tài khoản hoặc mật khẩu!');
+    localStorage.setItem('kl_v17_cu', u);
+    location.reload();
+}
+
+function logout() {
+    localStorage.removeItem('kl_v17_cu');
+    location.reload();
+}
+
+// ============================================
+// KÍCH HOẠT CODE
+// ============================================
+function kichHoatCode() {
+    let code = document.getElementById('i-code').value.trim();
+    let msgEl = document.getElementById('key-status-msg');
+    if(!code) {
+        msgEl.innerHTML = '<span style="color:#ef4444;">⚠️ Vui lòng nhập Code!</span>';
+        return;
+    }
+    let userKey = DB.users[myID] ? DB.users[myID].activeKey : "";
+    let exp = DB.users[myID] ? DB.users[myID].exp : 0;
+    let isGifted = DB.history[myID] && DB.history[myID].some(function(h){ return h.k === code; });
+
+    if((code === userKey && new Date().getTime() < exp) || isGifted) {
+        let rem = exp - new Date().getTime();
+        let h = Math.floor(rem/3600000);
+        let m = Math.floor((rem%3600000)/60000);
+        msgEl.innerHTML = '<span style="color:#10b981;">✅ KÍCH HOẠT THÀNH CÔNG! Key còn ' + h + 'h ' + m + 'p</span>';
+        document.getElementById('i-code').value = '';
+    } else if(code === userKey && new Date().getTime() >= exp) {
+        msgEl.innerHTML = '<span style="color:#ef4444;">❌ KEY ĐÃ HẾT HẠN (12H)! LẤY KEY MỚI.</span>';
+    } else {
+        msgEl.innerHTML = '<span style="color:#ef4444;">❌ CODE KHÔNG ĐÚNG HOẶC KHÔNG PHẢI CỦA BẠN!</span>';
+    }
+}
+
+// ============================================
+// TẠO LINK VƯỢT
+// ============================================
+async function shortenUrl(url, api, type) {
+    let apiUrl = '';
+    if(type === 'link4m') {
+        apiUrl = 'https://link4m.co/st?api=' + api + '&url=' + encodeURIComponent(url);
+    } else {
+        apiUrl = 'https://layma.net/st?api=' + api + '&url=' + encodeURIComponent(url);
+    }
+    try {
+        let response = await fetch(apiUrl);
+        let text = await response.text();
+        // API trả về thẳng link rút gọn dạng text
+        if(text && text.startsWith('http')) return text.trim();
+        try {
+            let data = JSON.parse(text);
+            return data.shortenedUrl || data.url || data.short || text;
+        } catch(e) {
+            return text;
+        }
+    } catch(e) {
+        console.log('Lỗi API:', e);
+        return null;
+    }
+}
+
+async function taoLink() {
+    let uL = parseInt(localStorage.getItem('kl_l_' + myID + '_' + dStr)) || 0;
+    if(uL >= maxL && !isAdmin) return alert('❌ Bạn đã hết lượt tạo key hôm nay!');
+
+    // Tạo key mới
+    let newKey = taoKeyNgauNhien();
+    if(!DB.users[myID]) DB.users[myID] = { p:"guest", date:new Date().toLocaleDateString() };
+    DB.users[myID].activeKey = newKey;
+    DB.users[myID].exp = new Date().getTime() + KEY_EXPIRY_MS;
+    DB.tracking[myID] = { status:"pending", time:Date.now(), key:newKey };
+    DB.stats[dStr].tao += 1;
+    saveDB();
+
+    let b = document.getElementById('btn-link');
+    b.innerText = '⏳ ĐANG TẠO LINK...';
+    b.disabled = true;
+    b.classList.remove('pulse');
+    document.getElementById('link-info').style.display = 'block';
+    document.getElementById('link-info').innerText = '🔄 Đang kết nối đến máy chủ rút gọn...';
+
+    // Timeout 5 phút
+    setTimeout(function() {
+        let fresh = JSON.parse(localStorage.getItem('KL_MASTER_DB'));
+        if(fresh && fresh.tracking[myID] && fresh.tracking[myID].status === 'pending') {
+            if(!fresh.logs) fresh.logs = [];
+            fresh.logs.unshift('[' + new Date().toLocaleTimeString() + '] ❌ ' + myID + ' bỏ cuộc');
+            if(fresh.stats && fresh.stats[dStr]) fresh.stats[dStr].tb += 1;
+            localStorage.setItem('KL_MASTER_DB', JSON.stringify(fresh));
+            if(isAdmin) loadAdmin();
+        }
+    }, 300000);
+
+    // Tạo URL đích
+    let dest = window.location.origin + window.location.pathname + '?key=' + encodeURIComponent(newKey) + '&u=' + encodeURIComponent(myID);
+
+    // Rút gọn link - thử Link4M trước
+    let shortLink = await shortenUrl(dest, API_LINK4M, 'link4m');
+
+    // Nếu Link4M lỗi, thử Layma
+    if(!shortLink) {
+        document.getElementById('link-info').innerText = '🔄 Link4M lỗi, thử Layma.Net...';
+        shortLink = await shortenUrl(dest, API_LAYMA, 'layma');
+    }
+
+    // Nếu vẫn lỗi, thử double shorten
+    if(!shortLink) {
+        document.getElementById('link-info').innerText = '🔄 Đang thử phương án dự phòng...';
+        // Thử rút gọn qua link4m rồi layma
+        let step1 = await shortenUrl(dest, API_LINK4M, 'link4m');
+        if(step1) {
+            shortLink = await shortenUrl(step1, API_LAYMA, 'layma');
+        }
+    }
+
+    if(shortLink) {
+        let resLink = document.getElementById('res-link');
+        resLink.style.display = 'block';
+        resLink.href = shortLink;
+        resLink.innerText = '👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT LINK NHẬN KEY 👈';
+        b.innerText = '✅ LINK ĐÃ SẴN SÀNG';
+        b.disabled = false;
+        b.classList.add('pulse');
+        document.getElementById('link-info').innerText = '✅ Link đã tạo thành công! Click vào link bên dưới.';
+    } else {
+        // Nếu tất cả đều lỗi, dùng link gốc
+        let resLink = document.getElementById('res-link');
+        resLink.style.display = 'block';
+        resLink.href = dest;
+        resLink.innerText = '👉 NHẤN VÀO ĐÂY ĐỂ NHẬN KEY (Link trực tiếp) 👈';
+        b.innerText = '⚠️ DÙNG LINK TRỰC TIẾP';
+        b.disabled = false;
+        b.classList.add('pulse');
+        document.getElementById('link-info').innerText = '⚠️ Không rút gọn được link, dùng link trực tiếp.';
+    }
+
+    localStorage.setItem('kl_l_' + myID + '_' + dStr, uL+1);
+    loadUI();
+}
+
+// ============================================
+// ADMIN
+// ============================================
+function adminLayKeyChoBanThan() {
+    let k = taoKeyNgauNhien();
+    if(!DB.users[myID]) DB.users[myID] = { p:AD_PASS, date:new Date().toLocaleDateString() };
+    DB.users[myID].activeKey = k;
+    DB.users[myID].exp = new Date().getTime() + KEY_EXPIRY_MS;
+    if(!DB.history[myID]) DB.history[myID] = [];
+    DB.history[myID].unshift({ t:new Date().toLocaleTimeString(), k:k, m:"Admin tự cấp" });
+    saveDB();
+    window.location.href = '?key=' + encodeURIComponent(k) + '&u=' + encodeURIComponent(myID);
+}
+
+function loadAdmin() {
+    document.getElementById('admin-panel').style.display = 'block';
+    document.getElementById('lbl-anon').style.display = 'inline';
+    if(DB.stats && DB.stats[dStr]) {
+        document.getElementById('st-tao').innerText = DB.stats[dStr].tao;
+        document.getElementById('st-tc').innerText = DB.stats[dStr].tc;
+        document.getElementById('st-tb').innerText = DB.stats[dStr].tb;
+    }
+    let h = '', uList = DB.users || {};
+    for(let u in uList) {
+        let expTime = uList[u].exp ? new Date(uList[u].exp).toLocaleTimeString() : 'N/A';
+        h += '<div class="flex-between mb-8" style="border-bottom:1px solid #222;padding-bottom:6px;"><span class="text-blue text-xs">🔑 ' + u + '<br><small class="text-gray">Pass:' + uList[u].p + ' | HH:' + expTime + '</small></span><div class="flex-row gap-8"><button class="btn btn-primary btn-sm" style="padding:3px 8px;font-size:8px;" onclick="localStorage.setItem(\'kl_v17_cu\',\'' + u + '\');location.reload()">Vào</button><button class="btn btn-danger btn-sm" style="padding:3px 8px;font-size:8px;" onclick="xoaAcc(\'' + u + '\')">Xóa</button></div></div>';
+    }
+    document.getElementById('ad-users').innerHTML = h || '<span class="text-gray">Chưa có thành viên</span>';
+}
+
+function adminTangKey() {
+    let u = prompt('ID người nhận:');
+    if(!u || !DB.users[u]) return alert('Không tồn tại!');
+    let k = prompt('Nhập Key (để trống = tự tạo):');
+    if(!k || !k.trim()) k = taoKeyNgauNhien();
+    if(!DB.history[u]) DB.history[u] = [];
+    DB.history[u].unshift({ t:new Date().toLocaleTimeString(), k:k, m:'🎁 Admin tặng' });
+    DB.users[u].activeKey = k;
+    DB.users[u].exp = new Date().getTime() + KEY_EXPIRY_MS;
+    saveDB();
+    alert('✅ Đã tặng key!');
+    uiHis();
+}
+
+function xoaAcc(u) {
+    if(confirm('Xóa ' + u + '?')) {
+        if(!DB.trash) DB.trash = {};
+        DB.trash[u] = DB.users[u];
+        delete DB.users[u];
+        saveDB();
+        loadAdmin();
+    }
+}
+
+function moThungRac() {
+    let h = '', t = DB.trash || {};
+    for(let u in t) h += '<div class="flex-between mb-8"><b class="text-red">🗑️ ' + u + '</b><button class="btn btn-success btn-sm" onclick="phucHoi(\'' + u + '\')">🔄 Khôi Phục</button></div>';
+    openModal('🗑️ THÙNG RÁC', h || '<span class="text-gray">Trống</span>');
+}
+
+function phucHoi(u) {
+    DB.users[u] = DB.trash[u];
+    delete DB.trash[u];
+    saveDB();
+    closeModal();
+    loadAdmin();
+    alert('✅ Đã phục hồi!');
+}
+
+function xemNhatKy() {
+    let l = DB.logs || [];
+    openModal('📊 NHẬT KÝ', l.map(function(x){ return '<div class="text-xs mb-4" style="border-bottom:1px solid #222;">' + x + '</div>'; }).join('') || '<span class="text-gray">Trống</span>');
+}
+
+function xemChatRiengAdmin() {
+    let p = DB.p_chats || [];
+    openModal('👁️ CHAT RIÊNG', p.map(function(x){ return '<div class="mb-8 text-xs" style="border-bottom:1px dashed #222;"><b class="text-green">' + x.from + '</b> ➡️ <b class="text-blue">' + x.to + '</b>: ' + x.msg + '<br><small class="text-gray">' + (x.time||'') + '</small></div>'; }).join('') || '<span class="text-gray">Trống</span>');
+}
+
+// ============================================
+// CHAT
+// ============================================
+function guiChat() {
+    let v = document.getElementById('i-chat').value.trim();
+    if(!v) return;
+    let sName = myID, isAnon = false;
+    if(isAdmin && document.getElementById('chk-anon').checked) { sName = 'KHỦNG LONG VIP'; isAnon = true; }
+    if(!DB.chats) DB.chats = [];
+    DB.chats.push({ real:myID, s:sName, m:v, anon:isAnon });
+    if(DB.chats.length > 100) DB.chats = DB.chats.slice(-100);
+    saveDB();
+    document.getElementById('i-chat').value = '';
+    uiChat();
+}
+
+function uiChat() {
+    let box = document.getElementById('box-chat');
+    let chats = DB.chats || [];
+    box.innerHTML = chats.map(function(c, i){
+        let isMe = (c.real === myID);
+        let canEdit = isMe || isAdmin;
+        let wrap = canEdit ? 'me' : 'other';
+        if(c.anon && !isMe && !isAdmin) wrap = 'other';
+        let btns = canEdit ? '<div class="chat-actions"><button class="chat-btn" onclick="suaChat(' + i + ')">✏️</button><button class="chat-btn" onclick="xoaChat(' + i + ')">🗑️</button></div>' : '';
+        let tag = (!isMe && !c.anon) ? '<button class="chat-btn" style="background:#10b981;" onclick="moChat1vs1(\'' + c.real + '\')">💬 Chat</button>' : '';
+        return '<div class="msg-wrap ' + wrap + '"><div class="msg-item"><div class="msg-user">' + c.s + (c.anon?' 🛡️':'') + '</div>' + c.m + btns + (tag?'<div class="chat-actions">' + tag + '</div>':'') + '</div></div>';
+    }).join('');
+    box.scrollTop = box.scrollHeight;
+}
+
+function xoaChat(i) {
+    if(confirm('Xóa?')) { DB.chats.splice(i,1); saveDB(); uiChat(); }
+}
+
+function suaChat(i) {
+    let n = prompt('Sửa:', DB.chats[i].m);
+    if(n !== null) { DB.chats[i].m = n; saveDB(); uiChat(); }
+}
+
+// ============================================
+// CHAT RIÊNG
+// ============================================
+function moDanhSachLienHe() {
+    let contacts = new Set();
+    (DB.p_chats || []).forEach(function(c){
+        if(c.from === myID) contacts.add(c.to);
+        if(c.to === myID) contacts.add(c.from);
+    });
+    let h = '<div class="text-center mb-12"><button class="btn btn-success btn-sm" onclick="taoLienHeMoi()">+ THÊM LIÊN HỆ</button></div>';
+    if(contacts.size === 0) h += '<div class="text-gray text-center">Chưa có cuộc trò chuyện</div>';
+    else {
+        contacts.forEach(function(c){
+            h += '<div class="flex-between mb-8" style="background:#000;padding:10px;border-radius:10px;"><b class="text-blue">👤 ' + c + '</b><button class="btn btn-primary btn-sm" onclick="moChat1vs1(\'' + c + '\')">CHAT</button></div>';
+        });
+    }
+    openModal('💬 DANH BẠ', h);
+}
+
+function taoLienHeMoi() {
+    let id = prompt('Nhập ID:');
+    if(id && id.trim()) moChat1vs1(id.trim());
+}
+
+function moChat1vs1(target) {
+    if(target === myID) return alert('Không thể tự chat!');
+    let msgs = (DB.p_chats || []).filter(function(c){ return (c.from===myID && c.to===target) || (c.from===target && c.to===myID); });
+    let h = '<div class="pm-box" id="pm-box">';
+    msgs.forEach(function(c){
+        let isMe = c.from === myID;
+        h += '<div class="pm-msg ' + (isMe?'me':'other') + '"><div class="text-xs" style="color:#ddd;">' + (isMe?'Tôi':c.from) + ' · ' + (c.time||'') + '</div>' + c.msg + '</div>';
+    });
+    h += '</div><div class="flex-row gap-8"><input type="text" id="pm-input" class="input" placeholder="Nhập tin..." onkeypress="if(event.key===\'Enter\')guiChatRieng(\'' + target + '\')"><button class="btn btn-primary" onclick="guiChatRieng(\'' + target + '\')">GỬI</button></div><button class="btn btn-danger btn-sm mt-12" style="width:100%;" onclick="moDanhSachLienHe()">🔙 QUAY LẠI</button>';
+    openModal('💬 CHAT VỚI: ' + target, h);
+    setTimeout(function(){ let b = document.getElementById('pm-box'); if(b) b.scrollTop = b.scrollHeight; }, 100);
+}
+
+function guiChatRieng(target) {
+    let v = document.getElementById('pm-input').value.trim();
+    if(!v) return;
+    if(!DB.p_chats) DB.p_chats = [];
+    DB.p_chats.push({ from:myID, to:target, msg:v, time:new Date().toLocaleTimeString() });
+    saveDB();
+    moChat1vs1(target);
+}
+
+// ============================================
+// UI
+// ============================================
+function uiHis() {
+    let h = DB.history[myID] || [];
+    document.getElementById('box-his').innerHTML = h.map(function(i){
+        return '<div class="mb-8" style="background:#000;padding:10px;border-radius:10px;border:1px solid #222;"><span class="text-gray text-xs">🕒 ' + i.t + ' | ' + i.m + '</span><br><b class="text-green">🔑 ' + i.k + '</b></div>';
+    }).join('') || '<div class="text-gray text-center">Chưa nhận Key</div>';
+}
+
+function loadUI() {
+    document.getElementById('u-name').innerText = myID;
+    let avatar = document.getElementById('avatar');
+    let avatarEmoji = document.getElementById('avatar-emoji');
+    let avatarDot = document.getElementById('avatar-dot');
+    let roleEl = document.getElementById('u-role');
+    avatar.className = 'avatar';
+    avatarDot.className = 'avatar-dot';
+
+    if(isAdmin) {
+        avatar.classList.add('avatar-admin');
+        avatarDot.classList.add('dot-active');
+        avatarEmoji.innerText = '👑';
+        roleEl.className = 'badge badge-danger';
+        roleEl.innerText = '👑 ADMIN KHỦNG LONG';
+        loadAdmin();
+    } else if(cUser) {
+        avatar.classList.add('avatar-vip');
+        avatarDot.classList.add('dot-active');
+        avatarEmoji.innerText = '⭐';
+        roleEl.className = 'badge badge-success';
+        roleEl.innerText = '⭐ VIP Member';
+    } else {
+        avatar.classList.add('avatar-guest');
+        avatarDot.classList.add('dot-offline');
+        avatarEmoji.innerText = '👤';
+        roleEl.className = 'badge badge-warn';
+        roleEl.innerText = '👤 Khách';
+    }
+
+    if(cUser) {
+        document.getElementById('btn-auth').style.display = 'none';
+        document.getElementById('btn-logout').style.display = 'block';
+    }
+
+    let userExp = DB.users[myID] ? DB.users[myID].exp : 0;
+    let keyInfo = document.getElementById('u-key-info');
+    if(userExp && new Date().getTime() < userExp) {
+        let rem = userExp - new Date().getTime();
+        let h = Math.floor(rem/3600000);
+        let m = Math.floor((rem%3600000)/60000);
+        keyInfo.innerHTML = '<span style="color:#10b981;">🟢 ' + h + 'h ' + m + 'p</span>';
+    } else if(userExp && new Date().getTime() >= userExp) {
+        keyInfo.innerHTML = '<span style="color:#ef4444;">🔴 Hết hạn</span>';
+    } else {
+        keyInfo.innerHTML = '';
+    }
+
+    let use = parseInt(localStorage.getItem('kl_l_' + myID + '_' + dStr)) || 0;
+    document.getElementById('l-num').innerText = (maxL-use) + '/' + maxL;
+
+    let btnLink = document.getElementById('btn-link');
+    if(use >= maxL && !isAdmin) {
+        btnLink.disabled = true;
+        btnLink.innerText = '❌ HẾT LƯỢT HÔM NAY';
+        btnLink.classList.remove('pulse');
+    } else {
+        btnLink.disabled = false;
+        btnLink.innerText = '🚀 LẤY LINK VƯỢT NHẬN KEY';
+        btnLink.classList.add('pulse');
+    }
+
+    uiChat();
+    uiHis();
+}
+
+function copyKey() {
+    let k = document.getElementById('k-txt').innerText;
+    if(navigator.clipboard) {
+        navigator.clipboard.writeText(k).then(function(){ alert('✅ Đã sao chép!'); });
+    } else {
+        let ta = document.createElement('textarea');
+        ta.value = k;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        alert('✅ Đã sao chép!');
+    }
+}
+
+// ============================================
+// URL PARAMS
+// ============================================
+(function(){
+    let urlP = new URLSearchParams(window.location.search);
+    if(urlP.get('key')) {
+        let k = urlP.get('key');
+        let cbUser = urlP.get('u');
+        if(cbUser === myID) {
+            if(DB.tracking && DB.tracking[myID] && DB.tracking[myID].status === 'pending') {
+                DB.tracking[myID].status = 'success';
+                if(DB.stats && DB.stats[dStr]) DB.stats[dStr].tc += 1;
+                if(!DB.logs) DB.logs = [];
+                DB.logs.unshift('[' + new Date().toLocaleTimeString() + '] ✅ ' + myID + ' vượt thành công');
+            }
+            if(!DB.history[myID]) DB.history[myID] = [];
+            DB.history[myID].unshift({ t:new Date().toLocaleTimeString(), k:k, m:'🎯 Vượt link thành công' });
+            saveDB();
+        }
+        let keyExpTime = DB.users[cbUser] ? DB.users[cbUser].exp : (new Date().getTime() + KEY_EXPIRY_MS);
+        document.getElementById('key-expire-time').innerText = new Date(keyExpTime).toLocaleString('vi-VN');
+        document.getElementById('main-ui').style.display = 'none';
+        document.getElementById('view-key').style.display = 'block';
+        document.getElementById('k-txt').innerText = k;
+    } else {
+        loadUI();
+    }
+})();
+
+setInterval(function(){
+    if(document.getElementById('main-ui').style.display !== 'none') loadUI();
+}, 30000);
+
+console.log('🦖 KHỦNG LONG MOD VIP V18 - READY');
+</script>
+</body>
+</html>        .navbar {
             display: flex; justify-content: space-between; align-items: center;
             background: rgba(8,8,12,0.9); padding: 14px 18px; border-radius: 20px;
             border: 1px solid rgba(255,255,255,0.08); position: sticky; top: 10px; z-index: 100;
