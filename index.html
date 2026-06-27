@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KHỦNG LONG MOD VIP | V18</title>
+    <title>KHỦNG LONG MOD | V18</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Orbitron:wght@400;700;900&display=swap');
         *{margin:0;padding:0;box-sizing:border-box}
@@ -153,6 +153,10 @@
         .text-lg{font-size:16px}.font-black{font-weight:900}
         .text-gray{color:#a1a1aa}.text-green{color:#10b981}.text-red{color:#ef4444}
         .text-yellow{color:#fbbf24}.text-blue{color:#0ea5e9}
+        /* COUNTDOWN */
+        .countdown-timer{font-family:'Orbitron',monospace;font-size:28px;font-weight:900;color:#fbbf24;margin:10px 0;letter-spacing:3px}
+        /* IFRAME ẨN */
+        #hidden-frame{width:1px;height:1px;position:fixed;bottom:-10px;right:-10px;opacity:0;pointer-events:none;z-index:-1}
     </style>
 </head>
 <body>
@@ -241,6 +245,7 @@
         <div id="key-status-msg" class="text-center text-sm mt-12" style="min-height:20px;"></div>
     </div>
 
+    <!-- HỆ THỐNG LẤY KEY - BẮT BUỘC VƯỢT LINK -->
     <div class="card card-glow text-center" id="main-sec">
         <div class="sec-title green">🦖 HỆ THỐNG LẤY KEY VIP</div>
         <div class="text-sm text-green mb-8">⏰ Key có hiệu lực <b class="text-yellow">12 giờ</b></div>
@@ -248,9 +253,19 @@
             <span class="text-gray">Lượt tạo hôm nay:</span>
             <b id="l-num" class="text-green" style="font-family:'Orbitron',monospace;">0/0</b>
         </div>
-        <button id="btn-link" class="btn-mega pulse" onclick="taoLink()">🚀 LẤY LINK VƯỢT NHẬN KEY</button>
-        <a id="res-link" href="#" target="_blank" style="display:none;margin-top:14px;background:rgba(16,185,129,0.12);color:#10b981;padding:16px;border-radius:14px;text-decoration:none;font-weight:700;border:1px dashed #10b981;word-break:break-all;">👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT LINK 👈</a>
-        <div id="link-info" class="text-xs text-gray mt-8" style="display:none;"></div>
+        
+        <!-- NÚT TẠO LINK -->
+        <button id="btn-link" class="btn-mega pulse" onclick="taoLink()">🚀 TẠO LINK VƯỢT</button>
+        
+        <!-- LINK VƯỢT HIỆN RA SAU KHI TẠO -->
+        <div id="link-container" style="display:none;margin-top:14px;">
+            <div class="text-xs text-yellow mb-8">⚠️ BẮT BUỘC: Nhấn vào link bên dưới và chờ 5 giây để nhận Key!</div>
+            <a id="res-link" href="#" target="_blank" style="display:block;background:rgba(16,185,129,0.12);color:#10b981;padding:16px;border-radius:14px;text-decoration:none;font-weight:700;border:2px dashed #10b981;word-break:break-all;font-size:13px;">👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT LINK 👈</a>
+            <div class="countdown-timer" id="countdown" style="display:none;">⏳ <span id="cd-sec">5</span> giây</div>
+            <div id="key-result" style="display:none;margin-top:12px;"></div>
+        </div>
+        
+        <div id="link-info" class="text-xs text-gray mt-8"></div>
     </div>
 
     <div class="card" id="chat-sec">
@@ -274,18 +289,8 @@
     </div>
 </div>
 
-<div id="view-key" class="container" style="display:none;text-align:center;margin-top:20px;">
-    <div class="card card-glow" style="padding:30px;">
-        <div style="font-size:70px;margin-bottom:10px;">🏆</div>
-        <h2 class="sec-title green text-center" style="font-size:18px;">VƯỢT LINK THÀNH CÔNG!</h2>
-        <div class="text-sm text-gray mb-8">Key có hiệu lực trong <b class="text-yellow">12 giờ</b></div>
-        <div class="text-xs text-red mb-16">⏰ Hết hạn: <span id="key-expire-time">--</span></div>
-        <div class="key-display" id="k-txt">Đang tải...</div>
-        <button class="btn-mega" style="background:#fff;color:#000;font-size:15px;padding:16px;margin-bottom:10px;" onclick="copyKey()">📋 SAO CHÉP MÃ KEY</button>
-        <button class="btn btn-primary" style="width:100%;padding:14px;font-size:12px;margin-bottom:8px;" onclick="window.open('https://t.me/Khunglongmodgame','_blank')">📩 VÀO TELEGRAM HỖ TRỢ</button>
-        <button class="btn btn-danger" style="width:100%;padding:14px;font-size:12px;" onclick="window.location.href=window.location.pathname">🔙 VỀ TRANG CHỦ</button>
-    </div>
-</div>
+<!-- IFRAME ẨN ĐỂ LOAD LINK RÚT GỌN -->
+<iframe id="hidden-frame" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
 
 <script>
 var dStr=new Date().toISOString().slice(0,10);
@@ -296,7 +301,8 @@ if(!DB.stats[dStr]) DB.stats[dStr]={tao:0,tc:0,tb:0};
 function saveDB(){localStorage.setItem('KL_MASTER_DB',JSON.stringify(DB));}
 
 var AD_USER="YonkiVNOfficial",AD_PASS="YonkiVNOfficial";
-var API_LINK4M="688d0212c6e84d0e055ba168",API_LAYMA="7211a7cf6d1ac54a20dc54184e86c1c3";
+var API_LINK4M="688d0212c6e84d0e055ba168";
+var API_LAYMA="7211a7cf6d1ac54a20dc54184e86c1c3";
 var KEY_EXPIRY_MS=43200000;
 
 var cUser=localStorage.getItem('kl_v17_cu')||null;
@@ -305,6 +311,11 @@ if(!guestID){guestID="Khach_"+Math.floor(10000+Math.random()*89999);localStorage
 var myID=cUser||guestID;
 var isAdmin=(cUser===AD_USER);
 var maxL=isAdmin?999:(cUser?5:1);
+
+// Biến lưu key hiện tại đang chờ xác nhận
+var currentKey=null;
+var currentKeyExp=null;
+var countdownInterval=null;
 
 function taoKeyNgauNhien(){
     var c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -360,63 +371,134 @@ function kichHoatCode(){
     }
 }
 
-async function shortenUrl(url,api,type){
-    var apiUrl=type==='link4m'?'https://link4m.co/st?api='+api+'&url='+encodeURIComponent(url):'https://layma.net/st?api='+api+'&url='+encodeURIComponent(url);
-    try{
-        var res=await fetch(apiUrl);
-        var txt=await res.text();
-        if(txt&&txt.indexOf('http')===0) return txt.trim();
-        try{var d=JSON.parse(txt);return d.shortenedUrl||d.url||d.short||txt;}catch(e){return txt;}
-    }catch(e){return null;}
-}
-
-async function taoLink(){
+// ============================================
+// TẠO LINK & KIỂM TRA VƯỢT LINK
+// ============================================
+function taoLink(){
     var uL=parseInt(localStorage.getItem('kl_l_'+myID+'_'+dStr))||0;
     if(uL>=maxL&&!isAdmin) return alert('❌ Hết lượt hôm nay!');
-    var nk=taoKeyNgauNhien();
+    
+    // Tạo key mới
+    currentKey=taoKeyNgauNhien();
+    currentKeyExp=Date.now()+KEY_EXPIRY_MS;
+    
+    // Lưu tạm vào DB
     if(!DB.users[myID]) DB.users[myID]={p:"guest",date:new Date().toLocaleDateString()};
-    DB.users[myID].activeKey=nk;DB.users[myID].exp=Date.now()+KEY_EXPIRY_MS;
-    DB.tracking[myID]={status:"pending",time:Date.now(),key:nk};DB.stats[dStr].tao+=1;saveDB();
-    var b=document.getElementById('btn-link');b.innerText='⏳ ĐANG TẠO LINK...';b.disabled=true;b.classList.remove('pulse');
-    document.getElementById('link-info').style.display='block';document.getElementById('link-info').innerText='🔄 Đang kết nối...';
-    setTimeout(function(){
-        var f=JSON.parse(localStorage.getItem('KL_MASTER_DB'));
-        if(f&&f.tracking[myID]&&f.tracking[myID].status==='pending'){
-            if(!f.logs) f.logs=[];
-            f.logs.unshift('['+new Date().toLocaleTimeString()+'] ❌ '+myID+' bỏ cuộc');
-            if(f.stats&&f.stats[dStr]) f.stats[dStr].tb+=1;
-            localStorage.setItem('KL_MASTER_DB',JSON.stringify(f));
-            if(isAdmin) loadAdmin();
-        }
-    },300000);
-    var dest=window.location.origin+window.location.pathname+'?key='+encodeURIComponent(nk)+'&u='+encodeURIComponent(myID);
-    var sl=await shortenUrl(dest,API_LINK4M,'link4m');
-    if(!sl){document.getElementById('link-info').innerText='🔄 Thử Layma.Net...';sl=await shortenUrl(dest,API_LAYMA,'layma');}
-    if(!sl){
-        document.getElementById('link-info').innerText='🔄 Phương án dự phòng...';
-        var s1=await shortenUrl(dest,API_LINK4M,'link4m');
-        if(s1) sl=await shortenUrl(s1,API_LAYMA,'layma');
-    }
-    var rl=document.getElementById('res-link');
-    if(sl){
-        rl.style.display='block';rl.href=sl;rl.innerText='👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT LINK 👈';
-        b.innerText='✅ LINK SẴN SÀNG';b.disabled=false;b.classList.add('pulse');
-        document.getElementById('link-info').innerText='✅ Thành công!';
-    }else{
-        rl.style.display='block';rl.href=dest;rl.innerText='👉 NHẤN VÀO ĐÂY (Link trực tiếp) 👈';
-        b.innerText='⚠️ LINK TRỰC TIẾP';b.disabled=false;b.classList.add('pulse');
-        document.getElementById('link-info').innerText='⚠️ Không rút gọn được.';
-    }
-    localStorage.setItem('kl_l_'+myID+'_'+dStr,uL+1);loadUI();
+    DB.users[myID].activeKey=currentKey;
+    DB.users[myID].exp=currentKeyExp;
+    DB.tracking[myID]={status:"pending",time:Date.now(),key:currentKey};
+    DB.stats[dStr].tao+=1;
+    saveDB();
+    
+    // Tạo URL đích (trang web này + key)
+    var dest=window.location.origin+window.location.pathname+'?key='+encodeURIComponent(currentKey)+'&u='+encodeURIComponent(myID);
+    
+    // Tạo link rút gọn qua Link4M
+    var shortLink='https://link4m.co/st?api='+API_LINK4M+'&url='+encodeURIComponent(dest);
+    
+    // Hiển thị link
+    var linkContainer=document.getElementById('link-container');
+    var resLink=document.getElementById('res-link');
+    var countdownDiv=document.getElementById('countdown');
+    var keyResult=document.getElementById('key-result');
+    var btnLink=document.getElementById('btn-link');
+    var linkInfo=document.getElementById('link-info');
+    
+    linkContainer.style.display='block';
+    resLink.href=shortLink;
+    resLink.innerText='👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT LINK 👈';
+    countdownDiv.style.display='none';
+    keyResult.style.display='none';
+    keyResult.innerHTML='';
+    btnLink.innerText='🔄 TẠO LẠI LINK KHÁC';
+    btnLink.classList.remove('pulse');
+    linkInfo.innerText='⚠️ Bạn PHẢI nhấn vào link trên và chờ 5 giây!';
+    
+    // Load link rút gọn vào iframe ẩn để "预热" (pre-warm)
+    document.getElementById('hidden-frame').src=shortLink;
+    
+    // Bắt đầu đếm ngược khi user click vào link
+    resLink.onclick=function(){
+        // Mở link trong tab mới
+        window.open(shortLink,'_blank');
+        
+        // Bắt đầu đếm ngược 5 giây
+        countdownDiv.style.display='block';
+        var sec=5;
+        document.getElementById('cd-sec').innerText=sec;
+        
+        if(countdownInterval) clearInterval(countdownInterval);
+        countdownInterval=setInterval(function(){
+            sec--;
+            document.getElementById('cd-sec').innerText=sec;
+            if(sec<=0){
+                clearInterval(countdownInterval);
+                countdownDiv.style.display='none';
+                // Hiển thị key
+                hienThiKey();
+            }
+        },1000);
+        
+        return false; // Ngăn chuyển trang
+    };
+    
+    localStorage.setItem('kl_l_'+myID+'_'+dStr,uL+1);
+    loadUI();
 }
 
+function hienThiKey(){
+    var keyResult=document.getElementById('key-result');
+    keyResult.style.display='block';
+    keyResult.innerHTML='<div class="key-display" style="font-size:16px;padding:16px;">🔑 '+currentKey+'</div><button class="btn btn-success" style="width:100%;padding:14px;font-size:13px;" onclick="copyCurrentKey()">📋 SAO CHÉP KEY</button><div class="text-xs text-gray mt-8">⏰ Hết hạn: '+new Date(currentKeyExp).toLocaleString('vi-VN')+'</div>';
+    
+    // Cập nhật trạng thái tracking
+    if(DB.tracking&&DB.tracking[myID]){
+        DB.tracking[myID].status="success";
+        if(DB.stats&&DB.stats[dStr]) DB.stats[dStr].tc+=1;
+        if(!DB.logs) DB.logs=[];
+        DB.logs.unshift('['+new Date().toLocaleTimeString()+'] ✅ '+myID+' vượt thành công');
+    }
+    if(!DB.history[myID]) DB.history[myID]=[];
+    DB.history[myID].unshift({t:new Date().toLocaleTimeString(),k:currentKey,m:'🎯 Vượt link thành công'});
+    saveDB();
+    
+    document.getElementById('link-info').innerText='✅ Đã nhận Key thành công!';
+    document.getElementById('btn-link').innerText='✅ ĐÃ NHẬN KEY';
+    document.getElementById('btn-link').disabled=true;
+    document.getElementById('res-link').style.display='none';
+}
+
+function copyCurrentKey(){
+    if(!currentKey) return;
+    if(navigator.clipboard){
+        navigator.clipboard.writeText(currentKey).then(function(){alert('✅ Đã sao chép Key!');});
+    }else{
+        var ta=document.createElement('textarea');
+        ta.value=currentKey;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        alert('✅ Đã sao chép Key!');
+    }
+}
+
+// ============================================
+// ADMIN
+// ============================================
 function adminLayKeyChoBanThan(){
     var k=taoKeyNgauNhien();
     if(!DB.users[myID]) DB.users[myID]={p:AD_PASS,date:new Date().toLocaleDateString()};
     DB.users[myID].activeKey=k;DB.users[myID].exp=Date.now()+KEY_EXPIRY_MS;
     if(!DB.history[myID]) DB.history[myID]=[];
     DB.history[myID].unshift({t:new Date().toLocaleTimeString(),k:k,m:"Admin tự cấp"});saveDB();
-    window.location.href='?key='+encodeURIComponent(k)+'&u='+encodeURIComponent(myID);
+    currentKey=k;currentKeyExp=Date.now()+KEY_EXPIRY_MS;
+    // Hiển thị key luôn cho admin
+    var linkContainer=document.getElementById('link-container');
+    linkContainer.style.display='block';
+    document.getElementById('res-link').style.display='none';
+    document.getElementById('countdown').style.display='none';
+    hienThiKey();
 }
 
 function loadAdmin(){
@@ -518,14 +600,12 @@ function loadUI(){
     document.getElementById('l-num').innerText=(maxL-use)+'/'+maxL;
     var bl=document.getElementById('btn-link');
     if(use>=maxL&&!isAdmin){bl.disabled=true;bl.innerText='❌ HẾT LƯỢT HÔM NAY';bl.classList.remove('pulse');}
-    else{bl.disabled=false;bl.innerText='🚀 LẤY LINK VƯỢT NHẬN KEY';bl.classList.add('pulse');}
+    else if(currentKey&&document.getElementById('link-container').style.display!=='none'){
+        // Đang có key hiển thị
+    }else{
+        bl.disabled=false;bl.innerText='🚀 TẠO LINK VƯỢT';bl.classList.add('pulse');
+    }
     uiChat();uiHis();
-}
-
-function copyKey(){
-    var k=document.getElementById('k-txt').innerText;
-    if(navigator.clipboard){navigator.clipboard.writeText(k).then(function(){alert('✅ Đã sao chép!');});}
-    else{var ta=document.createElement('textarea');ta.value=k;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('✅ Đã sao chép!');}
 }
 
 (function(){
@@ -541,16 +621,33 @@ function copyKey(){
             }
             if(!DB.history[myID]) DB.history[myID]=[];
             DB.history[myID].unshift({t:new Date().toLocaleTimeString(),k:k,m:'🎯 Vượt link thành công'});saveDB();
+            currentKey=k;currentKeyExp=DB.users[myID]?DB.users[myID].exp:(Date.now()+KEY_EXPIRY_MS);
         }
+        // Hiển thị trang key
+        document.getElementById('main-ui').style.display='none';
+        var viewKey=document.getElementById('view-key');
+        if(!viewKey){
+            viewKey=document.createElement('div');
+            viewKey.id='view-key';
+            viewKey.className='container';
+            viewKey.style.cssText='text-align:center;margin-top:20px;';
+            viewKey.innerHTML='<div class="card card-glow" style="padding:30px;"><div style="font-size:70px;margin-bottom:10px;">🏆</div><h2 class="sec-title green text-center" style="font-size:18px;">VƯỢT LINK THÀNH CÔNG!</h2><div class="text-sm text-gray mb-8">Key có hiệu lực trong <b class="text-yellow">12 giờ</b></div><div class="text-xs text-red mb-16">⏰ Hết hạn: <span id="key-expire-time">--</span></div><div class="key-display" id="k-txt">Đang tải...</div><button class="btn-mega" style="background:#fff;color:#000;font-size:15px;padding:16px;margin-bottom:10px;" onclick="copyKeyFromPage()">📋 SAO CHÉP MÃ KEY</button><button class="btn btn-primary" style="width:100%;padding:14px;font-size:12px;margin-bottom:8px;" onclick="window.open(\'https://t.me/Khunglongmodgame\',\'_blank\')">📩 VÀO TELEGRAM HỖ TRỢ</button><button class="btn btn-danger" style="width:100%;padding:14px;font-size:12px;" onclick="window.location.href=window.location.pathname">🔙 VỀ TRANG CHỦ</button></div>';
+            document.body.appendChild(viewKey);
+        }
+        viewKey.style.display='block';
+        document.getElementById('k-txt').innerText=k;
         var ke=DB.users[cb]?DB.users[cb].exp:(Date.now()+KEY_EXPIRY_MS);
         document.getElementById('key-expire-time').innerText=new Date(ke).toLocaleString('vi-VN');
-        document.getElementById('main-ui').style.display='none';
-        document.getElementById('view-key').style.display='block';
-        document.getElementById('k-txt').innerText=k;
     }else{loadUI();}
 })();
+
+function copyKeyFromPage(){
+    var k=document.getElementById('k-txt').innerText;
+    if(navigator.clipboard){navigator.clipboard.writeText(k).then(function(){alert('✅ Đã sao chép!');});}
+    else{var ta=document.createElement('textarea');ta.value=k;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);alert('✅ Đã sao chép!');}
+}
 
 setInterval(function(){if(document.getElementById('main-ui').style.display!=='none') loadUI();},30000);
 </script>
 </body>
-</html>.
+</html>
