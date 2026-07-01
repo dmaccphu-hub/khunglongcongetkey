@@ -61,6 +61,7 @@
         .msg-item{padding:10px 14px;border-radius:16px;font-size:12px;max-width:88%;line-height:1.5;color:#fff;background:rgba(255,255,255,0.04)}
         .msg-user{font-size:10px;font-weight:800;margin-bottom:3px;color:#ffd700}
         .divider{height:1px;background:rgba(255,215,0,0.1);margin:12px 0}
+        .info-box{background:rgba(0,0,0,0.8);border:1px dashed #ffd700;border-radius:10px;padding:12px;font-size:11px;margin-bottom:12px;text-align:left}
     </style>
 </head>
 <body>
@@ -78,7 +79,7 @@
                 <div style="font-size:30px">🐉</div>
                 <div>
                     <div class="text-lg font-black text-yellow" id="u-name">Khách</div>
-                    <span class="badge badge-warn" id="u-role">Free Fire</span>
+                    <span class="badge badge-warn" id="u-role">Khách Thuờng</span>
                     <span class="text-xs text-gray" id="u-key-info"></span>
                 </div>
             </div>
@@ -93,9 +94,9 @@
         </div>
     </div>
 
-    <!-- ADMIN PANEL -->
+    <!-- ADMIN PANEL TỔNG HỢP -->
     <div class="card card-red" id="admin-panel" style="display:none">
-        <div class="sec-title red text-center mb-8">👑 ADMIN</div>
+        <div class="sec-title red text-center mb-8">👑 BẢNG ĐIỀU KHIỂN ADMIN</div>
         <div class="stat-grid mb-12">
             <div class="stat-box"><div class="stat-label">Đã Tạo</div><div class="stat-val" id="st-tao" style="color:#38bdf8">0</div></div>
             <div class="stat-box"><div class="stat-label">T.Công</div><div class="stat-val" id="st-tc" style="color:#10b981">0</div></div>
@@ -105,31 +106,46 @@
             <button class="btn btn-danger btn-sm" onclick="adminLayKeyNhanh()">⚡ LẤY KEY ADMIN</button>
             <button class="btn btn-purple btn-sm" onclick="adminTestVuotLink()">🧪 TEST LINK</button>
         </div>
-        <div class="sec-title gold text-center mb-8">🎁 TẠO KEY BÁN</div>
+        <div class="divider"></div>
+
+        <!-- TẠO KEY TỰ DO -->
+        <div class="sec-title gold text-center mb-8">🎁 TẠO KEY VIP / TỰ DO</div>
         <div class="grid-2 mb-8">
             <select id="admin-key-type" class="input" style="padding:12px;font-size:12px" onchange="updateKeyPreview()">
-                <option value="h">🕐 GIỜ (1-24h)</option>
-                <option value="d">📅 NGÀY (1-365d)</option>
+                <option value="h">🕐 GIỜ (1-9999h)</option>
+                <option value="d">📅 NGÀY (1-3650d)</option>
             </select>
-            <input type="number" id="admin-key-val" class="input" style="padding:12px;font-size:12px" value="1" min="1" max="365" onchange="updateKeyPreview()">
+            <input type="number" id="admin-key-val" class="input" style="padding:12px;font-size:12px" placeholder="Số thời gian" value="1" min="1" onchange="updateKeyPreview()">
         </div>
-        <input type="text" id="admin-key-target" class="input mb-8" placeholder="👤 ID người nhận...">
+        <div class="grid-2 mb-8">
+            <input type="number" id="admin-key-dev" class="input" style="padding:12px;font-size:12px" placeholder="📱 Thiết bị (VD: 1)" value="1" min="1" onchange="updateKeyPreview()">
+            <input type="text" id="admin-key-game" class="input" style="padding:12px;font-size:12px" placeholder="🎮 Tên Game" value="Free Fire" onchange="updateKeyPreview()">
+        </div>
+        <input type="text" id="admin-key-target" class="input mb-8" placeholder="👤 ID User nhận (Bỏ trống = Key tự do)">
         <div id="admin-key-preview" class="text-center mb-8" style="background:#000;padding:12px;border-radius:10px;font-family:'Orbitron',monospace;font-size:13px;color:#ffd700;min-height:40px;word-break:break-all">KEY SẼ HIỆN Ở ĐÂY</div>
-        <button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="adminTaoKeyBan()">🎁 TẠO & TẶNG</button>
+        <button class="btn btn-primary mb-12" style="width:100%;padding:14px;font-size:13px" onclick="adminTaoKeyBan()">🎁 TẠO KEY MỚI</button>
+        
+        <!-- KIỂM TRA KEY -->
+        <div class="divider"></div>
+        <div class="sec-title gold text-center mb-8">🔍 KIỂM TRA KEY KÍCH HOẠT</div>
+        <input type="text" id="admin-check-val" class="input mb-8" placeholder="🔑 Dán key cần check vào đây...">
+        <button class="btn btn-warn" style="width:100%;padding:10px;font-size:12px" onclick="adminCheckKeyStatus()">🔍 KIỂM TRA TÌNH TRẠNG KEY</button>
+        <div id="admin-check-result" class="info-box mt-8" style="display:none"></div>
+
         <div class="divider"></div>
         <div class="grid-2">
-            <button class="btn btn-warn btn-sm" onclick="adminResetDevice()">📱 RESET T.BỊ</button>
-            <button class="btn btn-primary btn-sm" onclick="adminResetTime()">⏰ RESET T.GIAN</button>
+            <button class="btn btn-warn btn-sm" onclick="adminResetDevice()">📱 RESET THIẾT BỊ</button>
+            <button class="btn btn-primary btn-sm" onclick="adminResetTime()">⏰ RESET THỜI GIAN</button>
         </div>
-        <div class="text-xs text-red mt-8">👥 Members:</div>
+        <div class="text-xs text-red mt-8">👥 Tài khoản User:</div>
         <div id="ad-users" style="max-height:120px;overflow-y:auto;background:#000;padding:10px;border-radius:12px;font-size:10px"></div>
     </div>
 
-    <!-- KÍCH HOẠT -->
+    <!-- KÍCH HOẠT (Phần dành cho User check key của mình) -->
     <div class="card card-gold" id="activate-sec">
-        <div class="sec-title gold text-center">🔑 KÍCH HOẠT KEY</div>
-        <input type="text" id="i-code" class="input mb-12" placeholder="📝 Dán Key vào đây...">
-        <button class="btn btn-primary" style="width:100%;padding:14px;font-size:14px" onclick="kichHoatCode()">✅ KÍCH HOẠT</button>
+        <div class="sec-title gold text-center">🔑 KIỂM TRA & KÍCH HOẠT KEY</div>
+        <input type="text" id="i-code" class="input mb-12" placeholder="📝 Dán Key của bạn vào đây...">
+        <button class="btn btn-primary" style="width:100%;padding:14px;font-size:14px" onclick="kichHoatCode()">✅ KIỂM TRA KEY</button>
         <div id="key-status-msg" class="text-center text-sm mt-12" style="min-height:20px"></div>
     </div>
 
@@ -137,9 +153,9 @@
     <div class="card card-gold text-center" id="main-sec">
         <div style="font-size:40px">🔥🐉</div>
         <div class="sec-title gold">🐉 NHẬN KEY FREE</div>
-        <div class="text-sm text-yellow mb-8">⏰ Key 12h | 🔗 Vượt link</div>
+        <div class="text-sm text-yellow mb-8">⏰ Key 12h | Hỗ trợ 1 Thiết Bị | 🔗 Vượt link</div>
         <div class="flex-between mb-14" style="background:#000;padding:12px 16px;border-radius:12px;font-size:12px;border:1px solid rgba(255,215,0,0.1)">
-            <span class="text-gray">Hôm nay:</span>
+            <span class="text-gray">Lượt tạo hôm nay:</span>
             <b id="l-num" class="text-yellow" style="font-family:'Orbitron',monospace">0/0</b>
         </div>
         <button id="btn-link" class="btn-mega pulse" onclick="taoLink()">🚀 LẤY LINK VƯỢT</button>
@@ -153,13 +169,28 @@
         <div id="link-info" class="text-xs text-gray mt-8"></div>
     </div>
 
-    <!-- HƯỚNG DẪN -->
+    <!-- HƯỚNG DẪN TÍCH HỢP CHO DEV/MOD -->
+    <div class="card card-red" id="api-guide" style="display:none">
+        <div class="sec-title red text-center">🔌 HƯỚNG DẪN TÍCH HỢP GAME (Dành cho Dev)</div>
+        <div class="text-xs text-gray" style="line-height:1.8">
+            Hệ thống hỗ trợ gọi API check key trực tiếp trong webview/script của bạn. Bằng cách gọi hàm <b><span class="text-yellow">window.API_CheckKey(key, deviceId, gameName)</span></b><br><br>
+            <b class="text-yellow">Ví dụ sử dụng (JS/Lua):</b><br>
+            <div style="background:#000;padding:8px;border-radius:6px;font-family:monospace;color:#10b981;overflow-x:auto;white-space:nowrap">
+                var result = window.API_CheckKey("12hKHUNG...", "Device_ABC123", "Free Fire");<br>
+                var data = JSON.parse(result);<br>
+                if(data.valid) { // Bật Menu Mod }
+            </div>
+            <b>JSON Trả về:</b> <code>{ "valid": true/false, "msg": "Lý do", "exp": 171... (timestamp) }</code>
+        </div>
+    </div>
+
+    <!-- HƯỚNG DẪN DÀNH CHO USER -->
     <div class="card">
         <div class="sec-title gold text-center">ℹ️ HƯỚNG DẪN</div>
         <div class="text-sm text-gray" style="line-height:2">
             🎮 <b class="text-yellow">B1:</b> Tải app KHỦNG LONG MOD<br>
-            🔑 <b class="text-yellow">B2:</b> Vào web nhận Key Free hoặc mua VIP<br>
-            💎 <b class="text-yellow">B3:</b> Nhập Key vào app -> Inject<br>
+            🔑 <b class="text-yellow">B2:</b> Nhận Key Free 12h hoặc Mua VIP<br>
+            💎 <b class="text-yellow">B3:</b> Dán Key vào Game/App để Inject<br>
             📩 <b class="text-yellow">Admin:</b> @Khunglongmodgame<br>
             🌐 <b class="text-yellow">Group:</b> t.me/khunglongxanhcute
         </div>
@@ -167,31 +198,32 @@
 
     <!-- CHAT -->
     <div class="card">
-        <div class="flex-between mb-12"><span class="sec-title gold">💬 CHAT</span></div>
+        <div class="flex-between mb-12"><span class="sec-title gold">💬 CHAT TỔNG</span></div>
         <div class="chat-box" id="box-chat"></div>
         <div class="flex-row gap-8"><input type="text" id="i-chat" class="input" placeholder="💬 Chat..." onkeypress="if(event.key==='Enter')guiChat()"><button class="btn btn-primary" onclick="guiChat()">📤</button></div>
     </div>
 
     <!-- LỊCH SỬ -->
     <div class="card">
-        <div class="sec-title gold text-center">📜 LỊCH SỬ KEY</div>
+        <div class="sec-title gold text-center">📜 LỊCH SỬ KEY TẠO</div>
         <div id="box-his" style="max-height:160px;overflow-y:auto;font-size:11px"></div>
     </div>
 </div>
 
 <script>
-// ==================== CONFIG ====================
+// ==================== CẤU HÌNH LƯU TRỮ ====================
 const SECRET = "KL2025!@#";
 var dStr = new Date().toISOString().slice(0,10);
 var DB = JSON.parse(localStorage.getItem('KL_MASTER_DB'));
-if (!DB) DB = {users:{},chats:[],history:{},logs:[],tracking:{},stats:{}};
+if (!DB) DB = { users:{}, chats:[], history:{}, logs:[], tracking:{}, stats:{}, allKeys:{} };
 if (!DB.stats) DB.stats = {};
-if (!DB.stats[dStr]) DB.stats[dStr] = {tao:0,tc:0,tb:0};
-function saveDB(){ localStorage.setItem('KL_MASTER_DB',JSON.stringify(DB)); }
+if (!DB.allKeys) DB.allKeys = {}; // Bổ sung kho key tổng
+if (!DB.stats[dStr]) DB.stats[dStr] = {tao:0, tc:0, tb:0};
+function saveDB(){ localStorage.setItem('KL_MASTER_DB', JSON.stringify(DB)); }
 
 var AD_USER = "YonkiVNOfficial", AD_PASS = "YonkiVNOfficial";
 var API_LINK4M = "688d0212c6e84d0e055ba168";
-var KEY_EXPIRY_MS = 43200000;
+var KEY_EXPIRY_MS = 43200000; // 12H MẶC ĐỊNH
 
 var cUser = localStorage.getItem('kl_v17_cu') || null;
 var guestID = localStorage.getItem('kl_v17_gid');
@@ -202,7 +234,7 @@ var maxL = isAdmin ? 999 : (cUser ? 3 : 1);
 
 var currentKey = null, currentKeyExp = null, currentToken = null, linkDaTao = false;
 
-// ==================== CRYPTO ====================
+// ==================== HỆ THỐNG MÃ HÓA & KIỂM TRA ====================
 async function sha256(m) {
     var b = new TextEncoder().encode(m);
     var h = await crypto.subtle.digest('SHA-256', b);
@@ -223,11 +255,13 @@ async function taoKeyNgauNhien() {
     var c = await taoChecksum("12");
     return '12hKHUNGLONG_' + c;
 }
+
+// Check định dạng key thủ công để fallback (Nếu ko có trong DB.allKeys)
 function giaiMaKey(k) {
     var h = k.match(/^(\d+)hKHUNGLONG_/);
     var d = k.match(/^(\d+)dayKHUNGLONG_/);
-    if (h) { var v = parseInt(h[1]); if (v>=1 && v<=24) return {type:'h', value:v, valid:true}; }
-    if (d) { var v = parseInt(d[1]); if (v>=1 && v<=365) return {type:'d', value:v, valid:true}; }
+    if (h) { var v = parseInt(h[1]); if (v>=1 && v<=9999) return {type:'h', value:v, valid:true}; }
+    if (d) { var v = parseInt(d[1]); if (v>=1 && v<=3650) return {type:'d', value:v, valid:true}; }
     return {type:null, value:0, valid:false};
 }
 function tinhThoiHanKey(k) {
@@ -236,79 +270,159 @@ function tinhThoiHanKey(k) {
     return Date.now() + (i.type==='h' ? i.value*3600000 : i.value*86400000);
 }
 
-// ==================== UI ====================
+// ==================== GIAO DIỆN & TÀI KHOẢN ====================
 function scrollToSec(id) { var e = document.getElementById(id); if (e) e.scrollIntoView({behavior:'smooth'}); }
 function showAuthBox(){ document.getElementById('auth-box').style.display='block'; document.getElementById('btn-auth').style.display='none'; }
 
 function sysReg(){
     var u = document.getElementById('a-id').value.trim(), p = document.getElementById('a-pw').value.trim();
-    if (!u||!p) return alert('Nhập đủ!');
-    if (u.toLowerCase().indexOf('admin')>=0 || u===AD_USER) return alert('Tên cấm!');
-    if (DB.users[u]) return alert('Tồn tại!');
-    DB.users[u] = {p:p, date:new Date().toLocaleDateString()}; saveDB(); alert('✅ OK!');
+    if (!u||!p) return alert('Vui lòng nhập đủ thông tin!');
+    if (u.toLowerCase().indexOf('admin')>=0 || u===AD_USER) return alert('Tên tài khoản không hợp lệ!');
+    if (DB.users[u]) return alert('Tài khoản đã tồn tại!');
+    DB.users[u] = {p:p, date:new Date().toLocaleDateString()}; saveDB(); alert('✅ Đăng ký thành công!');
 }
 function sysLogin(){
     var u = document.getElementById('a-id').value.trim(), p = document.getElementById('a-pw').value.trim();
     if (u===AD_USER && p===AD_PASS) { localStorage.setItem('kl_v17_cu',AD_USER); return location.reload(); }
-    if (!DB.users[u] || DB.users[u].p !== p) return alert('Sai!');
+    if (!DB.users[u] || DB.users[u].p !== p) return alert('Sai tài khoản hoặc mật khẩu!');
     localStorage.setItem('kl_v17_cu',u); location.reload();
 }
 function logout(){ localStorage.removeItem('kl_v17_cu'); location.reload(); }
 
+// ==================== CHECK KEY (USER SIDE) ====================
 function kichHoatCode(){
     var code = document.getElementById('i-code').value.trim(), msg = document.getElementById('key-status-msg');
-    if (!code) { msg.innerHTML = '<span style="color:#dc143c">⚠️ Nhập Key!</span>'; return; }
+    if (!code) { msg.innerHTML = '<span style="color:#dc143c">⚠️ Vui lòng nhập Key!</span>'; return; }
+    
+    // Check từ kho DB TỔNG TRƯỚC
+    if (DB.allKeys[code]) {
+        var kData = DB.allKeys[code];
+        if (Date.now() > kData.exp) {
+            msg.innerHTML = '<span style="color:#dc143c">❌ KEY ĐÃ HẾT HẠN!</span>'; return;
+        }
+        var rem = kData.exp - Date.now(), d = Math.floor(rem/86400000), h = Math.floor((rem%86400000)/3600000);
+        msg.innerHTML = '<span style="color:#10b981">✅ KEY HỢP LỆ! Dành cho Game: '+kData.game+'<br>Hạn còn: '+(d>0?d+'d ':'')+h+'h<br>Thiết bị: '+(kData.devs.length)+'/'+kData.maxDev+'</span>';
+        
+        // Save history
+        if (!DB.users[myID]) DB.users[myID] = {p:"guest"};
+        DB.users[myID].activeKey = code; DB.users[myID].exp = kData.exp;
+        saveDB(); return;
+    }
+
+    // Nếu ko có trong DB Tổng, thử parse theo định dạng cũ
     var info = giaiMaKey(code);
     if (info.valid) {
         var exp = tinhThoiHanKey(code);
+        if (Date.now() > exp) { msg.innerHTML = '<span style="color:#dc143c">❌ KEY ĐÃ HẾT HẠN!</span>'; return; }
+        
         if (!DB.users[myID]) DB.users[myID] = {p:"guest"};
         DB.users[myID].activeKey = code; DB.users[myID].exp = exp;
-        if (!DB.history[myID]) DB.history[myID] = [];
-        DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:code, m:'🎯 Kích hoạt'});
         saveDB();
         var rem = exp - Date.now(), d = Math.floor(rem/86400000), h = Math.floor((rem%86400000)/3600000);
-        msg.innerHTML = '<span style="color:#10b981">✅ KEY ĐÚNG! Hạn: '+(d>0?d+'d ':'')+h+'h</span>';
-        document.getElementById('i-code').value = ''; loadUI(); return;
+        msg.innerHTML = '<span style="color:#10b981">✅ KEY HỢP LỆ (Legacy)! Hạn: '+(d>0?d+'d ':'')+h+'h</span>';
+        return;
     }
-    msg.innerHTML = '<span style="color:#dc143c">❌ KEY SAI!</span>';
+    msg.innerHTML = '<span style="color:#dc143c">❌ KEY KHÔNG TỒN TẠI HOẶC SAI!</span>';
 }
 
-// ==================== ADMIN ====================
+
+// ==================== BẢNG ADMIN & KIỂM TRA ====================
 async function updateKeyPreview(){
     var t = document.getElementById('admin-key-type').value;
-    var v = document.getElementById('admin-key-val').value;
-    if (!v||v<1) v = 1;
+    var v = document.getElementById('admin-key-val').value || 1;
+    var dev = document.getElementById('admin-key-dev').value || 1;
+    var game = document.getElementById('admin-key-game').value || "Free Fire";
+    
     var key = await taoKeyTheoThoiGian(t, parseInt(v));
-    document.getElementById('admin-key-preview').innerHTML = key;
+    document.getElementById('admin-key-preview').innerHTML = key + '<br><span style="font-size:10px;color:#a1a1aa">('+dev+' TB | Game: '+game+')</span>';
 }
+
 async function adminTaoKeyBan(){
     if (!isAdmin) return;
     var t = document.getElementById('admin-key-type').value;
-    var v = parseInt(document.getElementById('admin-key-val').value);
+    var v = parseInt(document.getElementById('admin-key-val').value) || 1;
+    var maxDev = parseInt(document.getElementById('admin-key-dev').value) || 1;
+    var gameName = document.getElementById('admin-key-game').value.trim() || "Free Fire";
     var target = document.getElementById('admin-key-target').value.trim();
-    if (!v||v<1) return alert('Nhập số!');
-    if (t==='h' && v>24) return alert('1-24!');
-    if (t==='d' && v>365) return alert('1-365!');
-    if (!target || !DB.users[target]) return alert('ID ko tồn tại!');
+    
+    if (v < 1) return alert('Thời gian phải lớn hơn 0!');
+    
     var key = await taoKeyTheoThoiGian(t, v);
-    DB.users[target].activeKey = key;
-    DB.users[target].exp = tinhThoiHanKey(key);
-    if (!DB.history[target]) DB.history[target] = [];
-    DB.history[target].unshift({t:new Date().toLocaleTimeString(), k:key, m:'🎁 Admin tặng'});
+    var exp = Date.now() + (t==='h' ? v*3600000 : v*86400000);
+    
+    // Lưu thẳng vào Kho Key Tổng
+    DB.allKeys[key] = {
+        type: "vip",
+        exp: exp,
+        maxDev: maxDev,
+        devs: [],
+        game: gameName,
+        created: Date.now()
+    };
+
+    // Nếu chỉ định User
+    if (target && target !== "") {
+        if (!DB.users[target]) return alert('ID User không tồn tại!');
+        DB.users[target].activeKey = key;
+        DB.users[target].exp = exp;
+        if (!DB.history[target]) DB.history[target] = [];
+        DB.history[target].unshift({t:new Date().toLocaleTimeString(), k:key, m:'🎁 Admin cấp phát'});
+    } else {
+        if (!DB.history[myID]) DB.history[myID] = [];
+        DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:key, m:'🎁 Key Tự do ('+maxDev+'TB)'});
+    }
+
     saveDB();
-    document.getElementById('admin-key-preview').innerHTML = '✅: '+key;
+    document.getElementById('admin-key-preview').innerHTML = '✅ TẠO THÀNH CÔNG: <br>' + key;
     document.getElementById('admin-key-target').value = '';
-    alert('✅ Đã tặng!'); uiHis(); loadAdmin();
+    alert('✅ Đã khởi tạo thành công Key Tự Do/VIP!'); 
+    uiHis(); loadAdmin();
 }
-function adminResetDevice(){
+
+function adminCheckKeyStatus(){
     if (!isAdmin) return;
-    var t = prompt('ID cần reset TB:');
-    if (!t || !DB.users[t]) return alert('Ko tồn tại!');
-    var k = 'RESET_DEV_' + Math.random().toString(36).substring(2,10).toUpperCase();
-    if (!DB.history[t]) DB.history[t] = [];
-    DB.history[t].unshift({t:new Date().toLocaleTimeString(), k:k, m:'🔄 Reset TB'});
-    saveDB(); alert('✅ Key: '+k);
+    var key = document.getElementById('admin-check-val').value.trim();
+    var resBox = document.getElementById('admin-check-result');
+    if (!key) return alert('Dán key vào!');
+    
+    if (DB.allKeys[key]) {
+        var kData = DB.allKeys[key];
+        var isExp = Date.now() > kData.exp;
+        var rem = kData.exp - Date.now();
+        var stStr = isExp ? '<span class="text-red">Hết Hạn</span>' : '<span class="text-green">Đang Hoạt Động ('+Math.floor(rem/3600000)+' giờ)</span>';
+        var devList = kData.devs.length > 0 ? kData.devs.join('<br>') : 'Chưa có thiết bị nào';
+        
+        resBox.style.display = 'block';
+        resBox.innerHTML = `
+            <b>🔑 Key:</b> ${key}<br>
+            <b>🎮 Tựa Game:</b> ${kData.game}<br>
+            <b>⏰ Tình trạng:</b> ${stStr}<br>
+            <b>📱 Thiết bị kích hoạt:</b> ${kData.devs.length} / ${kData.maxDev}<br>
+            <div style="margin-top:6px;border-top:1px solid #444;padding-top:4px">
+                <b>Danh sách ID Thiết Bị:</b><br>
+                <span class="text-gray">${devList}</span>
+            </div>
+            <button class="btn btn-danger btn-sm mt-8" onclick="adminResetKeyDevices('${key}')">🔄 XÓA LỊCH SỬ THIẾT BỊ CỦA KEY NÀY</button>
+        `;
+    } else {
+        resBox.style.display = 'block';
+        resBox.innerHTML = '<span class="text-red">❌ Key không tồn tại trên hệ thống tổng (Có thể là key ảo hoặc chưa lưu).</span>';
+    }
 }
+
+function adminResetKeyDevices(keyStr) {
+    if(confirm('Bạn muốn reset số thiết bị của KEY này? (Thiết bị mới sẽ đăng nhập lại được)')){
+        if(DB.allKeys[keyStr]){
+            DB.allKeys[keyStr].devs = [];
+            saveDB();
+            alert('✅ Đã reset thiết bị cho key thành công!');
+            adminCheckKeyStatus();
+        }
+    }
+}
+
+// Tính năng reset cũ cho User
+function adminResetDevice(){ if (!isAdmin) return; alert('Tính năng đã chuyển sang phần Check Key -> Reset riêng cho từng key!'); }
 function adminResetTime(){
     if (!isAdmin) return;
     var t = prompt('ID cần reset TG:');
@@ -318,35 +432,48 @@ function adminResetTime(){
     DB.history[t].unshift({t:new Date().toLocaleTimeString(), k:k, m:'⏰ Reset TG'});
     saveDB(); alert('✅ Key: '+k);
 }
+
+// Admin bypass link lấy thẳng key free
 async function adminLayKeyNhanh(){
     currentKey = await taoKeyNgauNhien();
     currentKeyExp = Date.now() + KEY_EXPIRY_MS;
+    
+    // Đẩy vào kho tổng
+    DB.allKeys[currentKey] = { type: "free", exp: currentKeyExp, maxDev: 1, devs: [], game: "Free Fire", created: Date.now() };
+
     if (!DB.users[myID]) DB.users[myID] = {p:AD_PASS};
     DB.users[myID].activeKey = currentKey; DB.users[myID].exp = currentKeyExp;
     if (!DB.history[myID]) DB.history[myID] = [];
-    DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:currentKey, m:"Admin"});
+    DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:currentKey, m:"Admin Generate"});
     saveDB();
+    
     var lc = document.getElementById('link-container'); lc.style.display = 'block';
     document.getElementById('link-rutgon').style.display = 'none';
     document.getElementById('btn-kiemtra').style.display = 'none';
-    document.getElementById('bypass-status').innerHTML = '<span style="color:#ffd700">✅ KEY ADMIN</span>';
+    document.getElementById('bypass-status').innerHTML = '<span style="color:#ffd700">✅ KEY ADMIN TẠO NHANH</span>';
     document.getElementById('key-result').style.display = 'block';
     document.getElementById('key-result').innerHTML = '<div class="key-display">🔑 '+currentKey+'</div><button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="copyCurrentKey()">📋 SAO CHÉP</button>';
 }
+
 async function adminTestVuotLink(){
     if (!isAdmin) return;
     if (DB.users[myID] && DB.users[myID].adminTested) return alert('Đã test!');
     currentKey = await taoKeyNgauNhien();
     currentKeyExp = Date.now() + KEY_EXPIRY_MS;
     currentToken = 'admintest_' + Math.random().toString(36).substring(2,10);
+    
+    DB.allKeys[currentKey] = { type: "test", exp: currentKeyExp, maxDev: 1, devs: [], game: "Free Fire", created: Date.now() };
+
     if (!DB.users[myID]) DB.users[myID] = {p:AD_PASS};
     DB.users[myID].activeKey = currentKey; DB.users[myID].exp = currentKeyExp;
     DB.tracking[currentToken] = {status:"success", time:Date.now(), key:currentKey, user:myID};
     DB.users[myID].adminTested = true;
     saveDB();
     linkDaTao = true;
+    
     var dest = window.location.origin + window.location.pathname + '?key=' + encodeURIComponent(currentKey) + '&u=' + encodeURIComponent(myID) + '&token=' + encodeURIComponent(currentToken);
     var shortLink = 'https://link4m.co/st?api=' + API_LINK4M + '&url=' + encodeURIComponent(dest);
+    
     var lc = document.getElementById('link-container'); lc.style.display = 'block';
     document.getElementById('link-rutgon').href = shortLink;
     document.getElementById('link-rutgon').style.display = 'block';
@@ -360,6 +487,7 @@ async function adminTestVuotLink(){
 
 function loadAdmin(){
     document.getElementById('admin-panel').style.display = 'block';
+    document.getElementById('api-guide').style.display = 'block';
     if (DB.stats && DB.stats[dStr]) {
         document.getElementById('st-tao').innerText = DB.stats[dStr].tao;
         document.getElementById('st-tc').innerText = DB.stats[dStr].tc;
@@ -370,22 +498,28 @@ function loadAdmin(){
         var rem = ul[u].exp ? ul[u].exp - Date.now() : 0;
         var d = Math.floor(rem/86400000), hr = Math.floor((rem%86400000)/3600000);
         var expStr = rem>0 ? (d>0?d+'d ':'')+hr+'h' : 'Hết hạn';
-        h += '<div class="flex-between mb-8" style="border-bottom:1px solid rgba(255,215,0,0.1);padding-bottom:6px"><span class="text-yellow text-xs">🔑 '+u+'<br><small class="text-gray">Pass:'+ul[u].p+' | '+expStr+'</small></span><button class="btn btn-danger btn-sm" style="padding:3px 8px;font-size:8px" onclick="xoaAcc(\''+u+'\')">Xóa</button></div>';
+        h += '<div class="flex-between mb-8" style="border-bottom:1px solid rgba(255,215,0,0.1);padding-bottom:6px"><span class="text-yellow text-xs">👤 '+u+'<br><small class="text-gray">Pass:'+ul[u].p+' | '+expStr+'</small></span><button class="btn btn-danger btn-sm" style="padding:3px 8px;font-size:8px" onclick="xoaAcc(\''+u+'\')">Xóa</button></div>';
     }
     document.getElementById('ad-users').innerHTML = h || '<span class="text-gray">Chưa có ai</span>';
     updateKeyPreview();
 }
 function xoaAcc(u){ if(confirm('Xóa '+u+'?')){ delete DB.users[u]; saveDB(); loadAdmin(); } }
 
-// ==================== LINK SYSTEM ====================
+
+// ==================== TẠO LINK KEY FREE ====================
 async function taoLink(){
-    if (linkDaTao) return alert('⚠️ Đã tạo link!');
+    if (linkDaTao) return alert('⚠️ Bạn đang có một link chờ xử lý!');
     var uL = parseInt(localStorage.getItem('kl_l_'+myID+'_'+dStr)) || 0;
-    if (uL >= maxL && !isAdmin) return alert('❌ Hết lượt!');
+    if (uL >= maxL && !isAdmin) return alert('❌ Đã hết lượt tạo key hôm nay!');
 
     currentKey = await taoKeyNgauNhien();
     currentKeyExp = Date.now() + KEY_EXPIRY_MS;
     currentToken = 'bypass_' + Math.random().toString(36).substring(2,15) + '_' + Date.now();
+
+    // Lưu vào Database TỔNG
+    DB.allKeys[currentKey] = {
+        type: "free", exp: currentKeyExp, maxDev: 1, devs: [], game: "Free Fire", created: Date.now()
+    };
 
     if (!DB.users[myID]) DB.users[myID] = {p:"guest"};
     DB.users[myID].activeKey = currentKey;
@@ -403,7 +537,7 @@ async function taoLink(){
     document.getElementById('btn-kiemtra').style.display = 'block';
     document.getElementById('key-result').style.display = 'none';
     document.getElementById('bypass-status').innerText = '🔗 Hãy nhấn vào link trên để vượt, sau đó bấm nút bên dưới.';
-    document.getElementById('btn-link').innerText = '🔄 LINK ĐÃ TẠO';
+    document.getElementById('btn-link').innerText = '🔄 ĐANG TẠO LINK...';
     document.getElementById('btn-link').disabled = true;
     document.getElementById('btn-link').classList.remove('pulse');
     document.getElementById('link-info').innerText = '⏳ Link có hiệu lực 5 phút.';
@@ -437,10 +571,8 @@ function resetLinkUI(){
 
 function kiemTraToken(){
     var statusEl = document.getElementById('bypass-status');
-    var keyResult = document.getElementById('key-result');
-
     var up = new URLSearchParams(window.location.search);
-    var urlToken = up.get('token'), urlKey = up.get('key'), urlUser = up.get('u');
+    var urlToken = up.get('token');
 
     if (urlToken && DB.tracking[urlToken] && DB.tracking[urlToken].user === myID) {
         var track = DB.tracking[urlToken];
@@ -448,13 +580,15 @@ function kiemTraToken(){
             track.status = 'success';
             currentKey = track.key;
             currentKeyExp = Date.now() + KEY_EXPIRY_MS;
+            
             DB.users[myID].activeKey = currentKey;
             DB.users[myID].exp = currentKeyExp;
+            
             if (!DB.history[myID]) DB.history[myID] = [];
-            DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:currentKey, m:'🎯 Vượt link'});
+            DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:currentKey, m:'🎯 Đã Vượt Link'});
             if (DB.stats && DB.stats[dStr]) DB.stats[dStr].tc += 1;
-            if (!DB.logs) DB.logs = []; DB.logs.unshift('['+new Date().toLocaleTimeString()+'] ✅ '+myID);
             saveDB();
+            
             hienThiKey();
             if (window.history && window.history.replaceState) {
                 window.history.replaceState({}, document.title, window.location.pathname);
@@ -468,7 +602,7 @@ function kiemTraToken(){
         currentKeyExp = Date.now() + KEY_EXPIRY_MS;
         hienThiKey();
     } else {
-        statusEl.innerHTML = '<span style="color:#dc143c">❌ BẠN CHƯA VƯỢT LINK!<br>Vui lòng nhấn vào link ở trên để vượt, sau đó bấm nút này.</span>';
+        statusEl.innerHTML = '<span style="color:#dc143c">❌ BẠN CHƯA VƯỢT LINK!<br>Vui lòng vượt qua link rồi ấn lại.</span>';
     }
 }
 
@@ -476,14 +610,17 @@ function hienThiKey(){
     var keyResult = document.getElementById('key-result');
     var statusEl = document.getElementById('bypass-status');
     keyResult.style.display = 'block';
+    
     var expTime = currentKeyExp || (Date.now() + KEY_EXPIRY_MS);
     var rem = expTime - Date.now();
     var d = Math.floor(rem/86400000), h = Math.floor((rem%86400000)/3600000);
+    
     keyResult.innerHTML = '<div class="key-display">🔑 '+currentKey+'</div><button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="copyCurrentKey()">📋 SAO CHÉP KEY</button><div class="text-xs text-gray mt-8">⏰ Hết hạn: '+new Date(expTime).toLocaleString('vi-VN')+' ('+(d>0?d+'d ':'')+h+'h)</div>';
     statusEl.innerHTML = '<span style="color:#ffd700">✅ NHẬN KEY THÀNH CÔNG!</span>';
+    
     document.getElementById('link-rutgon').style.display = 'none';
     document.getElementById('btn-kiemtra').style.display = 'none';
-    document.getElementById('btn-link').innerText = '✅ ĐÃ NHẬN KEY';
+    document.getElementById('btn-link').innerText = '✅ ĐÃ NHẬN XONG';
     document.getElementById('btn-link').disabled = true;
     linkDaTao = false;
 }
@@ -491,19 +628,19 @@ function hienThiKey(){
 function copyCurrentKey(){
     if (!currentKey) return;
     if (navigator.clipboard) {
-        navigator.clipboard.writeText(currentKey).then(function(){ alert('✅ Đã sao chép!'); });
+        navigator.clipboard.writeText(currentKey).then(function(){ alert('✅ Đã copy vào bộ nhớ đệm!'); });
     } else {
         var ta = document.createElement('textarea');
         ta.value = currentKey; document.body.appendChild(ta);
         ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-        alert('✅ Đã sao chép!');
+        alert('✅ Đã copy vào bộ nhớ đệm!');
     }
 }
 
-// ==================== CHAT ====================
+// ==================== HỆ THỐNG CHAT & UI ====================
 function guiChat(){
     var v = document.getElementById('i-chat').value.trim(); if (!v) return;
-    var sn = isAdmin ? '🐉 KHỦNG LONG' : myID;
+    var sn = isAdmin ? '🐉 ADMIN' : myID;
     if (!DB.chats) DB.chats = [];
     DB.chats.push({real:myID, s:sn, m:v});
     if (DB.chats.length > 50) DB.chats = DB.chats.slice(-50);
@@ -512,7 +649,8 @@ function guiChat(){
 function uiChat(){
     var box = document.getElementById('box-chat'), cs = DB.chats || [];
     box.innerHTML = cs.map(function(c){
-        return '<div class="msg-item"><div class="msg-user">'+c.s+'</div>'+c.m+'</div>';
+        var uCol = c.s === '🐉 ADMIN' ? '#dc143c' : '#ffd700';
+        return '<div class="msg-item"><div class="msg-user" style="color:'+uCol+'">'+c.s+'</div>'+c.m+'</div>';
     }).join('');
     box.scrollTop = box.scrollHeight;
 }
@@ -520,25 +658,91 @@ function uiHis(){
     var h = DB.history[myID] || [];
     document.getElementById('box-his').innerHTML = h.map(function(i){
         return '<div class="mb-8" style="background:#000;padding:10px;border-radius:10px;border:1px solid rgba(255,215,0,0.1)"><span class="text-gray text-xs">🕒 '+i.t+' | '+i.m+'</span><br><b class="text-yellow">🔑 '+i.k+'</b></div>';
-    }).join('') || '<div class="text-gray text-center">Chưa có key</div>';
+    }).join('') || '<div class="text-gray text-center">Chưa có dữ liệu giao dịch.</div>';
 }
 
 function loadUI(){
     document.getElementById('u-name').innerText = myID;
     var re = document.getElementById('u-role');
     if(isAdmin){ re.className='badge badge-danger'; re.innerText='👑 ADMIN'; loadAdmin(); }
-    else if(cUser){ re.className='badge badge-warn'; re.innerText='⭐ VIP'; }
-    else{ re.className='badge badge-warn'; re.innerText='Free Fire'; }
+    else if(cUser){ re.className='badge badge-warn'; re.innerText='⭐ THÀNH VIÊN'; }
+    else{ re.className='badge badge-warn'; re.innerText='Free Fire Mod'; }
+    
     if(cUser){ document.getElementById('btn-auth').style.display='none'; document.getElementById('btn-logout').style.display='block'; }
-    var ue=DB.users[myID]?DB.users[myID].exp:0,ki=document.getElementById('u-key-info');
-    if(ue&&Date.now()<ue){var rem=ue-Date.now(),d=Math.floor(rem/86400000),hr=Math.floor((rem%86400000)/3600000);ki.innerHTML='<span style="color:#10b981"> 🟢 '+(d>0?d+'d ':'')+hr+'h</span>';}
-    else if(ue&&Date.now()>=ue){ki.innerHTML='<span style="color:#dc143c"> 🔴 Hết hạn</span>';}else{ki.innerHTML='';}
-    var use=parseInt(localStorage.getItem('kl_l_'+myID+'_'+dStr))||0;document.getElementById('l-num').innerText=(maxL-use)+'/'+maxL;
-    var bl=document.getElementById('btn-link');if(use>=maxL&&!isAdmin&&!linkDaTao){bl.disabled=true;bl.innerText='❌ HẾT LƯỢT';bl.classList.remove('pulse');}else if(!linkDaTao){bl.disabled=false;bl.innerText='🚀 LẤY LINK VƯỢT';bl.classList.add('pulse');}
-    uiChat();uiHis();
+    
+    var ue = DB.users[myID] ? DB.users[myID].exp : 0;
+    var ki = document.getElementById('u-key-info');
+    if (ue && Date.now() < ue) {
+        var rem = ue-Date.now(), d = Math.floor(rem/86400000), hr = Math.floor((rem%86400000)/3600000);
+        ki.innerHTML = '<span style="color:#10b981"> 🟢 Hạn: '+(d>0?d+'d ':'')+hr+'h</span>';
+    } else if (ue && Date.now() >= ue){ 
+        ki.innerHTML = '<span style="color:#dc143c"> 🔴 Hết hạn</span>';
+    } else {
+        ki.innerHTML = '';
+    }
+    
+    var use = parseInt(localStorage.getItem('kl_l_'+myID+'_'+dStr)) || 0;
+    document.getElementById('l-num').innerText = (maxL-use)+'/'+maxL;
+    
+    var bl = document.getElementById('btn-link');
+    if (use >= maxL && !isAdmin && !linkDaTao) {
+        bl.disabled = true; bl.innerText = '❌ BẠN ĐÃ HẾT LƯỢT HÔM NAY'; bl.classList.remove('pulse');
+    } else if (!linkDaTao) {
+        bl.disabled = false; bl.innerText = '🚀 LẤY LINK VƯỢT'; bl.classList.add('pulse');
+    }
+    
+    uiChat(); uiHis();
 }
 
-// ==================== AUTO CHECK ====================
+
+// =========================================================================
+// HỆ THỐNG API DÀNH CHO GAME SCRIPT / MOD MENU LIÊN KẾT
+// DEV GAME CHỈ CẦN GỌI: window.API_CheckKey(keyString, ID_ThietBi, TenGame)
+// TRẢ VỀ CHUỖI JSON.
+// =========================================================================
+window.API_CheckKey = function(key, deviceId, gameName) {
+    var response = { valid: false, msg: "", exp: 0 };
+    
+    // Đọc lại DB để lấy data mới nhất từ localStorage (nếu mở ở tab webview khác)
+    var syncDB = JSON.parse(localStorage.getItem('KL_MASTER_DB')) || DB;
+    
+    if (!syncDB.allKeys || !syncDB.allKeys[key]) {
+        response.msg = "Key không tồn tại trên hệ thống.";
+        return JSON.stringify(response);
+    }
+    
+    var kData = syncDB.allKeys[key];
+    
+    if (Date.now() > kData.exp) {
+        response.msg = "Key đã hết hạn sử dụng.";
+        return JSON.stringify(response);
+    }
+    
+    if (kData.game && kData.game.toLowerCase() !== gameName.toLowerCase()) {
+        response.msg = "Key này không hỗ trợ game: " + gameName;
+        return JSON.stringify(response);
+    }
+    
+    // Check thiết bị
+    if (!kData.devs.includes(deviceId)) {
+        if (kData.devs.length >= kData.maxDev) {
+            response.msg = "Key đã đạt giới hạn thiết bị (" + kData.maxDev + "). Liên hệ admin.";
+            return JSON.stringify(response);
+        }
+        // Thêm thiết bị mới vào
+        kData.devs.push(deviceId);
+        syncDB.allKeys[key] = kData;
+        localStorage.setItem('KL_MASTER_DB', JSON.stringify(syncDB)); // Lưu đè lại DB
+    }
+    
+    response.valid = true;
+    response.msg = "Kích hoạt hợp lệ!";
+    response.exp = kData.exp;
+    return JSON.stringify(response);
+};
+
+
+// ==================== AUTO CHECK SAU KHI VƯỢT LINK ====================
 (function(){
     var up = new URLSearchParams(window.location.search);
     var k = up.get('key'), cb = up.get('u'), token = up.get('token');
@@ -547,20 +751,22 @@ function loadUI(){
         currentKey = k; currentKeyExp = Date.now() + KEY_EXPIRY_MS;
         DB.users[myID].activeKey = k; DB.users[myID].exp = currentKeyExp;
         if (!DB.history[myID]) DB.history[myID] = [];
-        DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:k, m:'🎯 Vượt link'});
+        DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:k, m:'🎯 Vượt link thành công'});
         if (DB.stats && DB.stats[dStr]) DB.stats[dStr].tc += 1;
-        if (!DB.logs) DB.logs = []; DB.logs.unshift('['+new Date().toLocaleTimeString()+'] ✅ '+myID);
         saveDB();
+        
         var lc = document.getElementById('link-container'); if (lc) lc.style.display = 'block';
         document.getElementById('link-rutgon').style.display = 'none';
         document.getElementById('btn-kiemtra').style.display = 'none';
-        document.getElementById('bypass-status').innerHTML = '<span style="color:#ffd700">✅ VƯỢT LINK THÀNH CÔNG!</span>';
+        document.getElementById('bypass-status').innerHTML = '<span style="color:#ffd700">✅ XÁC NHẬN VƯỢT LINK THÀNH CÔNG!</span>';
         document.getElementById('key-result').style.display = 'block';
+        
         var expTime = currentKeyExp;
         var rem = expTime - Date.now();
         var d = Math.floor(rem/86400000), h = Math.floor((rem%86400000)/3600000);
-        document.getElementById('key-result').innerHTML = '<div class="key-display">🔑 '+k+'</div><button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="copyCurrentKey()">📋 SAO CHÉP</button><div class="text-xs text-gray mt-8">⏰ Hết hạn: '+new Date(expTime).toLocaleString('vi-VN')+' ('+(d>0?d+'d ':'')+h+'h)</div>';
-        document.getElementById('btn-link').innerText = '✅ ĐÃ NHẬN'; document.getElementById('btn-link').disabled = true; linkDaTao = false;
+        document.getElementById('key-result').innerHTML = '<div class="key-display">🔑 '+k+'</div><button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="copyCurrentKey()">📋 COPY NGAY</button><div class="text-xs text-gray mt-8">⏰ Hết hạn: '+new Date(expTime).toLocaleString('vi-VN')+' ('+(d>0?d+'d ':'')+h+'h)</div>';
+        
+        document.getElementById('btn-link').innerText = '✅ XONG'; document.getElementById('btn-link').disabled = true; linkDaTao = false;
         if (window.history && window.history.replaceState) { window.history.replaceState({}, document.title, window.location.pathname); }
     }
     loadUI();
@@ -569,4 +775,4 @@ function loadUI(){
 setInterval(function(){ if (document.getElementById('main-ui').style.display !== 'none') loadUI(); }, 30000);
 </script>
 </body>
-            </html>
+</html>
