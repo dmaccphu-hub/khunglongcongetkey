@@ -1,229 +1,175 @@
-<script>
-// ==================== CẤU HÌNH LƯU TRỮ ====================
-const SECRET = "KL2025!@#";
-var dStr = new Date().toISOString().slice(0,10);
-var DB = JSON.parse(localStorage.getItem('KL_MASTER_DB'));
-if (!DB) DB = { users:{}, chats:[], history:{}, logs:[], tracking:{}, stats:{}, allKeys:{} };
-if (!DB.stats) DB.stats = {};
-if (!DB.allKeys) DB.allKeys = {}; 
-if (!DB.stats[dStr]) DB.stats[dStr] = {tao:0, tc:0, tb:0};
-function saveDB(){ localStorage.setItem('KL_MASTER_DB', JSON.stringify(DB)); }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>KHỦNG LONG MOD B1 | KEY FREE</title>
+    <style>
+        /* GIỮ NGUYÊN TOÀN BỘ CSS CŨ CỦA BẠN - Tui rút gọn ở đây để bạn dễ copy, hãy dán nguyên CSS cũ của bạn vào thẻ style này */
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@400;600;700;900&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box}
+        input,button,select{appearance:none;outline:none;border:none;font-family:'Montserrat',sans-serif}
+        body{background:#0a0a0f;color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:10px;overflow-x:hidden;font-family:'Montserrat',sans-serif;-webkit-tap-highlight-color:transparent}
+        body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 30% 50%,rgba(255,215,0,0.04) 0%,transparent 60%),radial-gradient(ellipse at 70% 20%,rgba(220,20,60,0.05) 0%,transparent 60%),radial-gradient(ellipse at 50% 80%,rgba(255,140,0,0.04) 0%,transparent 60%);z-index:0;animation:bgRotate 30s linear infinite}
+        @keyframes bgRotate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        .container{width:100%;max-width:550px;z-index:1;display:flex;flex-direction:column;gap:14px}
+        .card{background:rgba(15,15,20,0.85);border:1px solid rgba(255,215,0,0.15);border-radius:20px;padding:18px;box-shadow:0 15px 40px rgba(0,0,0,0.9),inset 0 1px 0 rgba(255,255,255,0.02);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);position:relative;overflow:hidden}
+        .card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.3),transparent);pointer-events:none}
+        .card-gold{border-color:rgba(255,215,0,0.5);box-shadow:0 0 35px rgba(255,215,0,0.15)}
+        .card-red{border-color:rgba(220,20,60,0.5);box-shadow:0 0 35px rgba(220,20,60,0.1)}
+        .navbar{display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,15,0.95);padding:14px 18px;border-radius:20px;border:1px solid rgba(255,215,0,0.2);position:sticky;top:10px;z-index:100;backdrop-filter:blur(30px)}
+        .nav-logo{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,#ffd700,#ff8c00,#ffd700);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:logoShine 3s linear infinite;text-transform:uppercase}
+        @keyframes logoShine{to{background-position:200% center}}
+        .nav-btn{background:none;color:#ffd700;font-size:24px;cursor:pointer}
+        .btn{padding:12px 18px;border-radius:14px;font-weight:700;font-size:11px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px;letter-spacing:1px}
+        .btn:active{transform:scale(0.94)}
+        .btn-primary{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#000;font-weight:900}
+        .btn-success{background:linear-gradient(135deg,#10b981,#059669);color:#fff}
+        .btn-danger{background:linear-gradient(135deg,#dc143c,#b91c1c);color:#fff}
+        .btn-warn{background:linear-gradient(135deg,#ff8c00,#ff6347);color:#fff}
+        .btn-purple{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff}
+        .btn-mega{width:100%;padding:20px;font-size:17px;border-radius:18px;background:linear-gradient(135deg,#ffd700,#ff8c00,#ffd700);background-size:200% auto;color:#000;font-weight:900;text-transform:uppercase;cursor:pointer;letter-spacing:2px;transition:all 0.3s;animation:btnShine 3s linear infinite}
+        @keyframes btnShine{to{background-position:200% center}}
+        .btn-mega:active{transform:scale(0.96)}
+        .btn-mega:disabled{background:#3f3f46;color:#71717a;animation:none;cursor:not-allowed}
+        .btn-sm{padding:8px 14px;font-size:9px;border-radius:10px}
+        .input,select{width:100%;padding:14px 16px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,215,0,0.15);border-radius:14px;color:#fff;font-size:13px;transition:all 0.3s;font-weight:500}
+        select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23ffd700' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+        .input:focus,select:focus{border-color:#ffd700;box-shadow:0 0 20px rgba(255,215,0,0.1)}
+        .input::placeholder{color:#52525b}
+        .badge{display:inline-block;padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700}
+        .badge-danger{background:rgba(220,20,60,0.15);color:#dc143c;border:1px solid rgba(220,20,60,0.3)}
+        .badge-warn{background:rgba(255,215,0,0.15);color:#ffd700;border:1px solid rgba(255,215,0,0.3)}
+        .key-display{background:#000;padding:24px;font-family:'Orbitron',monospace;font-size:18px;color:#ffd700;border:2px dashed #ffd700;border-radius:16px;margin-bottom:18px;word-break:break-all;font-weight:900;letter-spacing:2px}
+        .sec-title{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;letter-spacing:3px;margin-bottom:14px;text-transform:uppercase}
+        .sec-title.gold{color:#ffd700}.sec-title.red{color:#dc143c}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+        .pulse{animation:pulse 2s infinite}
+        .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+        .flex-row{display:flex;gap:10px;align-items:center}
+        .flex-between{display:flex;justify-content:space-between;align-items:center}
+        .text-center{text-align:center}
+        .mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}
+        .mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}
+        .gap-8{gap:8px}
+        .text-xs{font-size:10px}.text-sm{font-size:11px}.text-base{font-size:13px}.text-lg{font-size:16px}.font-black{font-weight:900}
+        .text-gray{color:#a1a1aa}.text-green{color:#10b981}.text-red{color:#dc143c}.text-yellow{color:#ffd700}
+        .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+        .stat-box{background:rgba(0,0,0,0.7);border:1px solid rgba(255,215,0,0.1);border-radius:14px;padding:12px 8px;text-align:center}
+        .stat-label{font-size:9px;color:#71717a;text-transform:uppercase}
+        .stat-val{font-family:'Orbitron',monospace;font-size:22px;font-weight:900;margin-top:4px}
+        .chat-box{height:250px;background:rgba(0,0,0,0.6);border-radius:16px;border:1px solid rgba(255,215,0,0.08);padding:15px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:10px}
+        .msg-item{padding:10px 14px;border-radius:16px;font-size:12px;max-width:88%;line-height:1.5;color:#fff;background:rgba(255,255,255,0.04)}
+        .msg-user{font-size:10px;font-weight:800;margin-bottom:3px;color:#ffd700}
+        .divider{height:1px;background:rgba(255,215,0,0.1);margin:12px 0}
+        .info-box{background:rgba(0,0,0,0.8);border:1px dashed #ffd700;border-radius:10px;padding:12px;font-size:11px;margin-bottom:12px;text-align:left}
+    </style>
+</head>
+<body>
 
+<div class="container" id="main-ui">
+    <div class="navbar">
+        <button class="nav-btn" onclick="scrollToSec('main-sec')">🏠</button>
+        <div class="nav-logo">KHỦNG LONG MOD B1</div>
+        <button id="btn-logout" class="btn btn-danger btn-sm" style="display:none" onclick="logout()">THOÁT</button>
+    </div>
+
+    <!-- PHẦN CHÍNH NHẬN KEY FREE -->
+    <div class="card card-gold text-center" id="main-sec">
+        <div style="font-size:40px">🔥🐉</div>
+        <div class="sec-title gold">🐉 NHẬN KEY FREE B1</div>
+        <div class="text-sm text-yellow mb-8">⏰ Key 12h | 1 Thiết Bị | Thời gian tính từ lúc nhập</div>
+        <button id="btn-link" class="btn-mega pulse" onclick="taoLink()">🚀 LẤY LINK VƯỢT</button>
+        
+        <div id="link-container" style="display:none;margin-top:14px">
+            <a id="link-rutgon" href="#" target="_blank" style="display:block;background:rgba(14,165,233,0.1);color:#0ea5e9;padding:14px;border-radius:10px;text-decoration:none;font-weight:700;border:1px dashed #0ea5e9;">👉 NHẤN VÀO ĐÂY ĐỂ VƯỢT LINK 👈</a>
+            <button id="btn-kiemtra" class="btn btn-primary mt-12" style="width:100%;padding:14px;" onclick="kiemTraToken()">✅ TÔI ĐÃ VƯỢT LINK - NHẬN KEY</button>
+            <div id="key-result" style="display:none;margin-top:12px"></div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div class="card card-red" id="admin-panel" style="display:none">
+        <div class="sec-title red text-center mb-8">👑 BẢNG ĐIỀU KHIỂN ADMIN B1</div>
+        <div class="sec-title gold text-center mb-8">🎁 TẠO KEY VIP</div>
+        <div class="grid-2 mb-8">
+            <select id="admin-key-type" class="input">
+                <option value="h">🕐 GIỜ (1-9999h)</option>
+                <option value="d">📅 NGÀY (1-3650d)</option>
+            </select>
+            <input type="number" id="admin-key-val" class="input" placeholder="Số lượng" value="1" min="1">
+        </div>
+        <button class="btn btn-primary mb-12" style="width:100%;padding:14px;" onclick="adminTaoKeyBan()">🎁 TẠO KEY MỚI</button>
+        <div id="admin-key-preview" class="text-center mb-8" style="background:#000;padding:12px;border-radius:10px;font-family:'Orbitron',monospace;color:#ffd700;">KEY SẼ HIỆN Ở ĐÂY</div>
+    </div>
+    
+    <!-- ĐĂNG NHẬP -->
+    <div class="card" id="auth-sec">
+        <div class="flex-between">
+            <div class="text-lg font-black text-yellow" id="u-name">Khách</div>
+            <button id="btn-auth" class="btn btn-primary btn-sm" onclick="showAuthBox()">🔐 ADMIN ĐĂNG NHẬP</button>
+        </div>
+        <div id="auth-box" style="display:none;margin-top:16px;">
+            <input type="text" id="a-id" class="input mb-8" placeholder="👤 Tên Đăng Nhập">
+            <input type="password" id="a-pw" class="input mb-12" placeholder="🔒 Mật Khẩu">
+            <button class="btn btn-primary" style="width:100%" onclick="sysLogin()">🚀 VÀO</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ==================== CẤU HÌNH ====================
 var AD_USER = "YonkiVNOfficial", AD_PASS = "YonkiVNOfficial";
 var API_LINK4M = "688d0212c6e84d0e055ba168";
-var KEY_FREE_DURATION_MS = 43200000; // 12H mặc định
-
 var cUser = localStorage.getItem('kl_v17_cu') || null;
-var guestID = localStorage.getItem('kl_v17_gid');
-if (!guestID) { guestID = "Khach_" + Math.floor(10000 + Math.random()*89999); localStorage.setItem('kl_v17_gid',guestID); }
-var myID = cUser || guestID;
 var isAdmin = (cUser === AD_USER);
-var maxL = isAdmin ? 999 : (cUser ? 3 : 1);
+var currentKey = null;
 
-var currentKey = null, currentToken = null, linkDaTao = false;
-
-// ==================== HỆ THỐNG MÃ HÓA & KIỂM TRA ====================
-async function sha256(m) {
-    var b = new TextEncoder().encode(m);
-    var h = await crypto.subtle.digest('SHA-256', b);
-    var a = Array.from(new Uint8Array(h));
-    return a.map(x => x.toString(16).padStart(2,'0')).join('');
-}
-async function taoChecksum(s) {
-    var randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
-    var d = SECRET + s + "KHUNGLONG_" + randomPart;
-    var f = await sha256(d);
-    return f.substring(0, 8).toUpperCase() + randomPart;
-}
-async function taoKeyTheoThoiGian(t, v) {
-    var c = await taoChecksum(v);
-    return v + (t==='h'?'h':'day') + 'KHUNGLONG_' + c;
-}
-async function taoKeyNgauNhien() {
-    var c = await taoChecksum("12");
-    return '12hKHUNGLONG_' + c;
+// Cấu trúc Key B1 Mới: KLB1-{ThoiGianH}-{ChuoiNgauNhien}
+function taoChuoiNgauNhien(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
 }
 
 // ==================== GIAO DIỆN & TÀI KHOẢN ====================
-function scrollToSec(id) { var e = document.getElementById(id); if (e) e.scrollIntoView({behavior:'smooth'}); }
 function showAuthBox(){ document.getElementById('auth-box').style.display='block'; document.getElementById('btn-auth').style.display='none'; }
-
-function sysReg(){
-    var u = document.getElementById('a-id').value.trim(), p = document.getElementById('a-pw').value.trim();
-    if (!u||!p) return alert('Vui lòng nhập đủ thông tin!');
-    if (u.toLowerCase().indexOf('admin')>=0 || u===AD_USER) return alert('Tên tài khoản không hợp lệ!');
-    if (DB.users[u]) return alert('Tài khoản đã tồn tại!');
-    DB.users[u] = {p:p, date:new Date().toLocaleDateString()}; saveDB(); alert('✅ Đăng ký thành công!');
-}
 function sysLogin(){
     var u = document.getElementById('a-id').value.trim(), p = document.getElementById('a-pw').value.trim();
     if (u===AD_USER && p===AD_PASS) { localStorage.setItem('kl_v17_cu',AD_USER); return location.reload(); }
-    if (!DB.users[u] || DB.users[u].p !== p) return alert('Sai tài khoản hoặc mật khẩu!');
-    localStorage.setItem('kl_v17_cu',u); location.reload();
+    alert('Sai tài khoản hoặc mật khẩu!');
 }
 function logout(){ localStorage.removeItem('kl_v17_cu'); location.reload(); }
 
-// ==================== CHECK KEY (USER SIDE) ====================
-function kichHoatCode(){
-    var code = document.getElementById('i-code').value.trim(), msg = document.getElementById('key-status-msg');
-    if (!code) { msg.innerHTML = '<span style="color:#dc143c">⚠️ Vui lòng nhập Key!</span>'; return; }
-    
-    if (DB.allKeys[code]) {
-        var kData = DB.allKeys[code];
-        
-        // NẾU KEY CHƯA TỪNG ĐƯỢC KÍCH HOẠT, BẮT ĐẦU TÍNH GIỜ TỪ BÂY GIỜ
-        if (kData.exp === 0) {
-            kData.exp = Date.now() + kData.durationMs;
-            DB.allKeys[code] = kData;
-            saveDB();
-        }
-
-        if (Date.now() > kData.exp) {
-            msg.innerHTML = '<span style="color:#dc143c">❌ KEY ĐÃ HẾT HẠN!</span>'; return;
-        }
-        
-        var rem = kData.exp - Date.now(), d = Math.floor(rem/86400000), h = Math.floor((rem%86400000)/3600000), m = Math.floor((rem%3600000)/60000);
-        msg.innerHTML = '<span style="color:#10b981">✅ KEY HỢP LỆ! Game: '+kData.game+'<br>Hạn còn: '+(d>0?d+'d ':'')+h+'h '+m+'m<br>Thiết bị: '+(kData.devs.length)+'/'+kData.maxDev+'</span>';
-        
-        if (!DB.users[myID]) DB.users[myID] = {p:"guest"};
-        DB.users[myID].activeKey = code; DB.users[myID].exp = kData.exp;
-        saveDB(); return;
-    }
-
-    msg.innerHTML = '<span style="color:#dc143c">❌ KEY KHÔNG TỒN TẠI HOẶC SAI!</span>';
-}
-
-
-// ==================== BẢNG ADMIN & KIỂM TRA ====================
-async function updateKeyPreview(){
-    var t = document.getElementById('admin-key-type').value;
-    var v = document.getElementById('admin-key-val').value || 1;
-    var dev = document.getElementById('admin-key-dev').value || 1;
-    var game = document.getElementById('admin-key-game').value || "Free Fire";
-    
-    var key = await taoKeyTheoThoiGian(t, parseInt(v));
-    document.getElementById('admin-key-preview').innerHTML = key + '<br><span style="font-size:10px;color:#a1a1aa">('+dev+' TB | Game: '+game+')</span>';
-}
-
-async function adminTaoKeyBan(){
+// ==================== ADMIN TẠO KEY ====================
+function adminTaoKeyBan(){
     if (!isAdmin) return;
     var t = document.getElementById('admin-key-type').value;
     var v = parseInt(document.getElementById('admin-key-val').value) || 1;
-    var maxDev = parseInt(document.getElementById('admin-key-dev').value) || 1;
-    var gameName = document.getElementById('admin-key-game').value.trim() || "Free Fire";
     
-    if (v < 1) return alert('Thời gian phải lớn hơn 0!');
+    // Tính tổng số giờ
+    var totalHours = (t === 'h') ? v : (v * 24);
     
-    var key = await taoKeyTheoThoiGian(t, v);
-    var durationMs = t === 'h' ? (v * 3600000) : (v * 86400000);
+    var key = "KLB1-" + totalHours + "-" + taoChuoiNgauNhien(10);
+    document.getElementById('admin-key-preview').innerHTML = '✅ KEY TẠO THÀNH CÔNG: <br><br>' + key + '<br><br><span style="font-size:10px;color:#a1a1aa">(Đã copy vào khay nhớ tạm)</span>';
     
-    // TẠO KEY VIP: exp = 0 (Chưa kích hoạt)
-    DB.allKeys[key] = {
-        type: "vip",
-        durationMs: durationMs,
-        exp: 0, 
-        maxDev: maxDev,
-        devs: [],
-        game: gameName,
-        created: Date.now()
-    };
-
-    if (!DB.history[myID]) DB.history[myID] = [];
-    DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:key, m:'🎁 Tạo Key VIP ('+v+t+')'});
-
-    saveDB();
-    document.getElementById('admin-key-preview').innerHTML = '✅ TẠO THÀNH CÔNG: <br>' + key;
-    alert('✅ Đã tạo thành công Key VIP! Thời gian sẽ tính từ lúc người mua dán vào game.'); 
-    uiHis(); loadAdmin();
-}
-
-function adminCheckKeyStatus(){
-    if (!isAdmin) return;
-    var key = document.getElementById('admin-check-val').value.trim();
-    var resBox = document.getElementById('admin-check-result');
-    if (!key) return alert('Dán key vào!');
-    
-    if (DB.allKeys[key]) {
-        var kData = DB.allKeys[key];
-        var stStr = "";
-        
-        if (kData.exp === 0) {
-            stStr = '<span class="text-green">🟢 CHƯA KÍCH HOẠT (Sẽ bắt đầu đếm khi nhập)</span>';
-        } else {
-            var isExp = Date.now() > kData.exp;
-            var rem = kData.exp - Date.now();
-            stStr = isExp ? '<span class="text-red">🔴 ĐÃ HẾT HẠN</span>' : '<span class="text-green">🟢 ĐANG CHẠY (Còn '+Math.floor(rem/3600000)+'h '+Math.floor((rem%3600000)/60000)+'m)</span>';
-        }
-
-        var devList = kData.devs.length > 0 ? kData.devs.join('<br>') : 'Chưa có thiết bị nào';
-        
-        resBox.style.display = 'block';
-        resBox.innerHTML = `
-            <b>🔑 Key:</b> ${key}<br>
-            <b>🎮 Game:</b> ${kData.game}<br>
-            <b>⏰ Tình trạng:</b> ${stStr}<br>
-            <b>📱 Thiết bị (HWID):</b> ${kData.devs.length} / ${kData.maxDev}<br>
-            <div style="margin-top:6px;border-top:1px solid #444;padding-top:4px">
-                <b>Danh sách ID Thiết Bị:</b><br>
-                <span class="text-gray">${devList}</span>
-            </div>
-            <button class="btn btn-danger btn-sm mt-8" onclick="adminResetKeyDevices('${key}')">🔄 XÓA LỊCH SỬ THIẾT BỊ (RESET HWID)</button>
-        `;
-    } else {
-        resBox.style.display = 'block';
-        resBox.innerHTML = '<span class="text-red">❌ Key không tồn tại trên hệ thống.</span>';
-    }
-}
-
-function adminResetKeyDevices(keyStr) {
-    if(confirm('Bạn muốn reset số thiết bị của KEY này? (User có thể nhập HWID mới)')){
-        if(DB.allKeys[keyStr]){
-            DB.allKeys[keyStr].devs = [];
-            saveDB();
-            alert('✅ Đã reset thiết bị cho key thành công!');
-            adminCheckKeyStatus();
-        }
-    }
-}
-
-// Admin bypass link lấy thẳng key free
-async function adminLayKeyNhanh(){
-    currentKey = await taoKeyNgauNhien();
-    
-    // Key Free tạo nhanh: Vẫn set exp = 0 để bắt đầu khi dùng
-    DB.allKeys[currentKey] = { type: "free", durationMs: KEY_FREE_DURATION_MS, exp: 0, maxDev: 1, devs: [], game: "Free Fire", created: Date.now() };
-
-    if (!DB.history[myID]) DB.history[myID] = [];
-    DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:currentKey, m:"Admin Generate Free Key"});
-    saveDB();
-    
-    var lc = document.getElementById('link-container'); lc.style.display = 'block';
-    document.getElementById('link-rutgon').style.display = 'none';
-    document.getElementById('btn-kiemtra').style.display = 'none';
-    document.getElementById('bypass-status').innerHTML = '<span style="color:#ffd700">✅ KEY ADMIN TẠO NHANH (Chưa kích hoạt)</span>';
-    document.getElementById('key-result').style.display = 'block';
-    document.getElementById('key-result').innerHTML = '<div class="key-display">🔑 '+currentKey+'</div><button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="copyCurrentKey()">📋 SAO CHÉP</button>';
+    navigator.clipboard.writeText(key);
 }
 
 // ==================== TẠO LINK KEY FREE ====================
-async function taoLink(){
-    if (linkDaTao) return alert('⚠️ Bạn đang có một link chờ xử lý!');
-    var uL = parseInt(localStorage.getItem('kl_l_'+myID+'_'+dStr)) || 0;
-    if (uL >= maxL && !isAdmin) return alert('❌ Đã hết lượt tạo key hôm nay!');
+function taoLink(){
+    var key12h = "KLB1-12-" + taoChuoiNgauNhien(8); // Tự động tạo key 12 tiếng
+    currentKey = key12h;
+    
+    // Token theo dõi giả lập
+    var currentToken = 'bypass_' + Math.random().toString(36).substring(2,15);
+    localStorage.setItem('kl_pending_token', currentToken);
+    localStorage.setItem('kl_pending_key', currentKey);
 
-    currentKey = await taoKeyNgauNhien();
-    currentToken = 'bypass_' + Math.random().toString(36).substring(2,15) + '_' + Date.now();
-
-    // LƯU DB: Ghi nhận exp = 0 để chờ user vượt link xong mới tính
-    DB.allKeys[currentKey] = {
-        type: "free", durationMs: KEY_FREE_DURATION_MS, exp: 0, maxDev: 1, devs: [], game: "Free Fire", created: Date.now()
-    };
-
-    DB.tracking[currentToken] = {status:"pending", time:Date.now(), key:currentKey, user:myID};
-    DB.stats[dStr].tao += 1;
-    saveDB();
-
-    var dest = window.location.origin + window.location.pathname + '?key=' + encodeURIComponent(currentKey) + '&u=' + encodeURIComponent(myID) + '&token=' + encodeURIComponent(currentToken);
+    var dest = window.location.origin + window.location.pathname + '?token=' + encodeURIComponent(currentToken);
     var shortLink = 'https://link4m.co/st?api=' + API_LINK4M + '&url=' + encodeURIComponent(dest);
 
     var lc = document.getElementById('link-container'); lc.style.display = 'block';
@@ -231,156 +177,55 @@ async function taoLink(){
     document.getElementById('link-rutgon').style.display = 'block';
     document.getElementById('btn-kiemtra').style.display = 'block';
     document.getElementById('key-result').style.display = 'none';
-    document.getElementById('bypass-status').innerText = '🔗 Hãy nhấn vào link trên để vượt, sau đó bấm nút bên dưới.';
+    
     document.getElementById('btn-link').innerText = '🔄 ĐANG TẠO LINK...';
     document.getElementById('btn-link').disabled = true;
-
-    linkDaTao = true;
-    localStorage.setItem('kl_l_'+myID+'_'+dStr, uL+1);
 }
 
 function kiemTraToken(){
-    var statusEl = document.getElementById('bypass-status');
-    var up = new URLSearchParams(window.location.search);
-    var urlToken = up.get('token');
-
-    if (urlToken && DB.tracking[urlToken] && DB.tracking[urlToken].user === myID) {
-        var track = DB.tracking[urlToken];
-        if (track.status === 'pending' || track.status === 'success') {
-            track.status = 'success';
-            currentKey = track.key;
-            
-            if (!DB.history[myID]) DB.history[myID] = [];
-            DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:currentKey, m:'🎯 Đã Vượt Link'});
-            if (DB.stats && DB.stats[dStr]) DB.stats[dStr].tc += 1;
-            saveDB();
-            
-            hienThiKey();
-            if (window.history && window.history.replaceState) {
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-            return;
-        }
-    }
-
-    if (DB.tracking[currentToken] && DB.tracking[currentToken].status === 'success') {
-        currentKey = DB.tracking[currentToken].key;
+    var urlToken = new URLSearchParams(window.location.search).get('token');
+    var savedToken = localStorage.getItem('kl_pending_token');
+    
+    if (urlToken && urlToken === savedToken) {
+        currentKey = localStorage.getItem('kl_pending_key');
         hienThiKey();
+        localStorage.removeItem('kl_pending_token');
+        if (window.history && window.history.replaceState) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
     } else {
-        statusEl.innerHTML = '<span style="color:#dc143c">❌ BẠN CHƯA VƯỢT LINK HOẶC VƯỢT SAI!</span>';
+        alert("❌ BẠN CHƯA VƯỢT LINK! Vui lòng nhấn vào link rút gọn.");
     }
 }
 
 function hienThiKey(){
     var keyResult = document.getElementById('key-result');
-    var statusEl = document.getElementById('bypass-status');
     keyResult.style.display = 'block';
     
-    keyResult.innerHTML = '<div class="key-display">🔑 '+currentKey+'</div><button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="copyCurrentKey()">📋 SAO CHÉP KEY</button><div class="text-xs text-gray mt-8">⏰ Thời gian sẽ bắt đầu đếm từ lúc bạn nhập vào Game</div>';
-    statusEl.innerHTML = '<span style="color:#ffd700">✅ NHẬN KEY THÀNH CÔNG!</span>';
+    keyResult.innerHTML = '<div class="key-display">🔑 '+currentKey+'</div><button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="copyCurrentKey()">📋 SAO CHÉP KEY</button><div class="text-xs text-green mt-8">✅ Thời gian sẽ bắt đầu tính từ lúc bạn nhập Key vào game!</div>';
     
     document.getElementById('link-rutgon').style.display = 'none';
     document.getElementById('btn-kiemtra').style.display = 'none';
     document.getElementById('btn-link').innerText = '✅ ĐÃ NHẬN XONG';
-    document.getElementById('btn-link').disabled = true;
-    linkDaTao = false;
 }
 
 function copyCurrentKey(){
-    if (!currentKey) return;
-    if (navigator.clipboard) { navigator.clipboard.writeText(currentKey); alert('✅ Đã copy vào bộ nhớ đệm!'); }
+    navigator.clipboard.writeText(currentKey).then(function(){ alert('✅ Đã copy vào bộ nhớ đệm!'); });
 }
 
-// =========================================================================
-// HỆ THỐNG API GIAO TIẾP VỚI GAME SCRIPT / MOD MENU LIÊN KẾT
-// DEV GAME CHỈ CẦN GỌI: window.API_CheckKey(keyString, ID_ThietBi, TenGame)
-// =========================================================================
-window.API_CheckKey = function(key, deviceId, gameName) {
-    var response = { valid: false, msg: "", exp: 0 };
-    var syncDB = JSON.parse(localStorage.getItem('KL_MASTER_DB')) || DB;
-    
-    if (!syncDB.allKeys || !syncDB.allKeys[key]) {
-        response.msg = "Key không tồn tại trên hệ thống.";
-        return JSON.stringify(response);
-    }
-    
-    var kData = syncDB.allKeys[key];
-    
-    // Nếu key hợp lệ nhưng CHƯA TỪNG KHỞI ĐỘNG (exp = 0) -> Bắt đầu đếm giờ
-    if (kData.exp === 0) {
-        kData.exp = Date.now() + kData.durationMs;
-    }
-    
-    if (Date.now() > kData.exp) {
-        response.msg = "Key đã hết hạn sử dụng.";
-        return JSON.stringify(response);
-    }
-    
-    // Check Game
-    if (kData.game && kData.game.toLowerCase() !== gameName.toLowerCase()) {
-        response.msg = "Key này không hỗ trợ game hiện tại!";
-        return JSON.stringify(response);
-    }
-    
-    // Check thiết bị (HWID)
-    if (!kData.devs.includes(deviceId)) {
-        if (kData.devs.length >= kData.maxDev) {
-            response.msg = "Key đã bị giới hạn ở 1 thiết bị khác. Liên hệ Admin để Reset HWID.";
-            return JSON.stringify(response);
-        }
-        // Thêm thiết bị mới
-        kData.devs.push(deviceId);
-    }
-    
-    // LƯU LẠI VÀO CƠ SỞ DỮ LIỆU
-    syncDB.allKeys[key] = kData;
-    localStorage.setItem('KL_MASTER_DB', JSON.stringify(syncDB)); 
-    
-    response.valid = true;
-    response.msg = "Kích hoạt hợp lệ!";
-    response.exp = kData.exp; // Timestamp chuẩn trả về game
-    return JSON.stringify(response);
-};
-
-// ==================== INITIALIZE ====================
-function uiHis(){
-    var h = DB.history[myID] || [];
-    document.getElementById('box-his').innerHTML = h.map(function(i){
-        return '<div class="mb-8" style="background:#000;padding:10px;border-radius:10px;border:1px solid rgba(255,215,0,0.1)"><span class="text-gray text-xs">🕒 '+i.t+' | '+i.m+'</span><br><b class="text-yellow">🔑 '+i.k+'</b></div>';
-    }).join('') || '<div class="text-gray text-center">Chưa có dữ liệu giao dịch.</div>';
-}
-
-function loadAdmin(){
-    document.getElementById('admin-panel').style.display = 'block';
-    updateKeyPreview();
-}
-
-function loadUI(){
-    document.getElementById('u-name').innerText = myID;
-    if(isAdmin){ document.getElementById('u-role').innerText='👑 ADMIN'; loadAdmin(); }
-    uiHis();
-}
-
+// Khởi chạy UI
 (function(){
-    var up = new URLSearchParams(window.location.search);
-    var k = up.get('key'), cb = up.get('u'), token = up.get('token');
-    if (k && cb===myID && token && DB.tracking[token] && DB.tracking[token].user === myID && DB.tracking[token].status === 'pending') {
-        DB.tracking[token].status = 'success';
-        currentKey = k; 
-        if (!DB.history[myID]) DB.history[myID] = [];
-        DB.history[myID].unshift({t:new Date().toLocaleTimeString(), k:k, m:'🎯 Vượt link thành công'});
-        saveDB();
-        
-        var lc = document.getElementById('link-container'); if (lc) lc.style.display = 'block';
-        document.getElementById('link-rutgon').style.display = 'none';
-        document.getElementById('btn-kiemtra').style.display = 'none';
-        document.getElementById('key-result').style.display = 'block';
-        
-        document.getElementById('key-result').innerHTML = '<div class="key-display">🔑 '+k+'</div><button class="btn btn-primary" style="width:100%;padding:14px;font-size:13px" onclick="copyCurrentKey()">📋 COPY NGAY</button><div class="text-xs text-gray mt-8">⏰ Thời gian sẽ bắt đầu đếm khi dán vào Game</div>';
-        
-        document.getElementById('btn-link').innerText = '✅ XONG'; document.getElementById('btn-link').disabled = true; linkDaTao = false;
-        if (window.history && window.history.replaceState) { window.history.replaceState({}, document.title, window.location.pathname); }
+    if(isAdmin){ 
+        document.getElementById('admin-panel').style.display = 'block'; 
+        document.getElementById('u-name').innerText = '👑 ADMIN YonkiVN';
+        document.getElementById('btn-auth').style.display='none'; 
+        document.getElementById('btn-logout').style.display='block';
     }
-    loadUI();
+    
+    // Auto check sau khi vượt link về
+    var urlToken = new URLSearchParams(window.location.search).get('token');
+    if(urlToken) kiemTraToken();
 })();
 </script>
+</body>
+</html>
